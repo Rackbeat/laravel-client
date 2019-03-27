@@ -1,0 +1,38 @@
+{
+	"name": "rackbeat/php",
+	"description": "PHP Client Library for our API",
+	"keywords": [],
+	"type": "library",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Lasse Rafn",
+			"email": "lasserafn@gmail.com"
+		},
+		{
+			"name": "Rackbeat",
+			"email": "open-source@rackbeat.com"
+		}
+	],
+	"require": {
+		"php": ">=7.1",
+		"guzzlehttp/guzzle": "~6.0"
+	},
+	"require-dev": {
+		"phpunit/phpunit": "^7.0",
+		"satooshi/php-coveralls": "^1.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"Rackbeat\\": "src/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Tests\\": "tests/"
+		}
+	},
+	"config": {
+		"sort-packages": true
+	}
+}
