@@ -18,7 +18,19 @@ class BaseModel
 	protected $casts = [];
 
 	/** @var array */
-	protected static $defaultCasts = [];
+	protected static $defaultCasts = [
+		'id'           => 'integer',
+		'self'         => 'string',
+		'created_at'   => 'datetime',
+		'updated_at'   => 'datetime',
+		'deleted_at'   => 'datetime',
+		'booked_at'    => 'datetime',
+		'shipped_at'   => 'datetime',
+		'finished_at'  => 'datetime',
+		'received_at'  => 'datetime',
+		'invoiced_at'  => 'datetime',
+		'cancelled_at' => 'datetime',
+	];
 
 	/**
 	 * BaseModel constructor.
