@@ -203,6 +203,5 @@ class ModelGetterSetterTest extends TestCase
 		];
 
 		$this->assertCount( 1, $model->getDirty() );
-//		$this->assertEquals( 2, $model->getDirty()['products']->id );
 	}
 }
