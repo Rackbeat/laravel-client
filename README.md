@@ -1,3 +1,5 @@
+**~~~~~~ BY NO MEANS READY YET! ~~~~~~**
+
 # Rackbeat PHP SDK
 
 <p align="center"> 
