@@ -77,6 +77,13 @@ class BaseModel
 	}
 
 	/**
+	 * Undo dirty changes and revert to original values.
+	 */
+	public function cleanup() {
+		$this->data = $this->original;
+	}
+
+	/**
 	 * @param array $data
 	 *
 	 * @throws DataFormatInvalidException

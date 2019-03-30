@@ -204,4 +204,23 @@ class ModelGetterSetterTest extends TestCase
 
 		$this->assertCount( 1, $model->getDirty() );
 	}
+
+	/** @test */
+	public function can_undo_dirty_changes() {
+		$model = new \Rackbeat\Models\BaseModel( [ 'name' => 'John' ] );
+
+		$this->assertCount( 0, $model->getDirty() );
+		$this->assertEquals( 'John', $model->name );
+
+		$model->name = 'Max';
+
+		$this->assertCount( 1, $model->getDirty() );
+		$this->assertEquals( 'Max', $model->getDirty()['name'] );
+		$this->assertEquals( 'Max', $model->name );
+
+		$model->cleanup();
+
+		$this->assertCount( 0, $model->getDirty() );
+		$this->assertEquals( 'John', $model->name );
+	}
 }
