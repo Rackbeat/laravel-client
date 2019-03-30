@@ -2,6 +2,7 @@
 
 namespace Rackbeat\Models;
 
+use Rackbeat\Exceptions\Models\DataFormatInvalidException;
 use Rackbeat\Exceptions\Models\ImmutableOriginalDataException;
 
 class BaseModel
@@ -75,10 +76,17 @@ class BaseModel
 
 	/**
 	 * @param array $data
+	 *
+	 * @throws DataFormatInvalidException
 	 */
 	protected function setData( $data = [] ) {
-		// todo find a faster way to do this
-		$data = json_decode( json_encode( $data ), true );
+		if ( ! \is_object( $data ) && ! \is_array( $data ) && ! $data = json_decode( $data ) ) {
+			throw new DataFormatInvalidException( 'Data must be either a object, array or a JSON-formatted string.' );
+		}
+
+		if ( \is_object( $data ) ) {
+			$data = json_decode( json_encode( $data ), true );
+		}
 
 		$this->data     = $data;
 		$this->original = $data;

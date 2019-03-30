@@ -72,7 +72,19 @@ class ModelGetterSetterTest extends TestCase
 	}
 
 	/** @test */
-	public function cannot_override_data_directly_with_a_non_array_or_object_value() { }
+	public function cannot_override_data_directly_with_a_non_array_or_object_value() {
+		$this->expectException( \Rackbeat\Exceptions\Models\DataFormatInvalidException::class );
+		$model = new \Rackbeat\Models\BaseModel( [] );
+
+		$model->data = 'not a object nor array';
+	}
+
+	/** @test */
+	public function can_set_data_from_a_json_string() {
+		$model = new \Rackbeat\Models\BaseModel( '{"name":"John Doe"}' );
+
+		$this->assertEquals( 'John Doe', $model->name );
+	}
 
 	/** @test */
 	public function cannot_override_original_values() {
@@ -144,6 +156,20 @@ class ModelGetterSetterTest extends TestCase
 		$model->products = [];
 
 		$this->assertCount( 0, $model->products );
+	}
+
+	/** @test */
+	public function can_contain_arrays_with_objects() {
+		$model = new \Rackbeat\Models\BaseModel( [
+			'products' => [
+				(object) [ 'id' => 1, 'name' => 'Shoe' ],
+				(object) [ 'id' => 84, 'name' => 'Box' ],
+				(object) [ 'id' => 2, 'name' => 'Pants' ],
+			]
+		] );
+
+		$this->assertCount( 3, $model->products );
+		$this->assertEquals( $model->products[1]->name, 'Box' );
 	}
 
 	/** @test */
