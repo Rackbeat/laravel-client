@@ -4,6 +4,7 @@ namespace Rackbeat\Models;
 
 use Rackbeat\Exceptions\Models\DataFormatInvalidException;
 use Rackbeat\Exceptions\Models\ImmutableOriginalDataException;
+use Rackbeat\Models\Utilities\AttributeCaster;
 
 class BaseModel
 {
@@ -12,6 +13,12 @@ class BaseModel
 
 	/** @var array */
 	protected $original = [];
+
+	/** @var array */
+	protected $casts = [];
+
+	/** @var array */
+	protected static $defaultCasts = [];
 
 	/**
 	 * BaseModel constructor.
@@ -39,11 +46,20 @@ class BaseModel
 			throw new ImmutableOriginalDataException( 'Original data for ' . \get_class( $this ) . ' cannot be directly modified.' );
 		}
 
-		$this->data[ $name ] = $value;
+		$this->setAttribute( $name, $value );
 	}
 
 	public function __isset( $name ) {
 		return isset( $this->data[ $name ] );
+	}
+
+	protected function setAttribute( $key, $value ) {
+		// todo allow override like Laravel! (setXXAttribute)
+
+		$value = AttributeCaster::castValueForKey( $key, $value, array_merge( static::$defaultCasts, $this->casts ) );
+
+		$this->data[ $key ]     = $value;
+		$this->original[ $key ] = $value;
 	}
 
 	public function toArray() {
@@ -72,10 +88,6 @@ class BaseModel
 		}, ARRAY_FILTER_USE_BOTH );
 	}
 
-	public function refresh() {
-		// todo implement method to GET fresh data
-	}
-
 	/**
 	 * Undo dirty changes and revert to original values.
 	 */
@@ -93,7 +105,21 @@ class BaseModel
 			throw new DataFormatInvalidException( 'Data must be either a object, array or a JSON-formatted string.' );
 		}
 
-		$this->data     = (array) $data;
-		$this->original = (array) $data;
+		foreach ( $data as $key => $value ) {
+			$this->setAttribute( $key, $value );
+		}
+	}
+
+	protected function setCasts( $casts = [] ) {
+		$this->casts = $casts;
+	}
+
+	public static function mock( $data = [], $casts = [] ) {
+		$model = new static( [] );
+
+		$model->setCasts( $casts );
+		$model->setData( $data );
+
+		return $model;
 	}
 }

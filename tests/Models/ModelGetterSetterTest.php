@@ -212,6 +212,8 @@ class ModelGetterSetterTest extends TestCase
 		$this->assertCount( 0, $model->getDirty() );
 		$this->assertEquals( 'John', $model->name );
 
+		$lot = new \Rackbeat\Models\Lot();
+
 		$model->name = 'Max';
 
 		$this->assertCount( 1, $model->getDirty() );
