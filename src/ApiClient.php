@@ -3,6 +3,7 @@
 namespace Rackbeat;
 
 use Rackbeat\Http\HttpEngine;
+use Rackbeat\Resources\LotResource;
 
 class ApiClient
 {
@@ -21,11 +22,15 @@ class ApiClient
 		] );
 	}
 
-	public function setApiToken($apiToken = null) {
-		$this->httpEngine->mergeConfig();
+	public function setApiToken( $apiToken = null ) {
+		$this->httpEngine->mergeConfig( [
+			'headers' => [
+				'Authorization' => 'Bearer ' . $apiToken
+			]
+		] );
 	}
 
 	public function lots() {
-
+		return new LotResource( $this->httpEngine );
 	}
 }
