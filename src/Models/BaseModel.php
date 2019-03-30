@@ -2,12 +2,14 @@
 
 namespace Rackbeat\Models;
 
+use Rackbeat\Exceptions\Models\ImmutableOriginalDataException;
+
 class BaseModel
 {
-	/** @var object */
+	/** @var array */
 	protected $data = [];
 
-	/** @var object */
+	/** @var array */
 	protected $original = [];
 
 	/**
@@ -20,7 +22,7 @@ class BaseModel
 	}
 
 	public function __get( $name ) {
-		return $this->data->{$name} ?? null;
+		return $this->data[ $name ] ?? null;
 	}
 
 	public function __set( $name, $value ) {
@@ -31,18 +33,18 @@ class BaseModel
 		}
 
 		if ( \in_array( $name, [ 'original' ] ) ) {
-			throw new \Exception( 'cannot modify original data directly.' ); // todo find alternative!
+			throw new ImmutableOriginalDataException( 'Original data for ' . \get_class( $this ) . ' cannot be directly modified.' );
 		}
 
-		$this->data->{$name} = $value;
+		$this->data[ $name ] = $value;
 	}
 
 	public function __isset( $name ) {
-		return isset( $this->data->{$name} );
+		return isset( $this->data[ $name ] );
 	}
 
 	public function toArray() {
-		return json_decode( json_encode( $this->data ), true );
+		return $this->data;
 	}
 
 	public function toJson() {
@@ -50,7 +52,7 @@ class BaseModel
 	}
 
 	public function toObject() {
-		return $this->data;
+		return json_decode( json_encode( $this->data ) );
 	}
 
 	public function getData() {
@@ -62,8 +64,8 @@ class BaseModel
 	}
 
 	public function getDirty() {
-		return array_filter( (array) $this->data, function ( $value, $key ) {
-			return $this->original->{$key} !== $value;
+		return array_filter( $this->data, function ( $value, $key ) {
+			return $this->original[ $key ] !== $value;
 		}, ARRAY_FILTER_USE_BOTH );
 	}
 
@@ -75,12 +77,10 @@ class BaseModel
 	 * @param array $data
 	 */
 	protected function setData( $data = [] ) {
-		if ( \is_array( $data ) ) {
-			// todo find a faster way to do this
-			$data = json_decode( json_encode( $data ) );
-		}
+		// todo find a faster way to do this
+		$data = json_decode( json_encode( $data ), true );
 
 		$this->data     = $data;
-		$this->original = clone $data;
+		$this->original = $data;
 	}
 }

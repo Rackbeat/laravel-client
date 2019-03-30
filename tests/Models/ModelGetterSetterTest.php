@@ -76,15 +76,13 @@ class ModelGetterSetterTest extends TestCase
 
 	/** @test */
 	public function cannot_override_original_values() {
+		$this->expectException( \Rackbeat\Exceptions\Models\ImmutableOriginalDataException::class );
+
 		$model = new \Rackbeat\Models\BaseModel( [
 			'name' => 'John Doe'
 		] );
 
 		$model->original = [];
-
-		$this->assertEquals( [
-			'name' => 'John Doe'
-		], $model->getOriginal() );
 	}
 
 	/** @test */
@@ -126,8 +124,8 @@ class ModelGetterSetterTest extends TestCase
 
 		$model->name = 'Tony';
 
-		$this->assertEquals( (object) [ 'name' => 'Tony' ], $model->getData() );
-		$this->assertEquals( (object) [ 'name' => 'John Doe' ], $model->getOriginal() );
+		$this->assertEquals( [ 'name' => 'Tony' ], $model->getData() );
+		$this->assertEquals( [ 'name' => 'John Doe' ], $model->getOriginal() );
 	}
 
 	/** @test */
@@ -141,7 +139,7 @@ class ModelGetterSetterTest extends TestCase
 		] );
 
 		$this->assertCount( 3, $model->products );
-		$this->assertEquals( $model->products[1]->name, 'Box' );
+		$this->assertEquals( $model->products[1]['name'], 'Box' );
 
 		$model->products = [];
 
@@ -162,5 +160,23 @@ class ModelGetterSetterTest extends TestCase
 
 		$this->assertCount( 1, $model->getDirty() );
 		$this->assertEquals( 'No more products!', $model->getDirty()['products'] );
+	}
+
+	/** @test */
+	public function can_get_changed_data_for_nested_data() {
+		$model = new \Rackbeat\Models\BaseModel( [
+			'products' => [
+				[ 'id' => 1, 'name' => 'Shoe' ],
+			]
+		] );
+
+		$this->assertCount( 0, $model->getDirty() );
+
+		$model->products = [
+			[ 'id' => 2, 'name' => 'Shoe' ],
+		];
+
+		$this->assertCount( 1, $model->getDirty() );
+//		$this->assertEquals( 2, $model->getDirty()['products']->id );
 	}
 }
