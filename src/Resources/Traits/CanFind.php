@@ -4,5 +4,8 @@ namespace Rackbeat\Resources\Traits;
 
 trait CanFind
 {
-	public function find() {}
+	/**
+	 * @param integer|string $id
+	 */
+	public function find($id) {}
 }

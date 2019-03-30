@@ -16,7 +16,9 @@ class BaseModel
 	/**
 	 * BaseModel constructor.
 	 *
-	 * @param array|object $data
+	 * @param array|object|string $data
+	 *
+	 * @throws DataFormatInvalidException
 	 */
 	public function __construct( $data = [] ) {
 		$this->setData( $data );
@@ -84,11 +86,7 @@ class BaseModel
 			throw new DataFormatInvalidException( 'Data must be either a object, array or a JSON-formatted string.' );
 		}
 
-		if ( \is_object( $data ) ) {
-			$data = json_decode( json_encode( $data ), true );
-		}
-
-		$this->data     = $data;
-		$this->original = $data;
+		$this->data     = (array) $data;
+		$this->original = (array) $data;
 	}
 }

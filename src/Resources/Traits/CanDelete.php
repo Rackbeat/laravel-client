@@ -2,7 +2,12 @@
 
 namespace Rackbeat\Resources\Traits;
 
+use Rackbeat\Models\BaseModel;
+
 trait CanDelete
 {
-	public function delete() {}
+	/**
+	 * @param BaseModel|integer|string $id
+	 */
+	public function delete( $id ) { }
 }

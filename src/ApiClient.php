@@ -24,4 +24,8 @@ class ApiClient
 	public function setApiToken($apiToken = null) {
 		$this->httpEngine->mergeConfig();
 	}
+
+	public function lots() {
+
+	}
 }
