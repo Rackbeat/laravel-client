@@ -24,11 +24,11 @@ class ModelGetterSetterTest extends TestCase
 	public function can_cast_atomstring_to_datetime() {
 		$model = \Rackbeat\Models\BaseModel::mock( [ 'created_at' => '2018-01-01T18:30:00+01:00' ] );
 
-		$dateTime = new DateTime();
-		$dateTime->setTimezone( new DateTimeZone( '+01:00' ) );
-		$dateTime->setDate( 2018, 01, 01 );
-		$dateTime->setTime( 18, 30, 00 );
+		$comparisonDateTime = new DateTime();
+		$comparisonDateTime->setTimezone( new DateTimeZone( '+01:00' ) );
+		$comparisonDateTime->setDate( 2018, 01, 01 );
+		$comparisonDateTime->setTime( 18, 30, 00 );
 
-		$this->assertEquals( $dateTime, $model->created_at );
+		$this->assertEquals( $comparisonDateTime, $model->created_at );
 	}
 }
