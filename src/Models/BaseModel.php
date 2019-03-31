@@ -65,13 +65,16 @@ class BaseModel
 		return isset( $this->data[ $name ] );
 	}
 
-	protected function setAttribute( $key, $value ) {
+	protected function setAttribute( $key, $value, $overrideOriginal = false ) {
 		// todo allow override like Laravel! (setXXAttribute)
 
 		$value = AttributeCaster::castValueForKey( $key, $value, array_merge( static::$defaultCasts, $this->casts ) );
 
-		$this->data[ $key ]     = $value;
-		$this->original[ $key ] = $value;
+		$this->data[ $key ] = $value;
+
+		if ( $overrideOriginal ) {
+			$this->original[ $key ] = $value;
+		}
 	}
 
 	public function toArray() {
@@ -118,7 +121,7 @@ class BaseModel
 		}
 
 		foreach ( $data as $key => $value ) {
-			$this->setAttribute( $key, $value );
+			$this->setAttribute( $key, $value, true );
 		}
 	}
 

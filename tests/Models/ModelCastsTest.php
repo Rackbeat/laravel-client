@@ -2,7 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 
-class ModelGetterSetterTest extends TestCase
+class ModelCastsTest extends TestCase
 {
 	/** @test */
 	public function can_cast_to_string() {
