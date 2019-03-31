@@ -22,7 +22,7 @@ class ModelGetterSetterTest extends TestCase
 
 	/** @test */
 	public function can_cast_atomstring_to_datetime() {
-		$model = \Rackbeat\Models\BaseModel::mock( [ 'created_at' => '2018-01-01T18:30:00+01:00' ] );
+		$model = \Rackbeat\Models\BaseModel::mock( [ 'created_at' => '2018-01-01T18:30:00+01:00' ], [ 'created_at' => 'datetime' ] );
 
 		$comparisonDateTime = new DateTime();
 		$comparisonDateTime->setTimezone( new DateTimeZone( '+01:00' ) );
@@ -30,5 +30,16 @@ class ModelGetterSetterTest extends TestCase
 		$comparisonDateTime->setTime( 18, 30, 00 );
 
 		$this->assertEquals( $comparisonDateTime, $model->created_at );
+	}
+
+	/** @test */
+	public function can_cast_to_boolean() {
+		$model = \Rackbeat\Models\BaseModel::mock( [ 'is_booked' => 0 ], [ 'is_booked' => 'boolean' ] );
+
+		$this->assertFalse($model->is_booked);
+
+		$model->is_booked = 1;
+
+		$this->assertTrue($model->is_booked);
 	}
 }
