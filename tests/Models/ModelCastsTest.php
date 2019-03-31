@@ -21,6 +21,14 @@ class ModelGetterSetterTest extends TestCase
 	}
 
 	/** @test */
+	public function can_cast_to_integer_from_float() {
+		$model = \Rackbeat\Models\BaseModel::mock( [ 'amount' => 1.123 ], [ 'amount' => 'int' ] );
+
+		$this->assertEquals( 1, $model->amount );
+		$this->assertIsInt( $model->amount );
+	}
+
+	/** @test */
 	public function can_cast_atomstring_to_datetime() {
 		$model = \Rackbeat\Models\BaseModel::mock( [ 'created_at' => '2018-01-01T18:30:00+01:00' ], [ 'created_at' => 'datetime' ] );
 
@@ -36,10 +44,24 @@ class ModelGetterSetterTest extends TestCase
 	public function can_cast_to_boolean() {
 		$model = \Rackbeat\Models\BaseModel::mock( [ 'is_booked' => 0 ], [ 'is_booked' => 'boolean' ] );
 
-		$this->assertFalse($model->is_booked);
+		$this->assertFalse( $model->is_booked );
 
 		$model->is_booked = 1;
 
-		$this->assertTrue($model->is_booked);
+		$this->assertTrue( $model->is_booked );
+	}
+
+	/** @test */
+	public function can_cast_to_double() {
+		$model = \Rackbeat\Models\BaseModel::mock( [ 'amount' => '0.15' ], [ 'amount' => 'double' ] );
+
+		$this->assertEquals( 0.15, $model->amount );
+	}
+
+	/** @test */
+	public function can_cast_to_float() {
+		$model = \Rackbeat\Models\BaseModel::mock( [ 'amount' => '0.15' ], [ 'amount' => 'float' ] );
+
+		$this->assertEquals( 0.15, $model->amount );
 	}
 }
