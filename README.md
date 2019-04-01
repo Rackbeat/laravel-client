@@ -22,5 +22,9 @@ composer require rackbeat/php-sdk
 
 Coming soon...
 
+## Contributors
+
+...
+
 ## Requirements
 * PHP >= 7.1
