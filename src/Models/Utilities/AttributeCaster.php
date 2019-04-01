@@ -25,9 +25,9 @@ class AttributeCaster
 			case 'datetime':
 				return new \DateTime( $value );
 			case 'array':
-				return (array) $value;
+				return (array) ( \is_string( $value ) ? json_decode( $value ) : $value );
 			case 'object':
-				return (object) $value;
+				return (object) ( \is_string( $value ) ? json_decode( $value ) : $value );
 			case 'json':
 				return json_encode( $value );
 			default:

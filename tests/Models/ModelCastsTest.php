@@ -64,4 +64,44 @@ class ModelCastsTest extends TestCase
 
 		$this->assertEquals( 0.15, $model->amount );
 	}
+
+	/** @test */
+	public function can_cast_to_array() {
+		$model = \Rackbeat\Models\BaseModel::mock( [ 'customer' => (object) [ 'name' => 'John Doe' ] ], [ 'customer' => 'array' ] );
+
+		$this->assertIsArray( $model->customer );
+		$this->assertEquals( 'John Doe', $model->customer['name'] );
+	}
+
+	/** @test */
+	public function can_cast_to_object() {
+		$model = \Rackbeat\Models\BaseModel::mock( [ 'customer' => [ 'name' => 'John Doe' ] ], [ 'customer' => 'object' ] );
+
+		$this->assertIsObject( $model->customer );
+		$this->assertEquals( 'John Doe', $model->customer->name );
+	}
+
+	/** @test */
+	public function can_cast_to_json() {
+		$model = \Rackbeat\Models\BaseModel::mock( [ 'customer' => [ 'name' => 'John Doe' ] ], [ 'customer' => 'json' ] );
+
+		$this->assertIsString( $model->customer );
+		$this->assertEquals( '{"name":"John Doe"}', $model->customer );
+	}
+
+	/** @test */
+	public function can_cast_to_array_from_json() {
+		$model = \Rackbeat\Models\BaseModel::mock( [ 'customer' => '{"name":"John Doe"}' ], [ 'customer' => 'array' ] );
+
+		$this->assertIsArray( $model->customer );
+		$this->assertEquals( 'John Doe', $model->customer['name'] );
+	}
+
+	/** @test */
+	public function can_cast_to_object_from_json() {
+		$model = \Rackbeat\Models\BaseModel::mock( [ 'customer' => '{"name":"John Doe"}' ], [ 'customer' => 'object' ] );
+
+		$this->assertIsObject( $model->customer );
+		$this->assertEquals( 'John Doe', $model->customer->name );
+	}
 }
