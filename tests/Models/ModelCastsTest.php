@@ -41,6 +41,13 @@ class ModelCastsTest extends TestCase
 	}
 
 	/** @test */
+	public function can_cast_datetime_to_datetime() {
+		$model = \Rackbeat\Models\BaseModel::mock( [ 'created_at' => $dateTime = new DateTime( '2018-01-01T18:30:00+01:00' ) ], [ 'created_at' => 'datetime' ] );
+
+		$this->assertEquals( $dateTime, $model->created_at );
+	}
+
+	/** @test */
 	public function can_cast_to_boolean() {
 		$model = \Rackbeat\Models\BaseModel::mock( [ 'is_booked' => 0 ], [ 'is_booked' => 'boolean' ] );
 
@@ -103,5 +110,18 @@ class ModelCastsTest extends TestCase
 
 		$this->assertIsObject( $model->customer );
 		$this->assertEquals( 'John Doe', $model->customer->name );
+	}
+
+	/** @test */
+	public function can_cast_datetime_back_to_atom() {
+		$model = \Rackbeat\Models\BaseModel::mock( [ 'created_at' => $dateTime = new DateTime( '2018-01-01T18:30:00+01:00' ) ], [ 'created_at' => 'datetime' ] );
+
+		$model->created_at = ( $newDate = new DateTime( '2019-01-01T18:30:00+01:00' ) );
+
+		$dateString = $newDate->format( 'Y-m-d\TH:i:sP' );
+
+		$this->assertEquals( $dateString, $model->getData()['created_at'] );
+		$this->assertEquals( $dateString, $model->toObject()->created_at );
+		$this->assertEquals( '{"created_at":"' . $dateString . '"}', $model->toJson() );
 	}
 }

@@ -4,10 +4,12 @@ namespace Rackbeat\Models;
 
 use Rackbeat\Exceptions\Models\DataFormatInvalidException;
 use Rackbeat\Exceptions\Models\ImmutableOriginalDataException;
-use Rackbeat\Models\Utilities\AttributeCaster;
+use Rackbeat\Models\Concerns\CastsAttributes;
 
 class BaseModel
 {
+	use CastsAttributes;
+
 	/** @var array */
 	protected $data = [];
 
@@ -17,20 +19,18 @@ class BaseModel
 	/** @var array */
 	protected $casts = [];
 
-	/** @var array */
-	protected static $defaultCasts = [
-		'id'           => 'integer',
-		'self'         => 'string',
-		'created_at'   => 'datetime',
-		'updated_at'   => 'datetime',
-		'deleted_at'   => 'datetime',
-		'booked_at'    => 'datetime',
-		'shipped_at'   => 'datetime',
-		'finished_at'  => 'datetime',
-		'received_at'  => 'datetime',
-		'invoiced_at'  => 'datetime',
-		'cancelled_at' => 'datetime',
-	];
+	/** @var string */
+	protected $primaryKey = 'number';
+
+	/**
+	 * integer og string
+	 *
+	 * For example, products and lots use a string key
+	 * whereas invoices use an integer.
+	 *
+	 * @var string
+	 */
+	protected $keyType = 'integer';
 
 	/**
 	 * BaseModel constructor.
@@ -43,8 +43,21 @@ class BaseModel
 		$this->setData( $data );
 	}
 
+	public static function mock( $data = [], $casts = [] ) {
+		$model = new static( [] );
+
+		$model->setCasts( $casts );
+		$model->setData( $data );
+
+		return $model;
+	}
+
+	protected function setCasts( $casts = [] ) {
+		$this->casts = $casts;
+	}
+
 	public function __get( $name ) {
-		return $this->data[ $name ] ?? null;
+		return $this->castToValue( $name, $this->data[ $name ] ?? null );
 	}
 
 	public function __set( $name, $value ) {
@@ -61,14 +74,10 @@ class BaseModel
 		$this->setAttribute( $name, $value );
 	}
 
-	public function __isset( $name ) {
-		return isset( $this->data[ $name ] );
-	}
-
-	protected function setAttribute( $key, $value, $overrideOriginal = false ) {
+	protected function setAttribute( $key, $value, $overrideOriginal = false ): void {
 		// todo allow override like Laravel! (setXXAttribute)
 
-		$value = AttributeCaster::castValueForKey( $key, $value, array_merge( static::$defaultCasts, $this->casts ) );
+		$value = $this->castFromValue( $key, $value );
 
 		$this->data[ $key ] = $value;
 
@@ -77,37 +86,24 @@ class BaseModel
 		}
 	}
 
-	public function toArray() {
+	public function __isset( $name ) {
+		return isset( $this->data[ $name ] );
+	}
+
+	public function toArray(): array {
+		return $this->castArrayOfAttributes( $this->data );
+	}
+
+	public function toJson(): string {
+		return json_encode( $this->castBackArrayOfAttributes( $this->data ) );
+	}
+
+	public function toObject(): \stdClass {
+		return json_decode( $this->toJson() );
+	}
+
+	public function getData(): array {
 		return $this->data;
-	}
-
-	public function toJson() {
-		return json_encode( $this->data );
-	}
-
-	public function toObject() {
-		return json_decode( json_encode( $this->data ) );
-	}
-
-	public function getData() {
-		return $this->data;
-	}
-
-	public function getOriginal() {
-		return $this->original;
-	}
-
-	public function getDirty() {
-		return array_filter( $this->data, function ( $value, $key ) {
-			return $this->original[ $key ] !== $value;
-		}, ARRAY_FILTER_USE_BOTH );
-	}
-
-	/**
-	 * Undo dirty changes and revert to original values.
-	 */
-	public function cleanup() {
-		$this->data = $this->original;
 	}
 
 	/**
@@ -115,7 +111,7 @@ class BaseModel
 	 *
 	 * @throws DataFormatInvalidException
 	 */
-	protected function setData( $data = [] ) {
+	protected function setData( $data = [] ): void {
 		if ( ! \is_object( $data ) && ! \is_array( $data ) && ! $data = json_decode( $data ) ) {
 			throw new DataFormatInvalidException( 'Data must be either a object, array or a JSON-formatted string.' );
 		}
@@ -125,16 +121,22 @@ class BaseModel
 		}
 	}
 
-	protected function setCasts( $casts = [] ) {
-		$this->casts = $casts;
+	public function getOriginal(): array {
+		// consider casting?
+		return $this->original;
 	}
 
-	public static function mock( $data = [], $casts = [] ) {
-		$model = new static( [] );
+	public function getDirty(): array {
+		// consider casting?
+		return array_filter( $this->data, function ( $value, $key ) {
+			return $this->original[ $key ] !== $value;
+		}, ARRAY_FILTER_USE_BOTH );
+	}
 
-		$model->setCasts( $casts );
-		$model->setData( $data );
-
-		return $model;
+	/**
+	 * Undo dirty changes and revert to original values.
+	 */
+	public function cleanup(): void {
+		$this->data = $this->original;
 	}
 }
