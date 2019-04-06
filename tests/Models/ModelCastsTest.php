@@ -122,6 +122,9 @@ class ModelCastsTest extends TestCase
 
 		$dateString = $newDate->format( 'Y-m-d\TH:i:sP' );
 
+		$this->assertInstanceOf( \Carbon\Carbon::class, $model->toArray()['created_at'] );
+		$this->assertEquals( $dateString, $model->toArray()['created_at']->format( 'Y-m-d\TH:i:sP' ) );
+
 		$this->assertEquals( $dateString, $model->getData()['created_at'] );
 		$this->assertEquals( $dateString, $model->toObject()->created_at );
 		$this->assertEquals( '{"created_at":"' . $dateString . '"}', $model->toJson() );
@@ -136,6 +139,9 @@ class ModelCastsTest extends TestCase
 		$model->shipped_at = ( $newDate = new DateTime( '2019-01-01T18:30:00+01:00' ) );
 
 		$dateString = $newDate->format( 'Y-m-d' );
+
+		$this->assertInstanceOf( \Carbon\Carbon::class, $model->toArray()['shipped_at'] );
+		$this->assertEquals( $dateString, $model->toArray()['shipped_at']->format( 'Y-m-d' ) );
 
 		$this->assertEquals( $dateString, $model->getData()['shipped_at'] );
 		$this->assertEquals( $dateString, $model->toObject()->shipped_at );
