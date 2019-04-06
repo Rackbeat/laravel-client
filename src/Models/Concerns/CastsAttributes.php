@@ -34,7 +34,7 @@ trait CastsAttributes
 		'cancelled_at' => 'datetime',
 	];
 
-	protected function getDateFormat() {
+	protected function getDateTimeFormat() {
 		$format = 'Y-m-d\TH:i:sP';
 
 		// https://bugs.php.net/bug.php?id=75577
@@ -43,6 +43,10 @@ trait CastsAttributes
 		}
 
 		return $format;
+	}
+
+	protected function getDateFormat() {
+		return 'Y-m-d';
 	}
 
 	protected function castFromValue( $key, $value ) {
@@ -67,6 +71,8 @@ trait CastsAttributes
 			case 'bool':
 			case 'boolean':
 				return (bool) filter_var( $value, FILTER_VALIDATE_BOOLEAN );
+			case 'date':
+				return $this->fromDate( $value );
 			case 'datetime':
 				return $this->fromDateTime( $value );
 			default:
@@ -96,6 +102,8 @@ trait CastsAttributes
 			case 'bool':
 			case 'boolean':
 				return (bool) filter_var( $value, FILTER_VALIDATE_BOOLEAN );
+			case 'date':
+				return $this->asDate( $value );
 			case 'datetime':
 				return $this->asDateTime( $value );
 			case 'array':
@@ -130,36 +138,24 @@ trait CastsAttributes
 	}
 
 	protected function fromDateTime( $value ) {
-		// This prevents us having to re-instantiate a Carbon instance when we know
-		// it already is one, which wouldn't be fulfilled by the DateTime check.
-		if ( $value instanceof \Illuminate\Support\Carbon || $value instanceof \Carbon\CarbonInterface ) {
-			return $value->toAtomString();
-		}
-
-		// If the value is already a DateTime instance, we will just skip the rest of
-		// these checks since they will be a waste of time, and hinder performance
-		// when checking the field. We will just return the DateTime right away.
-		if ( $value instanceof \DateTimeInterface ) {
-			return $value->format( $this->getDateFormat() );
-		}
-
-		// If this value is an integer, we will assume it is a UNIX timestamp's value
-		// and format a Carbon object from this timestamp. This allows flexibility
-		// when defining your date fields as they might be UNIX timestamps here.
-		if ( is_numeric( $value ) ) {
-			return Carbon::createFromTimestamp( $value )->toAtomString();
-		}
-
-		// If the value is in simply year, month, day format, we will instantiate the
-		// Carbon instances from that format. Again, this provides for simple date
-		// fields on the database, while still supporting Carbonized conversion.
-		if ( $this->isStandardDateFormat( $value ) ) {
-			return Carbon::createFromFormat( 'Y-m-d', $value )->format( $this->getDateFormat() );
-		}
-
-		return $value;
+		return empty($value) ? $value : $this->asDateTime($value)->format(
+			$this->getDateTimeFormat()
+		);
 	}
 
+	public function fromDate( $value ) {
+		return empty($value) ? $value : $this->asDateTime($value)->format(
+			$this->getDateFormat()
+		);
+	}
+
+	/**
+	 * Return a timestamp as DateTime object.
+	 *
+	 * @param  mixed $value
+	 *
+	 * @return Carbon
+	 */
 	protected function asDateTime( $value ) {
 		// This prevents us having to re-instantiate a Carbon instance when we know
 		// it already is one, which wouldn't be fulfilled by the DateTime check.
@@ -190,7 +186,7 @@ trait CastsAttributes
 			return Carbon::instance( Carbon::createFromFormat( 'Y-m-d', $value )->startOfDay() );
 		}
 
-		$format = $this->getDateFormat();
+		$format = $this->getDateTimeFormat();
 
 		// https://bugs.php.net/bug.php?id=75577
 		if ( version_compare( PHP_VERSION, '7.3.0-dev', '<' ) ) {
@@ -201,6 +197,17 @@ trait CastsAttributes
 		// the database connection and use that format to create the Carbon object
 		// that is returned back out to the developers after we convert it here.
 		return Carbon::createFromFormat( $format, $value );
+	}
+
+	/**
+	 * Return a timestamp as DateTime object with time set to 00:00:00.
+	 *
+	 * @param  mixed $value
+	 *
+	 * @return Carbon
+	 */
+	public function asDate( $value ) {
+		return $this->asDateTime( $value )->startOfDay();
 	}
 
 	/**
