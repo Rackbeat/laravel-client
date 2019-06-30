@@ -2,12 +2,12 @@
 
 namespace Rackbeat\Resources\Traits;
 
-use Rackbeat\Models\BaseModel;
+use Rackbeat\Models\Model;
 
 trait CanCreate
 {
 	/**
-	 * @param BaseModel|array $data
+	 * @param Model|array $data
 	 */
 	public function create( $data = [] ) { }
 }

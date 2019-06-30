@@ -2,12 +2,12 @@
 
 namespace Rackbeat\Resources\Traits;
 
-use Rackbeat\Models\BaseModel;
+use Rackbeat\Models\Model;
 
 trait CanUpdate
 {
 	/**
-	 * @param BaseModel|array $data
+	 * @param Model|array $data
 	 */
 	public function update( $data = [] ) { }
 }

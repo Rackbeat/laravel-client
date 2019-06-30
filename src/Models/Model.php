@@ -6,7 +6,7 @@ use Rackbeat\Exceptions\Models\DataFormatInvalidException;
 use Rackbeat\Exceptions\Models\ImmutableOriginalDataException;
 use Rackbeat\Models\Concerns\CastsAttributes;
 
-class BaseModel
+class Model
 {
 	use CastsAttributes;
 
@@ -30,7 +30,7 @@ class BaseModel
 	protected $keyType = 'integer';
 
 	/**
-	 * BaseModel constructor.
+	 * Model constructor.
 	 *
 	 * @param array|object|string $data
 	 *

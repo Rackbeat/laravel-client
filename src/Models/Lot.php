@@ -8,7 +8,7 @@ namespace Rackbeat\Models;
  * @property-read \DateTime created_at
  * @property-read \DateTime updated_at
  */
-class Lot extends BaseModel
+class Lot extends Model
 {
 	protected $primaryKey = 'number';
 
