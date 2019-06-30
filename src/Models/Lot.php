@@ -10,9 +10,12 @@ namespace Rackbeat\Models;
  */
 class Lot extends BaseModel
 {
+	protected $primaryKey = 'number';
+
 	protected $casts = [
-		'number'     => 'string',
-		'created_at' => 'datetime',
-		'updated_at' => 'datetime',
+		'number'             => 'string',
+		'urlfriendly_number' => 'string',
+		'created_at'         => 'datetime',
+		'updated_at'         => 'datetime',
 	];
 }

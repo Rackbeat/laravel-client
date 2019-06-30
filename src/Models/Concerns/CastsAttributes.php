@@ -38,6 +38,7 @@ trait CastsAttributes
 		$format = 'Y-m-d\TH:i:sP';
 
 		// https://bugs.php.net/bug.php?id=75577
+		// consider removing this as we don't actually use .v anyway.
 		if ( version_compare( PHP_VERSION, '7.3.0-dev', '<' ) ) {
 			$format = str_replace( '.v', '.u', $format );
 		}
@@ -107,9 +108,9 @@ trait CastsAttributes
 			case 'datetime':
 				return $this->asDateTime( $value );
 			case 'array':
-				return (array) ( \is_string( $value ) ? json_decode( $value ) : $value );
+				return (array) ( \is_string( $value ) ? json_decode( $value, true ) : $value );
 			case 'object':
-				return (object) ( \is_string( $value ) ? json_decode( $value ) : $value );
+				return (object) ( \is_string( $value ) ? json_decode( $value, false ) : $value );
 			case 'json':
 				return json_encode( $value );
 			default:
@@ -120,7 +121,7 @@ trait CastsAttributes
 	/**
 	 * Decode the given float.
 	 *
-	 * @param  mixed $value
+	 * @param mixed $value
 	 *
 	 * @return mixed
 	 */
@@ -138,13 +139,13 @@ trait CastsAttributes
 	}
 
 	protected function fromDateTime( $value ) {
-		return empty($value) ? $value : $this->asDateTime($value)->format(
+		return empty( $value ) ? $value : $this->asDateTime( $value )->format(
 			$this->getDateTimeFormat()
 		);
 	}
 
 	public function fromDate( $value ) {
-		return empty($value) ? $value : $this->asDateTime($value)->format(
+		return empty( $value ) ? $value : $this->asDateTime( $value )->format(
 			$this->getDateFormat()
 		);
 	}
@@ -152,7 +153,7 @@ trait CastsAttributes
 	/**
 	 * Return a timestamp as DateTime object.
 	 *
-	 * @param  mixed $value
+	 * @param mixed $value
 	 *
 	 * @return Carbon
 	 */
@@ -188,11 +189,6 @@ trait CastsAttributes
 
 		$format = $this->getDateTimeFormat();
 
-		// https://bugs.php.net/bug.php?id=75577
-		if ( version_compare( PHP_VERSION, '7.3.0-dev', '<' ) ) {
-			$format = str_replace( '.v', '.u', $format );
-		}
-
 		// Finally, we will just assume this date is in the format used by default on
 		// the database connection and use that format to create the Carbon object
 		// that is returned back out to the developers after we convert it here.
@@ -202,7 +198,7 @@ trait CastsAttributes
 	/**
 	 * Return a timestamp as DateTime object with time set to 00:00:00.
 	 *
-	 * @param  mixed $value
+	 * @param mixed $value
 	 *
 	 * @return Carbon
 	 */
@@ -213,7 +209,7 @@ trait CastsAttributes
 	/**
 	 * Determine if the given value is a standard date format.
 	 *
-	 * @param  string $value
+	 * @param string $value
 	 *
 	 * @return bool
 	 */

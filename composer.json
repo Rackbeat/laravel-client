@@ -1,7 +1,7 @@
 {
 	"name": "rackbeat/php",
 	"description": "PHP Client Library for our API",
-	"keywords": [],
+	"keywords": ["rackbeat", "php", "sdk", "api", "api wrapper", "php sdk"],
 	"type": "library",
 	"license": "MIT",
 	"authors": [
@@ -16,6 +16,7 @@
 	],
 	"require": {
 		"php": "^7.1.3",
+		"ext-json": "*",
 		"guzzlehttp/guzzle": "^6.0",
 		"nesbot/carbon": "^1.26.3 || ^2.0"
 	},

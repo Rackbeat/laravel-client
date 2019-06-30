@@ -6,7 +6,7 @@ class ModelGetterSetterTest extends TestCase
 {
 	/** @test */
 	public function can_get_data_as_properties() {
-		$model = new \Rackbeat\Models\BaseModel( [
+		$model = \Rackbeat\Models\BaseModel::mock( [
 			'id' => 1,
 		] );
 
@@ -15,7 +15,7 @@ class ModelGetterSetterTest extends TestCase
 
 	/** @test */
 	public function can_set_data_fields_in_constructor_with_an_array() {
-		$model = new \Rackbeat\Models\BaseModel( [
+		$model = \Rackbeat\Models\BaseModel::mock( [
 			'id'   => 1,
 			'name' => 'John Doe',
 		] );
@@ -26,7 +26,7 @@ class ModelGetterSetterTest extends TestCase
 
 	/** @test */
 	public function can_set_data_fields_in_constructor_with_a_json_object() {
-		$model = new \Rackbeat\Models\BaseModel( json_decode( json_encode( [
+		$model = \Rackbeat\Models\BaseModel::mock( json_decode( json_encode( [
 			'id'   => 1,
 			'name' => 'John Doe',
 		] ) ) );
@@ -37,7 +37,7 @@ class ModelGetterSetterTest extends TestCase
 
 	/** @test */
 	public function can_override_data_directly_with_an_array() {
-		$model = new \Rackbeat\Models\BaseModel( [
+		$model = \Rackbeat\Models\BaseModel::mock( [
 			'name' => 'John Doe'
 		] );
 
@@ -55,7 +55,7 @@ class ModelGetterSetterTest extends TestCase
 
 	/** @test */
 	public function can_override_data_directly_with_a_json_object() {
-		$model = new \Rackbeat\Models\BaseModel( json_decode( json_encode( [
+		$model = \Rackbeat\Models\BaseModel::mock( json_decode( json_encode( [
 			'name' => 'John Doe'
 		] ) ) );
 
@@ -74,14 +74,14 @@ class ModelGetterSetterTest extends TestCase
 	/** @test */
 	public function cannot_override_data_directly_with_a_non_array_or_object_value() {
 		$this->expectException( \Rackbeat\Exceptions\Models\DataFormatInvalidException::class );
-		$model = new \Rackbeat\Models\BaseModel( [] );
+		$model = \Rackbeat\Models\BaseModel::mock( [] );
 
 		$model->data = 'not a object nor array';
 	}
 
 	/** @test */
 	public function can_set_data_from_a_json_string() {
-		$model = new \Rackbeat\Models\BaseModel( '{"name":"John Doe"}' );
+		$model = \Rackbeat\Models\BaseModel::mock( '{"name":"John Doe"}' );
 
 		$this->assertEquals( 'John Doe', $model->name );
 	}
@@ -90,7 +90,7 @@ class ModelGetterSetterTest extends TestCase
 	public function cannot_override_original_values() {
 		$this->expectException( \Rackbeat\Exceptions\Models\ImmutableOriginalDataException::class );
 
-		$model = new \Rackbeat\Models\BaseModel( [
+		$model = \Rackbeat\Models\BaseModel::mock( [
 			'name' => 'John Doe'
 		] );
 
@@ -99,7 +99,7 @@ class ModelGetterSetterTest extends TestCase
 
 	/** @test */
 	public function can_convert_to_array() {
-		$model = new \Rackbeat\Models\BaseModel( [
+		$model = \Rackbeat\Models\BaseModel::mock( [
 			'name' => 'John Doe'
 		] );
 
@@ -110,7 +110,7 @@ class ModelGetterSetterTest extends TestCase
 
 	/** @test */
 	public function can_convert_to_object() {
-		$model = new \Rackbeat\Models\BaseModel( [
+		$model = \Rackbeat\Models\BaseModel::mock( [
 			'name' => 'John Doe'
 		] );
 
@@ -121,7 +121,7 @@ class ModelGetterSetterTest extends TestCase
 
 	/** @test */
 	public function can_convert_to_json() {
-		$model = new \Rackbeat\Models\BaseModel( [
+		$model = \Rackbeat\Models\BaseModel::mock( [
 			'name' => 'John Doe'
 		] );
 
@@ -130,7 +130,7 @@ class ModelGetterSetterTest extends TestCase
 
 	/** @test */
 	public function can_get_original_data() {
-		$model = new \Rackbeat\Models\BaseModel( [
+		$model = \Rackbeat\Models\BaseModel::mock( [
 			'name' => 'John Doe'
 		] );
 
@@ -142,7 +142,7 @@ class ModelGetterSetterTest extends TestCase
 
 	/** @test */
 	public function can_contain_nested_data() {
-		$model = new \Rackbeat\Models\BaseModel( [
+		$model = \Rackbeat\Models\BaseModel::mock( [
 			'products' => [
 				[ 'id' => 1, 'name' => 'Shoe' ],
 				[ 'id' => 84, 'name' => 'Box' ],
@@ -160,7 +160,7 @@ class ModelGetterSetterTest extends TestCase
 
 	/** @test */
 	public function can_contain_arrays_with_objects() {
-		$model = new \Rackbeat\Models\BaseModel( [
+		$model = \Rackbeat\Models\BaseModel::mock( [
 			'products' => [
 				(object) [ 'id' => 1, 'name' => 'Shoe' ],
 				(object) [ 'id' => 84, 'name' => 'Box' ],
@@ -174,7 +174,7 @@ class ModelGetterSetterTest extends TestCase
 
 	/** @test */
 	public function can_get_changed_data_for_simple_key_value() {
-		$model = new \Rackbeat\Models\BaseModel( [
+		$model = \Rackbeat\Models\BaseModel::mock( [
 			'products' => [
 				[ 'id' => 1, 'name' => 'Shoe' ],
 			]
@@ -190,7 +190,7 @@ class ModelGetterSetterTest extends TestCase
 
 	/** @test */
 	public function can_get_changed_data_for_nested_data() {
-		$model = new \Rackbeat\Models\BaseModel( [
+		$model = \Rackbeat\Models\BaseModel::mock( [
 			'products' => [
 				[ 'id' => 1, 'name' => 'Shoe' ],
 			]
@@ -207,12 +207,10 @@ class ModelGetterSetterTest extends TestCase
 
 	/** @test */
 	public function can_undo_dirty_changes() {
-		$model = new \Rackbeat\Models\BaseModel( [ 'name' => 'John' ] );
+		$model = \Rackbeat\Models\BaseModel::mock( [ 'name' => 'John' ] );
 
 		$this->assertCount( 0, $model->getDirty() );
 		$this->assertEquals( 'John', $model->name );
-
-		$lot = new \Rackbeat\Models\Lot();
 
 		$model->name = 'Max';
 

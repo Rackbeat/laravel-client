@@ -16,11 +16,8 @@ class BaseModel
 	/** @var array */
 	protected $original = [];
 
-	/** @var array */
-	protected $casts = [];
-
 	/** @var string */
-	protected $primaryKey = 'number';
+	protected $primaryKey = 'id';
 
 	/**
 	 * integer og string
