@@ -17,7 +17,8 @@ class ApiClient
 		$this->httpEngine = new HttpEngine( [
 			'base_uri' => $baseUri,
 			'headers'  => [
-				'User-Agent' => $userAgent
+				'User-Agent'   => $userAgent,
+				'Content-Type' => 'application/json; charset=utf8',
 			]
 		] );
 	}
