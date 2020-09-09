@@ -9,6 +9,8 @@ class MockHttpEngine extends HttpEngine
 
 	public function call( $method, $uri, $options = [] )
 	{
+		$method = \strtolower( $method );
+
 		$response = self::$mockedCalls[ $method . $uri ] ?? '';
 
 		self::$callsMade[] = [
@@ -34,7 +36,7 @@ class MockHttpEngine extends HttpEngine
 
 	public static function mockResponse( $method, $uri, $response )
 	{
-		self::$mockedCalls[ $method . $uri ] = $response;
+		self::$mockedCalls[ \strtolower( $method ) . $uri ] = $response;
 	}
 
 	public static function calledCount( $method, $uri ): int
@@ -56,7 +58,7 @@ class MockHttpEngine extends HttpEngine
 	public static function getCalls( $method, $uri )
 	{
 		return array_filter( self::getCallsMade(), function ( $call ) use ( $method, $uri ) {
-			return $call['method'] === $method &&
+			return $call['method'] === \strtolower( $method ) &&
 			       $call['uri'] === $uri;
 		} );
 	}

@@ -22,9 +22,27 @@ composer require rackbeat/php-sdk
 
 Coming soon...
 
+## Testing
+
+The API class comes with a handful of mocking tools. You can mock a response or just assert that endpoints has been called.
+
+### Assert calls has been made
+```php
+\Rackbeat\API::mock(); // Set up the API class to use mocking
+
+// Has not been called yet 
+\Rackbeat\API::assertNotCalled( 'get', '/lots' );
+
+\Rackbeat\API::lots()->index();
+
+// Has now been called
+\Rackbeat\API::assertCalled( 'get', '/lots' );
+```
+
 ## Contributors
 
 ...
 
 ## Requirements
 * PHP >= 7.4
+* Laravel >= 6.0
