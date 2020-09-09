@@ -41,6 +41,19 @@ The API class comes with a handful of mocking tools. You can mock a response or 
 \Rackbeat\API::assertCalled( 'get', '/lots' );
 ```
 
+### Mock the response
+```php
+// Set up the API class to use mocking
+\Rackbeat\API::mock();
+\Rackbeat\API::mockResponse('GET', '/lots', 'no lots');
+
+// Make a API call to GET /lots
+\Rackbeat\API::lots()->index();
+
+// Assert that the response was 'no lots'
+\Rackbeat\API::assertResponded( 'get', '/lots', 'no lots' );
+```
+
 ## Contributors
 
 ...
