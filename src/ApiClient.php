@@ -18,6 +18,9 @@ class ApiClient
 			'base_uri' => $baseUri,
 			'headers'  => [
 				'User-Agent'   => $userAgent,
+				'Rackbeat-Version' => '',
+				'X-Consumer-Name' => '',
+				'X-Consumer-Contact' => '',
 				'Content-Type' => 'application/json; charset=utf8',
 			]
 		] );
