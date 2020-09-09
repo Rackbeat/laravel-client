@@ -30,9 +30,9 @@ class API
 		return new self;
 	}
 
-	public function __destruct()
+	public static function mockResponse( $method, $uri, $response )
 	{
-		self::$httpEngine = null;
+		MockHttpEngine::mockResponse( $method, $uri, $response );
 	}
 
 	public static function http(): HttpEngine

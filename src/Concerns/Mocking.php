@@ -10,12 +10,18 @@ trait Mocking
 {
 	public static function assertCalled( $method, $uri, $count = 1 )
 	{
-		self::ensureHasStartedMocking();
-
 		PHPUnit::assertEquals(
 			$count,
-			API::$httpEngine::calledCount( $method, $uri ),
+			MockHttpEngine::calledCount( $method, $uri ),
 			"The expected [{$method} {$uri}] was not called {$count} times."
+		);
+	}
+	public static function assertResponded( $method, $uri, $response )
+	{
+		PHPUnit::assertEquals(
+			$response,
+			MockHttpEngine::latestResponse( $method, $uri ),
+			"The last [{$method} {$uri}] call did not have the correct response, or was never called."
 		);
 	}
 
@@ -26,23 +32,10 @@ trait Mocking
 
 	public static function assertCalledMorethanOrEqualTo( $method, $uri, $count = 1 )
 	{
-		self::ensureHasStartedMocking();
-
 		PHPUnit::assertGreaterThanOrEqual(
 			$count,
-			API::$httpEngine::calledCount( $method, $uri ),
+			MockHttpEngine::calledCount( $method, $uri ),
 			"The expected [{$method} {$uri}] was not called more than or equal to {$count} times."
 		);
-	}
-
-	private static function ensureHasStartedMocking()
-	{
-		if ( empty( API::$httpEngine ) ) {
-			API::$httpEngine = new MockHttpEngine();
-		}
-
-		if ( ! API::$httpEngine instanceof MockHttpEngine ) {
-			throw new \Exception( 'Cannot use assertions without a MockHttpEngine set. Please call API::mock() first.' );
-		}
 	}
 }

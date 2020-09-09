@@ -27,4 +27,16 @@ class MockTests extends TestCase
 
 		\Rackbeat\API::assertCalled( 'POST', '/test' );
 	}
+
+	/** @test */
+	public function it_can_mock_the_response()
+	{
+		\Rackbeat\API::mock();
+		\Rackbeat\API::mockResponse( 'POST', '/test', json_encode( [ 'message' => 'Good job!' ] ) );
+
+		\Rackbeat\API::http()->call( 'POST', '/test' );
+
+		\Rackbeat\API::assertCalled( 'POST', '/test' );
+		\Rackbeat\API::assertResponded( 'POST', '/test', json_encode( [ 'message' => 'Good job!' ] ) );
+	}
 }

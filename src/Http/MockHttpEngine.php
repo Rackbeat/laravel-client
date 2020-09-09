@@ -23,7 +23,7 @@ class MockHttpEngine extends HttpEngine
 
 	public function __destruct()
 	{
-		self::$callsMade = [];
+		self::$callsMade   = [];
 		self::$mockedCalls = [];
 	}
 
@@ -32,11 +32,32 @@ class MockHttpEngine extends HttpEngine
 		return self::$callsMade;
 	}
 
+	public static function mockResponse( $method, $uri, $response )
+	{
+		self::$mockedCalls[ $method . $uri ] = $response;
+	}
+
 	public static function calledCount( $method, $uri ): int
 	{
-		return \count( array_filter( self::getCallsMade(), function ( $call ) use ( $method, $uri ) {
+		return \count( self::getCalls( $method, $uri ) );
+	}
+
+	public static function latestResponse( $method, $uri )
+	{
+		$calls = array_reverse( self::getCalls( $method, $uri ) );
+
+		if ( \count( $calls ) === 0 ) {
+			return null;
+		}
+
+		return $calls[0]['response'];
+	}
+
+	public static function getCalls( $method, $uri )
+	{
+		return array_filter( self::getCallsMade(), function ( $call ) use ( $method, $uri ) {
 			return $call['method'] === $method &&
 			       $call['uri'] === $uri;
-		} ) );
+		} );
 	}
 }
