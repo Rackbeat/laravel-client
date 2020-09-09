@@ -1,5 +1,7 @@
 <?php
 
+namespace Tests\Models;
+
 use PHPUnit\Framework\TestCase;
 
 class ModelCastsTest extends TestCase

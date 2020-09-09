@@ -1,6 +1,6 @@
 **~~~~~~ BY NO MEANS READY YET! ~~~~~~**
 
-# Rackbeat Laravel SDK
+# API Laravel SDK
 
 <p align="center"> 
 <a href="https://travis-ci.org/Rackbeat/php-sdk"><img src="https://img.shields.io/travis/Rackbeat/php-sdk.svg?style=flat-square" alt="Build Status"></a>

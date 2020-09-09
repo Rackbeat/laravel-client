@@ -21,6 +21,12 @@ class MockHttpEngine extends HttpEngine
 		return $response;
 	}
 
+	public function __destruct()
+	{
+		self::$callsMade = [];
+		self::$mockedCalls = [];
+	}
+
 	public static function getCallsMade(): array
 	{
 		return self::$callsMade;

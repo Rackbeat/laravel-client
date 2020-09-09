@@ -45,7 +45,7 @@ class HttpEngine
 		return $this->call( Method::HEAD, $uri, $data );
 	}
 
-	public function call( $method, $uri, $options ) {
+	public function call( $method, $uri, $options = [] ) {
 		return $this->getContentFromJson(
 			$this->client->request( $method, $uri, $options )
 		);

@@ -20,7 +20,7 @@ class ApiClient
 		$headers = [
 			'User-Agent'         => $consumer['name'] . '(' . $consumer['contact'] . ')',
 			'Content-Type'       => 'application/json; charset=utf8',
-			'Rackbeat-Version'   => $rackbeatVersion,
+			'API-Version'   => $rackbeatVersion,
 			'X-Consumer-Name'    => $consumer['name'],
 			'X-Consumer-Contact' => $consumer['contact'],
 		];

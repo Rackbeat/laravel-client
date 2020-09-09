@@ -2,29 +2,40 @@
 
 namespace Rackbeat;
 
+use Rackbeat\Concerns\Mocking;
 use Rackbeat\Http\HttpEngine;
+use Rackbeat\Http\MockHttpEngine;
 
-class Rackbeat
+class API
 {
-	/** @var HttpEngine */
+	use Mocking;
+
+	/** @var HttpEngine|MockHttpEngine */
 	protected static $httpEngine;
 
-	public static function mock(): MockRackbeat
+	public static function make(): API
 	{
-		return MockRackbeat::make();
+		self::$httpEngine = new HttpEngine( [
+			'base_uri' => '',
+			'headers'  => []
+		] );
+
+		return new self;
 	}
 
-	public static function make(): Rackbeat
+	public static function mock(): API
 	{
-		if ( empty( self::$httpEngine ) ) {
-			self::$httpEngine = new HttpEngine( [
-				'base_uri' => '$baseUri',
-				'headers'  => '$headers'
-			] );
-		}
+		self::$httpEngine = new MockHttpEngine();
+
+		return new self;
 	}
 
-	public function http(): HttpEngine
+	public function __destruct()
+	{
+		self::$httpEngine = null;
+	}
+
+	public static function http(): HttpEngine
 	{
 		return self::$httpEngine;
 	}
