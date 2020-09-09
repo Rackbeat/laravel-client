@@ -1,6 +1,6 @@
 **~~~~~~ BY NO MEANS READY YET! ~~~~~~**
 
-# Rackbeat PHP SDK
+# Rackbeat Laravel SDK
 
 <p align="center"> 
 <a href="https://travis-ci.org/Rackbeat/php-sdk"><img src="https://img.shields.io/travis/Rackbeat/php-sdk.svg?style=flat-square" alt="Build Status"></a>
@@ -27,4 +27,4 @@ Coming soon...
 ...
 
 ## Requirements
-* PHP >= 7.1
+* PHP >= 7.4

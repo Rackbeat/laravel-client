@@ -3,30 +3,59 @@
 namespace Rackbeat;
 
 use Rackbeat\Http\HttpEngine;
+use Rackbeat\Http\MockHttpEngine;
 use Rackbeat\Resources\LotResource;
 
 class ApiClient
 {
 	protected $httpEngine;
+	protected static $test;
 
-	public function __construct( $apiToken = null, $userAgent = null, $baseUri = 'https://app.rackbeat.com/api/' ) {
-		if ( $userAgent === null ) {
-			throw new \UserAgentRequiredException( 'You must specify an User-Agent for validation. Format as follows: [COMPANY_NAME] ([OPTIONAL_PROJECT_NAME]), [CONTACT_EMAIL]' );
+	public function __construct( string $apiToken, array $consumer, string $rackbeatVersion = 'latest', string $baseUri = 'https://app.rackbeat.com/api/' )
+	{
+		if ( ! isset( $consumer['name'], $consumer['contact'] ) ) {
+			throw new \UserAgentRequiredException( 'You must specify an consumer name and contact for validation.' );
+		}
+
+		$headers = [
+			'User-Agent'         => $consumer['name'] . '(' . $consumer['contact'] . ')',
+			'Content-Type'       => 'application/json; charset=utf8',
+			'Rackbeat-Version'   => $rackbeatVersion,
+			'X-Consumer-Name'    => $consumer['name'],
+			'X-Consumer-Contact' => $consumer['contact'],
+		];
+
+		if ( ! empty( $apiToken ) ) {
+			$headers['Authorization'] = 'Bearer ' . $apiToken;
 		}
 
 		$this->httpEngine = new HttpEngine( [
 			'base_uri' => $baseUri,
-			'headers'  => [
-				'User-Agent'   => $userAgent,
-				'Rackbeat-Version' => '',
-				'X-Consumer-Name' => '',
-				'X-Consumer-Contact' => '',
-				'Content-Type' => 'application/json; charset=utf8',
+			'headers'  => $headers
+		] );
+	}
+
+	public static function mock(): ApiClient
+	{
+		$client = ( new self( 'mocking', [ 'name' => 'Mock', 'contact' => 'Mock' ] ) );
+
+		$client->httpEngine = new MockHttpEngine();
+
+		return $client;
+	}
+
+	public function setConsumer( $name, $contact )
+	{
+		$this->httpEngine->mergeConfig( [
+			'headers' => [
+				'X-Consumer-Name'    => $name,
+				'X-Consumer-Contact' => $contact,
 			]
 		] );
 	}
 
-	public function setApiToken( $apiToken = null ) {
+	public function setApiToken( $apiToken = null )
+	{
 		$this->httpEngine->mergeConfig( [
 			'headers' => [
 				'Authorization' => 'Bearer ' . $apiToken
@@ -34,7 +63,8 @@ class ApiClient
 		] );
 	}
 
-	public function lots() {
+	public function lots()
+	{
 		return new LotResource( $this->httpEngine );
 	}
 }

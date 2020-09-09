@@ -118,7 +118,7 @@ class ModelCastsTest extends TestCase
 
 		$this->assertEquals( $date, $model->created_at );
 
-		$model->created_at = ( $newDate = new DateTime( '2019-01-01T18:30:00+01:00' ) );
+		$model = \Rackbeat\Models\Model::mock( [ 'created_at' => $newDate = new DateTime( '2019-01-01T18:30:00+01:00' ) ], [ 'created_at' => 'datetime' ] );
 
 		$dateString = $newDate->format( 'Y-m-d\TH:i:sP' );
 
