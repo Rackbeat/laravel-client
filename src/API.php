@@ -3,6 +3,7 @@
 namespace RackbeatSDK;
 
 use RackbeatSDK\Concerns\Mocking;
+use RackbeatSDK\Exceptions\Client\UserAgentRequiredException;
 use RackbeatSDK\Http\HttpEngine;
 use RackbeatSDK\Http\MockHttpEngine;
 use RackbeatSDK\Resources\LotResource;
@@ -17,7 +18,7 @@ class API
 	public static function make( $apiToken = null ): API
 	{
 		if ( empty( config( 'rackbeat.consumer.name' ) ) || empty( config( 'rackbeat.consumer.email' ) ) ) {
-			throw new \UserAgentRequiredException( 'You must specify an consumer name and contact for validation.' );
+			throw new UserAgentRequiredException( 'You must specify an consumer name and contact for validation.' );
 		}
 
 		$headers = [
