@@ -1,6 +1,6 @@
 <?php
 
-namespace Rackbeat\RackbeatSDK\Laravel;
+namespace Rackbeat\RackbeatSDK;
 
 use Illuminate\Support\Facades\Facade;
 

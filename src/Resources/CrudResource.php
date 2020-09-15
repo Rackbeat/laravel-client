@@ -1,6 +1,6 @@
 <?php
 
-namespace Rackbeat\Resources;
+namespace Rackbeat\RackbeatSDK\Resources;
 
 use Rackbeat\Resources\Traits\CanCreate;
 use Rackbeat\Resources\Traits\CanDelete;

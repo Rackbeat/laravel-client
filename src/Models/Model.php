@@ -1,6 +1,6 @@
 <?php
 
-namespace Rackbeat\Models;
+namespace Rackbeat\RackbeatSDK\Models;
 
 use Rackbeat\Exceptions\Models\DataFormatInvalidException;
 use Rackbeat\Exceptions\Models\ImmutableOriginalDataException;

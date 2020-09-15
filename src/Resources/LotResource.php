@@ -1,6 +1,6 @@
 <?php
 
-namespace Rackbeat\Resources;
+namespace Rackbeat\RackbeatSDK\Resources;
 
 class LotResource extends CrudResource
 {

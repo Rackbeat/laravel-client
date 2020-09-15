@@ -1,6 +1,6 @@
 <?php
 
-namespace Rackbeat\Models\Traits;
+namespace Rackbeat\RackbeatSDK\Models\Traits;
 
 trait Saveable
 {

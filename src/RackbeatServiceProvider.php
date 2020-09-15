@@ -1,6 +1,6 @@
 <?php
 
-namespace Rackbeat\Laravel;
+namespace Rackbeat\RackbeatSDK;
 
 use Illuminate\Support\ServiceProvider;
 use Rackbeat\API;

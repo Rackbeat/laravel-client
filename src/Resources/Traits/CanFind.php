@@ -1,6 +1,6 @@
 <?php
 
-namespace Rackbeat\Resources\Traits;
+namespace Rackbeat\RackbeatSDK\Resources\Traits;
 
 trait CanFind
 {

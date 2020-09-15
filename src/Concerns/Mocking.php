@@ -1,6 +1,6 @@
 <?php
 
-namespace Rackbeat\Concerns;
+namespace Rackbeat\RackbeatSDK\Concerns;
 
 use PHPUnit\Framework\Assert as PHPUnit;
 use Rackbeat\Http\MockHttpEngine;

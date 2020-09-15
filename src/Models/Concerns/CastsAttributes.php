@@ -1,6 +1,6 @@
 <?php
 
-namespace Rackbeat\Models\Concerns;
+namespace Rackbeat\RackbeatSDK\Models\Concerns;
 
 use Carbon\Carbon;
 
