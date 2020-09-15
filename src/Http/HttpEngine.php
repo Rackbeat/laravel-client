@@ -3,19 +3,23 @@
 namespace RackbeatSDK\Http;
 
 use GuzzleHttp\Client as GuzzleHttp;
+use GuzzleHttp\Exception\BadResponseException;
+use RackbeatSDK\Http\Traits\HandlesErrorResponses;
 use RackbeatSDK\Http\Traits\HandlesJson;
 
 class HttpEngine
 {
-	use HandlesJson;
+	use HandlesJson, HandlesErrorResponses;
 
 	protected $client;
 
-	public function __construct( $config = [] ) {
+	public function __construct( $config = [] )
+	{
 		$this->setupClient( $config );
 	}
 
-	protected function setupClient( $config = [] ) {
+	protected function setupClient( $config = [] )
+	{
 		$this->client = new GuzzleHttp( array_merge( [
 			'headers' => [
 				'Content-Type' => 'application/json',
@@ -25,33 +29,46 @@ class HttpEngine
 		], $config ) );
 	}
 
-	public function post( $uri, $data ) {
+	public function post( $uri, $data )
+	{
 		return $this->call( Method::POST, $uri, $data );
 	}
 
-	public function get( $uri, $data ) {
+	public function get( $uri, $data )
+	{
 		return $this->call( Method::GET, $uri, $data );
 	}
 
-	public function put( $uri, $data ) {
+	public function put( $uri, $data )
+	{
 		return $this->call( Method::PUT, $uri, $data );
 	}
 
-	public function delete( $uri, $data ) {
+	public function delete( $uri, $data )
+	{
 		return $this->call( Method::DELETE, $uri, $data );
 	}
 
-	public function head( $uri, $data ) {
+	public function head( $uri, $data )
+	{
 		return $this->call( Method::HEAD, $uri, $data );
 	}
 
-	public function call( $method, $uri, $options = [] ) {
-		return $this->getContentFromJson(
-			$this->client->request( $method, $uri, $options )
-		);
+	public function call( $method, $uri, $options = [] )
+	{
+		try {
+			// todo support non-json responses (PDF?)
+
+			return $this->getContentFromJson(
+				$this->client->request( $method, $uri, $options )
+			);
+		} catch ( BadResponseException $exception ) {
+			$this->throwException( $exception );
+		}
 	}
 
-	public function mergeConfig( $config = [] ) {
+	public function mergeConfig( $config = [] )
+	{
 		$this->setupClient( array_merge( $this->config, $config ) );
 	}
 }
