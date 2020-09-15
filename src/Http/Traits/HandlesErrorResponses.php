@@ -2,7 +2,6 @@
 
 namespace RackbeatSDK\Http\Traits;
 
-use GuzzleHttp\Exception\BadResponseException;
 use RackbeatSDK\Exceptions\Responses\ServerException;
 use RackbeatSDK\Exceptions\Responses\ThrottledException;
 use RackbeatSDK\Exceptions\Responses\UnauthorizedException;
@@ -12,7 +11,7 @@ trait HandlesErrorResponses
 {
 	protected function handleResponse() { }
 
-	protected function throwException( BadResponseException $exception )
+	protected function throwException( \GuzzleHttp\Exception\BadResponseException $exception )
 	{
 		// 5XX codes
 		if ( $exception instanceof \GuzzleHttp\Exception\ServerException ) {

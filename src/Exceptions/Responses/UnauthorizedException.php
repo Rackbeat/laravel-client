@@ -2,7 +2,7 @@
 
 namespace RackbeatSDK\Exceptions\Responses;
 
-class UnauthorizedException extends ResponseException
+class UnauthorizedException extends BadResponseException
 {
 	protected $code = 401;
 }
