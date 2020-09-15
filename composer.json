@@ -1,5 +1,5 @@
 {
-	"name": "rackbeat/php",
+	"name": "rackbeat/laravel-sdk",
 	"description": "PHP Client Library for our API",
 	"keywords": [
 		"rackbeat",
