@@ -27,22 +27,28 @@ class BaseResource
 
 	public function __call( $name, $arguments )
 	{
-		if ( method_exists( self, $name ) ) {
+		if ( method_exists( $this, $name ) ) {
 			return self::$name( $arguments );
 		}
 	}
 
-	protected static function index() {
-		return API::http()->get(self::ENDPOINT_INDEX ?? self::ENDPOINT_BASE);
+	public static function getIndexUrl(): string
+	{
+		return self::ENDPOINT_BASE;
 	}
 
-	protected static function delete($key) { }
+	protected static function index()
+	{
+		return API::http()->get( static::getIndexUrl() );
+	}
 
-	protected static function find($key) { }
+	protected static function delete( $key ) { }
 
-	protected static function update($model) { }
+	protected static function find( $key ) { }
 
-	protected static function create($data = []) { }
+	protected static function update( $model ) { }
+
+	protected static function create( $data = [] ) { }
 
 	/**
 	 * Get the resource key, singular.
