@@ -1,7 +1,15 @@
 {
 	"name": "rackbeat/php",
 	"description": "PHP Client Library for our API",
-	"keywords": ["rackbeat", "php", "sdk", "api", "api wrapper", "laravel", "php sdk"],
+	"keywords": [
+		"rackbeat",
+		"php",
+		"sdk",
+		"api",
+		"api wrapper",
+		"laravel",
+		"php sdk"
+	],
 	"type": "library",
 	"license": "MIT",
 	"authors": [
@@ -17,22 +25,29 @@
 	"require": {
 		"php": "^7.4",
 		"ext-json": "*",
-		"guzzlehttp/guzzle": "^7.0.1",
+		"guzzlehttp/guzzle": "^6.5|^7.0.1",
 		"laravel/framework": "^6.0|^7.0|^8.0",
 		"nesbot/carbon": "^1.26.3 || ^2.0"
 	},
 	"require-dev": {
 		"phpunit/phpunit": "^7.5|^8.0",
-		"php-coveralls/php-coveralls": "^2.1"
+		"php-coveralls/php-coveralls": "^2.2"
 	},
 	"autoload": {
 		"psr-4": {
-			"Rackbeat\\RackbeatSDK\\": "src/"
+			"Rackbeat\\SDK\\": "src/"
 		}
 	},
 	"autoload-dev": {
 		"psr-4": {
 			"Tests\\": "tests/"
+		}
+	},
+	"extra": {
+		"laravel": {
+			"providers": [
+				"Rackbeat\\SDK\\Laravel\\RackbeatServiceProvider"
+			]
 		}
 	},
 	"config": {
