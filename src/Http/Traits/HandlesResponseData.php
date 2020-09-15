@@ -8,17 +8,21 @@ trait HandlesResponseData
 {
 	protected function parseResponse( Response $response )
 	{
+		if ( empty( $content = $response->getBody()->getContents() ) ) {
+			return $content;
+		}
+
 		switch ( $this->getContentType( $response ) ) {
 			case 'application/json':
-				return json_decode( $response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR );
+				return json_decode( $content, true, 512, JSON_THROW_ON_ERROR );
 			default:
-				return $response->getBody()->getContents();
+				return $content;
 		}
 	}
 
 	protected function getContentType( Response $response ): string
 	{
-		$header = $response->getHeader( 'Content-Type' ) ?? [ 'application/json' ];
+		$header = $response->getHeader( 'Content-Type' ) ?? [ 'text/plain' ];
 
 		return mb_strtolower( $header[0] );
 	}
