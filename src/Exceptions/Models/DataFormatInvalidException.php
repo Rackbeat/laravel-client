@@ -1,6 +1,6 @@
 <?php
 
-namespace Rackbeat\RackbeatSDK\Exceptions\Models;
+namespace RackbeatSDK\Exceptions\Models;
 
 class DataFormatInvalidException extends \Exception
 {

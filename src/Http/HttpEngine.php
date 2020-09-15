@@ -1,6 +1,6 @@
 <?php
 
-namespace Rackbeat\RackbeatSDK\Http;
+namespace RackbeatSDK\Http;
 
 use GuzzleHttp\Client as GuzzleHttp;
 use Rackbeat\Http\Traits\HandlesJson;

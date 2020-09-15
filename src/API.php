@@ -1,6 +1,6 @@
 <?php
 
-namespace Rackbeat\RackbeatSDK;
+namespace RackbeatSDK;
 
 use Rackbeat\Concerns\Mocking;
 use Rackbeat\Http\HttpEngine;

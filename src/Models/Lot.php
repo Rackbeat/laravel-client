@@ -1,6 +1,6 @@
 <?php
 
-namespace Rackbeat\RackbeatSDK\Models;
+namespace RackbeatSDK\Models;
 
 /**
  * @property string         number

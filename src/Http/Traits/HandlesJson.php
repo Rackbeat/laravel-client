@@ -1,6 +1,6 @@
 <?php
 
-namespace Rackbeat\RackbeatSDK\Http\Traits;
+namespace RackbeatSDK\Http\Traits;
 
 use GuzzleHttp\Psr7\Response;
 

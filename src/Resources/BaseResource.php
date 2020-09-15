@@ -1,6 +1,6 @@
 <?php
 
-namespace Rackbeat\RackbeatSDK\Resources;
+namespace RackbeatSDK\Resources;
 
 use Rackbeat\Http\HttpEngine;
 

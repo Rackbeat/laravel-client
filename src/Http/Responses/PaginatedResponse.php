@@ -1,6 +1,6 @@
 <?php
 
-namespace Rackbeat\RackbeatSDK\Http\Responses;
+namespace RackbeatSDK\Http\Responses;
 
 class PaginatedResponse extends Response implements \ArrayAccess
 {

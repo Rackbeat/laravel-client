@@ -1,6 +1,6 @@
 <?php
 
-namespace Rackbeat\RackbeatSDK\Http\Responses;
+namespace RackbeatSDK\Http\Responses;
 
 class Response
 {

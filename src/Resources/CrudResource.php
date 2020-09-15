@@ -1,12 +1,12 @@
 <?php
 
-namespace Rackbeat\RackbeatSDK\Resources;
+namespace RackbeatSDK\Resources;
 
-use Rackbeat\Resources\Traits\CanCreate;
-use Rackbeat\Resources\Traits\CanDelete;
-use Rackbeat\Resources\Traits\CanFind;
-use Rackbeat\Resources\Traits\CanIndex;
-use Rackbeat\Resources\Traits\CanUpdate;
+use RackbeatSDK\Resources\Traits\CanCreate;
+use RackbeatSDK\Resources\Traits\CanDelete;
+use RackbeatSDK\Resources\Traits\CanFind;
+use RackbeatSDK\Resources\Traits\CanIndex;
+use RackbeatSDK\Resources\Traits\CanUpdate;
 
 class CrudResource extends BaseResource
 {

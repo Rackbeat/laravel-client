@@ -1,6 +1,6 @@
 <?php
 
-namespace Rackbeat\RackbeatSDK\Resources\Traits;
+namespace RackbeatSDK\Resources\Traits;
 
 use Rackbeat\Models\Model;
 

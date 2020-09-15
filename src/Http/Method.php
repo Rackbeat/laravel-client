@@ -1,6 +1,6 @@
 <?php
 
-namespace Rackbeat\RackbeatSDK\Http;
+namespace RackbeatSDK\Http;
 
 class Method
 {
