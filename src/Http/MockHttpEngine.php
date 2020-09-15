@@ -34,9 +34,12 @@ class MockHttpEngine extends HttpEngine
 		return self::$callsMade;
 	}
 
-	public static function mockResponse( $method, $uri, $response )
+	public static function mockResponse( $method, $uri, $statusCode, $response )
 	{
-		self::$mockedCalls[ \strtolower( $method ) . $uri ] = $response;
+		self::$mockedCalls[ \strtolower( $method ) . $uri ] = [
+			'status_code' => $statusCode,
+			'content'     => $response
+		];
 	}
 
 	public static function calledCount( $method, $uri ): int

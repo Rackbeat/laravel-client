@@ -2,7 +2,7 @@
 
 namespace Tests\Mocking;
 
-use Rackbeat\API;
+use RackbeatSDK\API;
 
 class TestController
 {

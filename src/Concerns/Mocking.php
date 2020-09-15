@@ -20,8 +20,17 @@ trait Mocking
 	{
 		PHPUnit::assertEquals(
 			$response,
-			MockHttpEngine::latestResponse( $method, $uri ),
+			MockHttpEngine::latestResponse( $method, $uri )['content'],
 			"The last [{$method} {$uri}] call did not have the correct response, or was never called."
+		);
+	}
+
+	public static function assertRespondedStatus( $method, $uri, $response )
+	{
+		PHPUnit::assertEquals(
+			$response,
+			MockHttpEngine::latestResponse( $method, $uri )['status_code'],
+			"The last [{$method} {$uri}] call did not have the correct status code, or was never called."
 		);
 	}
 

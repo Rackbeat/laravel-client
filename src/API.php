@@ -53,9 +53,9 @@ class API
 		return new self;
 	}
 
-	public static function mockResponse( $method, $uri, $response )
+	public static function mockResponse( $method, $uri, $response, $statusCode = 200 )
 	{
-		MockHttpEngine::mockResponse( $method, $uri, $response );
+		MockHttpEngine::mockResponse( $method, $uri, $statusCode, $response );
 	}
 
 	public static function http(): HttpEngine
