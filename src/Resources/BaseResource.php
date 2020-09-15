@@ -37,7 +37,7 @@ class BaseResource
 		return self::ENDPOINT_BASE;
 	}
 
-	protected static function index($query = [])
+	protected static function index( $query = [] )
 	{
 		return API::http()->get( static::getIndexUrl(), $query );
 	}
