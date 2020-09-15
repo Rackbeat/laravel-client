@@ -8,11 +8,11 @@ use RackbeatSDK\Http\HttpEngine;
 
 class BaseResource
 {
-	/** @var null|string */
-	protected const ENDPOINT_BASE = null;
+	/** @var string */
+	protected const ENDPOINT_BASE = '/';
 
-	/** @var null|string */
-	protected const RESOURCE_KEY = null;
+	/** @var string */
+	protected const RESOURCE_KEY = 'item';
 
 	/** @var null|string */
 	protected const RESOURCE_KEY_PLURAL = null;
