@@ -5,6 +5,8 @@ namespace RackbeatSDK\Resources;
 use Illuminate\Support\Str;
 use RackbeatSDK\API;
 use RackbeatSDK\Http\HttpEngine;
+use RackbeatSDK\Http\Responses\IndexResponse;
+use RackbeatSDK\Http\Responses\PaginatedIndexResponse;
 
 class BaseResource
 {
@@ -13,6 +15,9 @@ class BaseResource
 
 	/** @var string */
 	protected const RESOURCE_KEY = 'item';
+
+	/** @var null|string */
+	protected const MODEL = null;
 
 	/** @var null|string */
 	protected const RESOURCE_KEY_PLURAL = null;
@@ -39,7 +44,28 @@ class BaseResource
 
 	protected static function index( $query = [] )
 	{
-		return API::http()->get( static::getIndexUrl(), $query );
+		$responseData = API::http()->get( static::getIndexUrl(), $query );
+
+		if ( method_exists( self, 'formatIndexResponse' ) ) {
+			return self::formatIndexResponse( $responseData );
+		}
+
+		$items = $responseData[ static::getPluralisedKey() ];
+
+		if ( $model = self::MODEL ) {
+			$items = array_map( function ( $item ) use ( $model ) { return new $model( $item ); }, $items );
+		}
+
+		if ( isset( $responseData['pages'] ) ) {
+			return new PaginatedIndexResponse(
+				$items,
+				$responseData['pages'],
+				$responseData['page'],
+				$responseData['total'],
+			);
+		}
+
+		return new IndexResponse( $items );
 	}
 
 	protected static function delete( $key ) { }

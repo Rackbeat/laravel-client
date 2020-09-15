@@ -17,7 +17,7 @@ trait CastsAttributes
 	 *
 	 * @var array
 	 */
-	protected $casts = [];
+	protected array $casts = [];
 
 	/** @var array */
 	protected static $defaultCasts = [

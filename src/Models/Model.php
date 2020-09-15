@@ -11,13 +11,13 @@ class Model
 	use CastsAttributes;
 
 	/** @var array */
-	protected $data = [];
+	protected array $data = [];
 
 	/** @var array */
-	protected $original = [];
+	protected array $original = [];
 
 	/** @var string */
-	protected $primaryKey = 'id';
+	protected string $primaryKey = 'id';
 
 	/**
 	 * integer og string
@@ -27,7 +27,7 @@ class Model
 	 *
 	 * @var string
 	 */
-	protected $keyType = 'integer';
+	protected string $keyType = 'integer';
 
 	/**
 	 * Model constructor.

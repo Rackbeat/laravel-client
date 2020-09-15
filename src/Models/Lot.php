@@ -10,9 +10,10 @@ namespace RackbeatSDK\Models;
  */
 class Lot extends Model
 {
-	protected $primaryKey = 'number';
+	protected string $primaryKey = 'number';
+	protected string $keyType    = 'string';
 
-	protected $casts = [
+	protected array $casts = [
 		'number'             => 'string',
 		'urlfriendly_number' => 'string',
 		'created_at'         => 'datetime',
