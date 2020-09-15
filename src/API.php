@@ -72,6 +72,6 @@ class API
 
 	public function lots()
 	{
-		return new LotResource( $this->httpEngine );
+		return new LotResource( static::$httpEngine );
 	}
 }
