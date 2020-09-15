@@ -2,6 +2,6 @@
 
 namespace RackbeatSDK\Exceptions\Responses;
 
-class ServerErrorException extends \Exception
+class ServerErrorException extends RackbeatResponseException
 {
 }

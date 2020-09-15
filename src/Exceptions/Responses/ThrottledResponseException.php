@@ -2,6 +2,7 @@
 
 namespace RackbeatSDK\Exceptions\Responses;
 
-class ThrottledResponseException extends \Exception
+class ThrottledResponseException extends RackbeatResponseException
 {
+	protected $code = 429;
 }

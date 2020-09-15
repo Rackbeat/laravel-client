@@ -2,6 +2,7 @@
 
 namespace RackbeatSDK\Exceptions\Responses;
 
-class ValidationErrorResponseException extends \Exception
+class ValidationErrorResponseException extends RackbeatResponseException
 {
+	protected $code = 422;
 }
