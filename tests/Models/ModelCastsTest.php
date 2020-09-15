@@ -34,8 +34,8 @@ class ModelCastsTest extends TestCase
 	public function can_cast_atomstring_to_datetime() {
 		$model = \Rackbeat\Models\Model::mock( [ 'created_at' => '2018-01-01T18:30:00+01:00' ], [ 'created_at' => 'datetime' ] );
 
-		$comparisonDateTime = new DateTime();
-		$comparisonDateTime->setTimezone( new DateTimeZone( '+01:00' ) );
+		$comparisonDateTime = new \DateTime();
+		$comparisonDateTime->setTimezone( new \DateTimeZone( '+01:00' ) );
 		$comparisonDateTime->setDate( 2018, 01, 01 );
 		$comparisonDateTime->setTime( 18, 30, 00 );
 
@@ -44,7 +44,7 @@ class ModelCastsTest extends TestCase
 
 	/** @test */
 	public function can_cast_datetime_to_datetime() {
-		$model = \Rackbeat\Models\Model::mock( [ 'created_at' => $dateTime = new DateTime( '2018-01-01T18:30:00+01:00' ) ], [ 'created_at' => 'datetime' ] );
+		$model = \Rackbeat\Models\Model::mock( [ 'created_at' => $dateTime = new \DateTime( '2018-01-01T18:30:00+01:00' ) ], [ 'created_at' => 'datetime' ] );
 
 		$this->assertEquals( $dateTime, $model->created_at );
 	}
@@ -116,11 +116,11 @@ class ModelCastsTest extends TestCase
 
 	/** @test */
 	public function can_cast_datetime_back_to_atom() {
-		$model = \Rackbeat\Models\Model::mock( [ 'created_at' => $date = new DateTime( '2018-01-01T18:30:00+01:00' ) ], [ 'created_at' => 'datetime' ] );
+		$model = \Rackbeat\Models\Model::mock( [ 'created_at' => $date = new \DateTime( '2018-01-01T18:30:00+01:00' ) ], [ 'created_at' => 'datetime' ] );
 
 		$this->assertEquals( $date, $model->created_at );
 
-		$model = \Rackbeat\Models\Model::mock( [ 'created_at' => $newDate = new DateTime( '2019-01-01T18:30:00+01:00' ) ], [ 'created_at' => 'datetime' ] );
+		$model = \Rackbeat\Models\Model::mock( [ 'created_at' => $newDate = new \DateTime( '2019-01-01T18:30:00+01:00' ) ], [ 'created_at' => 'datetime' ] );
 
 		$dateString = $newDate->format( 'Y-m-d\TH:i:sP' );
 
@@ -134,11 +134,11 @@ class ModelCastsTest extends TestCase
 
 	/** @test */
 	public function can_cast_to_and_from_date() {
-		$model = \Rackbeat\Models\Model::mock( [ 'shipped_at' => $dateTime = new DateTime( '2018-01-01T18:30:00+01:00' ) ], [ 'shipped_at' => 'date' ] );
+		$model = \Rackbeat\Models\Model::mock( [ 'shipped_at' => $dateTime = new \DateTime( '2018-01-01T18:30:00+01:00' ) ], [ 'shipped_at' => 'date' ] );
 
-		$this->assertEquals( $dateTime->setTimezone( new DateTimeZone( '+00:00' ) )->setTime( 0, 0, 0 ), $model->shipped_at );
+		$this->assertEquals( $dateTime->setTimezone( new \DateTimeZone( '+00:00' ) )->setTime( 0, 0, 0 ), $model->shipped_at );
 
-		$model->shipped_at = ( $newDate = new DateTime( '2019-01-01T18:30:00+01:00' ) );
+		$model->shipped_at = ( $newDate = new \DateTime( '2019-01-01T18:30:00+01:00' ) );
 
 		$dateString = $newDate->format( 'Y-m-d' );
 

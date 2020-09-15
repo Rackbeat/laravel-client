@@ -1,8 +1,6 @@
 - [ ] Implement Laravel helpers and facades
 - [ ] Implement Laravel config
 - [ ] Optimize mocking
-- [ ] Move ApiClient to API
-- [ ] Remove any "HTTP CLIENT" agnostic features (will depend on Guzzle!)
 - [ ] Make mocking and testing easier with endpoint and method helpers 
     - Like a way to mock the response from lots index
         - `API::mockResponse(LotsIndex, $response)` or something

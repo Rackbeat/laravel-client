@@ -18,7 +18,7 @@
 		"php": "^7.4",
 		"ext-json": "*",
 		"guzzlehttp/guzzle": "^6.0",
-		"laravel/laravel": "^6.0",
+		"laravel/laravel": "^6.0|^7.0|^8.0",
 		"nesbot/carbon": "^1.26.3 || ^2.0"
 	},
 	"require-dev": {
@@ -27,7 +27,7 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"Rackbeat\\": "src/"
+			"Rackbeat\\RackbeatSDK\\": "src/"
 		}
 	},
 	"autoload-dev": {

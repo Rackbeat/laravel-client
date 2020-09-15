@@ -5,6 +5,7 @@ namespace Rackbeat;
 use Rackbeat\Concerns\Mocking;
 use Rackbeat\Http\HttpEngine;
 use Rackbeat\Http\MockHttpEngine;
+use Rackbeat\Resources\LotResource;
 
 class API
 {
@@ -13,11 +14,30 @@ class API
 	/** @var HttpEngine|MockHttpEngine */
 	protected static $httpEngine;
 
-	public static function make(): API
+	public static function make( $apiToken = null ): API
 	{
+		if ( empty( config( 'rackbeat.consumer.name' ) ) || empty( config( 'rackbeat.consumer.email' ) ) ) {
+			throw new \UserAgentRequiredException( 'You must specify an consumer name and contact for validation.' );
+		}
+
+		$headers = [
+			'User-Agent'         => config( 'rackbeat.consumer.name' ) . '(' . config( 'rackbeat.consumer.email' ) . ')',
+			'Content-Type'       => 'application/json; charset=utf8',
+			'Accept'             => 'application/json; charset=utf8',
+			'API-Version'        => config( 'rackbeat.version' ),
+			'X-Consumer-Name'    => config( 'rackbeat.consumer.name' ),
+			'X-Consumer-Contact' => config( 'rackbeat.consumer.email' ),
+		];
+
+		if ( ! empty( $apiToken ) ) {
+			$headers['Authorization'] = 'Bearer ' . $apiToken;
+		} elseif ( ! empty( config( 'rackbeat.api_token' ) ) ) {
+			$headers['Authorization'] = 'Bearer ' . config( 'rackbeat.api_token' );
+		}
+
 		self::$httpEngine = new HttpEngine( [
-			'base_uri' => '',
-			'headers'  => []
+			'base_uri' => config( 'rackbeat.base_uri' ),
+			'headers'  => $headers
 		] );
 
 		return new self;
@@ -40,16 +60,6 @@ class API
 		return self::$httpEngine;
 	}
 
-	public function setConsumer( $name, $contact )
-	{
-		$this->httpEngine->mergeConfig( [
-			'headers' => [
-				'X-Consumer-Name'    => $name,
-				'X-Consumer-Contact' => $contact,
-			]
-		] );
-	}
-
 	public function setApiToken( $apiToken = null )
 	{
 		$this->httpEngine->mergeConfig( [
@@ -57,5 +67,10 @@ class API
 				'Authorization' => 'Bearer ' . $apiToken
 			]
 		] );
+	}
+
+	public function lots()
+	{
+		return new LotResource( $this->httpEngine );
 	}
 }
