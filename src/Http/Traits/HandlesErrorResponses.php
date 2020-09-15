@@ -2,6 +2,7 @@
 
 namespace RackbeatSDK\Http\Traits;
 
+use RackbeatSDK\Exceptions\Responses\NotFoundException;
 use RackbeatSDK\Exceptions\Responses\ServerException;
 use RackbeatSDK\Exceptions\Responses\ThrottledException;
 use RackbeatSDK\Exceptions\Responses\UnauthorizedException;
@@ -9,8 +10,6 @@ use RackbeatSDK\Exceptions\Responses\ValidationErrorException;
 
 trait HandlesErrorResponses
 {
-	protected function handleResponse() { }
-
 	protected function throwException( \GuzzleHttp\Exception\BadResponseException $exception )
 	{
 		// 5XX codes
@@ -22,6 +21,8 @@ trait HandlesErrorResponses
 		switch ( $exception->getResponse()->getStatusCode() ) {
 			case 401:
 				throw new UnauthorizedException( $exception->getResponse()->getBody()->getContents(), 401, $exception );
+			case 404:
+				throw new NotFoundException( $exception->getResponse()->getBody()->getContents(), 404, $exception );
 			case 422:
 				throw new ValidationErrorException( $exception->getResponse()->getBody()->getContents(), 422, $exception );
 			case 429:
