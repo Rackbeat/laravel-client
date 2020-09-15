@@ -2,10 +2,10 @@
 
 namespace RackbeatSDK;
 
-use Rackbeat\Concerns\Mocking;
-use Rackbeat\Http\HttpEngine;
-use Rackbeat\Http\MockHttpEngine;
-use Rackbeat\Resources\LotResource;
+use RackbeatSDK\Concerns\Mocking;
+use RackbeatSDK\Http\HttpEngine;
+use RackbeatSDK\Http\MockHttpEngine;
+use RackbeatSDK\Resources\LotResource;
 
 class API
 {

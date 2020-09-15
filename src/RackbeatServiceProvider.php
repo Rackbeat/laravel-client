@@ -3,7 +3,7 @@
 namespace RackbeatSDK;
 
 use Illuminate\Support\ServiceProvider;
-use Rackbeat\API;
+use RackbeatSDK\API;
 
 class RackbeatServiceProvider extends ServiceProvider
 {

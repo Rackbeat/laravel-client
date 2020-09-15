@@ -2,7 +2,7 @@
 
 namespace RackbeatSDK\Resources\Traits;
 
-use Rackbeat\Models\Model;
+use RackbeatSDK\Models\Model;
 
 trait CanCreate
 {

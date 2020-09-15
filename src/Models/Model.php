@@ -2,9 +2,9 @@
 
 namespace RackbeatSDK\Models;
 
-use Rackbeat\Exceptions\Models\DataFormatInvalidException;
-use Rackbeat\Exceptions\Models\ImmutableOriginalDataException;
-use Rackbeat\Models\Concerns\CastsAttributes;
+use RackbeatSDK\Exceptions\Models\DataFormatInvalidException;
+use RackbeatSDK\Exceptions\Models\ImmutableOriginalDataException;
+use RackbeatSDK\Models\Concerns\CastsAttributes;
 
 class Model
 {

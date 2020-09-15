@@ -2,7 +2,7 @@
 
 namespace RackbeatSDK\Resources;
 
-use Rackbeat\Http\HttpEngine;
+use RackbeatSDK\Http\HttpEngine;
 
 class BaseResource
 {

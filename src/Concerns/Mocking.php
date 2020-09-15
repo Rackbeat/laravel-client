@@ -3,7 +3,7 @@
 namespace RackbeatSDK\Concerns;
 
 use PHPUnit\Framework\Assert as PHPUnit;
-use Rackbeat\Http\MockHttpEngine;
+use RackbeatSDK\Http\MockHttpEngine;
 
 trait Mocking
 {

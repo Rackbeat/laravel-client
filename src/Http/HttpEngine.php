@@ -3,7 +3,7 @@
 namespace RackbeatSDK\Http;
 
 use GuzzleHttp\Client as GuzzleHttp;
-use Rackbeat\Http\Traits\HandlesJson;
+use RackbeatSDK\Http\Traits\HandlesJson;
 
 class HttpEngine
 {
