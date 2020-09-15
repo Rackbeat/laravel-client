@@ -22,9 +22,11 @@ class HttpEngine
 	{
 		$this->client = new GuzzleHttp( array_merge( [
 			'headers' => [
-				'Content-Type' => 'application/json',
-				'Accept'       => 'application/json',
-				'User-Agent'   => 'rackbeat-php',
+				'Content-Type'    => 'application/json; charset=utf8',
+				'Accept'          => 'application/json; charset=utf8',
+				'User-Agent'      => 'rackbeat-php',
+				'connect_timeout' => 5,
+				'timeout'         => 90
 			]
 		], $config ) );
 	}
