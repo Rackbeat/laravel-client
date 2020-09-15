@@ -1,5 +1,5 @@
 {
-	"name": "rackbeat/laravel-sdk",
+	"name": "rackbeat/laravel-client",
 	"description": "PHP Client Library for our API",
 	"keywords": [
 		"rackbeat",
@@ -35,7 +35,7 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"Rackbeat\\SDK\\": "src/"
+			"Rackbeat\\LaravelClient\\": "src/"
 		}
 	},
 	"autoload-dev": {
@@ -46,7 +46,7 @@
 	"extra": {
 		"laravel": {
 			"providers": [
-				"Rackbeat\\SDK\\Laravel\\RackbeatServiceProvider"
+				"Rackbeat\\LaravelClient\\Laravel\\RackbeatServiceProvider"
 			]
 		}
 	},
