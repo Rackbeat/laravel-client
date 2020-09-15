@@ -4,10 +4,9 @@ namespace RackbeatSDK\Resources\Traits;
 
 use RackbeatSDK\Models\Model;
 
+/**
+ * @method update( Model $model )
+ */
 trait CanUpdate
 {
-	/**
-	 * @param Model|array $data
-	 */
-	public function update( $data = [] ) { }
 }

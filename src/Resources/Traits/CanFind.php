@@ -2,10 +2,9 @@
 
 namespace RackbeatSDK\Resources\Traits;
 
+/**
+ * @method find( integer|string $key )
+ */
 trait CanFind
 {
-	/**
-	 * @param integer|string $id
-	 */
-	public function find($id) {}
 }

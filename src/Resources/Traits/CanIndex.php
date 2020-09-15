@@ -2,7 +2,9 @@
 
 namespace RackbeatSDK\Resources\Traits;
 
+/**
+ * @method index()
+ */
 trait CanIndex
 {
-	public function index() { }
 }
