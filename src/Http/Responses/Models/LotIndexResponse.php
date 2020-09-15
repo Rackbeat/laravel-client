@@ -1,7 +1,7 @@
 <?php
 
 namespace RackbeatSDK\Http\Responses\Models;
-
+// todo use this
 use RackbeatSDK\Http\Responses\PaginatedIndexResponse;
 use RackbeatSDK\Models\Lot;
 
