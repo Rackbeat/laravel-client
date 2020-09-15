@@ -2,7 +2,7 @@
 
 namespace RackbeatSDK\Exceptions\Responses;
 
-class RackbeatResponseException extends \Exception
+class ResponseException extends \Exception
 {
 	public function getHttpCode(): int
 	{
