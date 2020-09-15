@@ -6,10 +6,11 @@ use GuzzleHttp\Client as GuzzleHttp;
 use GuzzleHttp\Exception\BadResponseException;
 use RackbeatSDK\Http\Traits\HandlesErrorResponses;
 use RackbeatSDK\Http\Traits\HandlesJson;
+use RackbeatSDK\Http\Traits\HandlesResponseData;
 
 class HttpEngine
 {
-	use HandlesJson, HandlesErrorResponses;
+	use HandlesResponseData, HandlesJson, HandlesErrorResponses;
 
 	protected $client;
 
@@ -59,9 +60,7 @@ class HttpEngine
 	public function call( $method, $uri, $options = [] )
 	{
 		try {
-			// todo support non-json responses (PDF?)
-
-			return $this->getContentFromJson(
+			return $this->parseResponse(
 				$this->client->request( $method, $uri, $options )
 			);
 		} catch ( BadResponseException $exception ) {

@@ -29,8 +29,4 @@ trait HandlesJson
 	protected function callWithJsonBody( $method, $uri, $json = [], $data = [] ) {
 		return $this->call( $method, $uri, array_merge( [ 'json' => $json ], $data ) );
 	}
-
-	public function getContentFromJson( Response $response ) {
-		return json_decode( $response->getBody()->getContents() );
-	}
 }
