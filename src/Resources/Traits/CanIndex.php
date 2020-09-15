@@ -3,7 +3,7 @@
 namespace RackbeatSDK\Resources\Traits;
 
 /**
- * @method index()
+ * @method index(array $query = [])
  */
 trait CanIndex
 {
