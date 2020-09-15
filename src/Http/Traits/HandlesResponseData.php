@@ -6,9 +6,9 @@ use GuzzleHttp\Psr7\Response;
 
 trait HandlesResponseData
 {
-	protected function parseResponse( Response $response )
+	protected function parseResponse( Response $response, $overrideContent = null )
 	{
-		if ( empty( $content = $response->getBody()->getContents() ) ) {
+		if ( empty( $content = $overrideContent ?? $response->getBody()->getContents() ) ) {
 			return $content;
 		}
 

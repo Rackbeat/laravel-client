@@ -14,9 +14,9 @@ class BadResponseException extends \Exception
 
 	public function __construct( Response $response, $code = 0, Throwable $previous = null )
 	{
-		parent::__construct( $response->getBody()->getContents(), $code, $previous );
+		parent::__construct( $content = $response->getBody()->getContents(), $code, $previous );
 
-		$this->body = $this->parseResponse( $response );
+		$this->body = $this->parseResponse( $response, $content );
 	}
 
 	public function getHttpCode(): int
