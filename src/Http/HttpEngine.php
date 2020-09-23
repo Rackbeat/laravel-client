@@ -23,15 +23,7 @@ class HttpEngine
 
 	protected function setupClient( $config = [] )
 	{
-		$this->config = array_merge( [
-			'headers' => [
-				'Content-Type'    => 'application/json; charset=utf8',
-				'Accept'          => 'application/json; charset=utf8',
-				'User-Agent'      => 'rackbeat-php',
-				'connect_timeout' => 5,
-				'timeout'         => 90
-			]
-		], $config );
+		$this->config = $config;
 
 		$this->client = new GuzzleHttp( $this->config );
 	}
