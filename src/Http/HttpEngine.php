@@ -12,7 +12,9 @@ class HttpEngine
 {
 	use HandlesResponseData, HandlesJson, HandlesErrorResponses;
 
-	protected $client;
+	protected GuzzleHttp $client;
+
+	protected array $config;
 
 	public function __construct( $config = [] )
 	{
@@ -21,7 +23,7 @@ class HttpEngine
 
 	protected function setupClient( $config = [] )
 	{
-		$this->client = new GuzzleHttp( array_merge( [
+		$this->config = array_merge( [
 			'headers' => [
 				'Content-Type'    => 'application/json; charset=utf8',
 				'Accept'          => 'application/json; charset=utf8',
@@ -29,7 +31,9 @@ class HttpEngine
 				'connect_timeout' => 5,
 				'timeout'         => 90
 			]
-		], $config ) );
+		], $config );
+
+		$this->client = new GuzzleHttp( $this->config );
 	}
 
 	public function post( $uri, $data )
