@@ -30,6 +30,7 @@ class HttpEngine
 
 	public function post( $uri, $data )
 	{
+		// todo allow post non-json
 		return $this->call( Method::POST, $uri, [ 'json' => $data ] );
 	}
 
