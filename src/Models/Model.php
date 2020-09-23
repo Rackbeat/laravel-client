@@ -58,12 +58,7 @@ class Model
 
 	public function __toString(): string
 	{
-		return $this->toJSON();
-	}
-
-	public function toJSON(): string
-	{
-		return json_encode( $this->data, JSON_THROW_ON_ERROR );
+		return $this->toJson();
 	}
 
 	public function __get( $name )
