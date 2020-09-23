@@ -15,7 +15,7 @@ class PaginatedIndexResponse extends IndexResponse implements \ArrayAccess, \Ite
 
 	public int $perPage;
 
-	private $position = 0;
+	private int $position = 0;
 
 	public function __construct( array $items, int $pages, int $currentPage, int $perPage, int $total )
 	{
@@ -78,7 +78,6 @@ class PaginatedIndexResponse extends IndexResponse implements \ArrayAccess, \Ite
 		if ( $this->position < \count( $this->items ) - 1 ) {
 			$this->position++;
 		}
-		// TODO: Implement next() method.
 	}
 
 	/**
@@ -102,8 +101,6 @@ class PaginatedIndexResponse extends IndexResponse implements \ArrayAccess, \Ite
 	 */
 	public function rewind()
 	{
-		if ( $this->position > 0 ) {
-			$this->position--;
-		}
+		$this->position = 0;
 	}
 }
