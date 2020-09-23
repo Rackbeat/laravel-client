@@ -75,9 +75,7 @@ class PaginatedIndexResponse extends IndexResponse implements \ArrayAccess, \Ite
 	 */
 	public function next()
 	{
-		if ( $this->position < \count( $this->items ) - 1 ) {
-			$this->position++;
-		}
+		$this->position++;
 	}
 
 	/**
