@@ -97,7 +97,7 @@ class BaseResource
 	 *
 	 * @return string
 	 */
-	protected function getPluralisedKey(): string
+	protected static function getPluralisedKey(): string
 	{
 		return static::RESOURCE_KEY_PLURAL ?? Str::plural( static::RESOURCE_KEY );
 	}
