@@ -28,28 +28,28 @@ class BaseResource
 	public function __call( $name, $arguments )
 	{
 		if ( method_exists( $this, $name ) ) {
-			return self::$name( $arguments );
+			return static::$name( $arguments );
 		}
 
-		throw new \BadMethodCallException( sprintf( 'Method "%s" does not exist in class %s', $name, self::class ) );
+		throw new \BadMethodCallException( sprintf( 'Method "%s" does not exist in class %s', $name, static::class ) );
 	}
 
 	public static function getIndexUrl(): string
 	{
-		return self::ENDPOINT_BASE;
+		return static::ENDPOINT_BASE;
 	}
 
 	protected static function index( $query = [] )
 	{
 		$responseData = API::http()->get( static::getIndexUrl(), $query );
 
-		if ( method_exists( self::class, 'formatIndexResponse' ) ) {
-			return self::formatIndexResponse( $responseData );
+		if ( method_exists( static::class, 'formatIndexResponse' ) ) {
+			return static::formatIndexResponse( $responseData );
 		}
 
 		$items = $responseData[ static::getPluralisedKey() ];
 
-		if ( $model = self::MODEL ) {
+		if ( $model = static::MODEL ) {
 			$items = array_map( function ( $item ) use ( $model ) { return new $model( $item ); }, $items );
 		}
 
