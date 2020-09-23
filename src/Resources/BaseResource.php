@@ -43,7 +43,7 @@ class BaseResource
 	{
 		$responseData = API::http()->get( static::getIndexUrl(), $query );
 
-		if ( method_exists( self, 'formatIndexResponse' ) ) {
+		if ( method_exists( self::class, 'formatIndexResponse' ) ) {
 			return self::formatIndexResponse( $responseData );
 		}
 
