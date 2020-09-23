@@ -106,12 +106,12 @@ class Model
 
 	public function toJson(): string
 	{
-		return json_encode( $this->castBackArrayOfAttributes( $this->data ) );
+		return json_encode( $this->castBackArrayOfAttributes( $this->data ), JSON_THROW_ON_ERROR );
 	}
 
 	public function toObject(): \stdClass
 	{
-		return json_decode( $this->toJson() );
+		return json_decode( $this->toJson(), false, 512, JSON_THROW_ON_ERROR );
 	}
 
 	public function getData(): array
@@ -126,7 +126,7 @@ class Model
 	 */
 	protected function setData( $data = [] ): void
 	{
-		if ( ! \is_object( $data ) && ! \is_array( $data ) && ! $data = json_decode( $data ) ) {
+		if ( ! \is_object( $data ) && ! \is_array( $data ) && ! $data = json_decode( $data, true, 512, JSON_THROW_ON_ERROR ) ) {
 			throw new DataFormatInvalidException( 'Data must be either a object, array or a JSON-formatted string.' );
 		}
 
