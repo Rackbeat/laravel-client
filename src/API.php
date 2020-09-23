@@ -41,9 +41,7 @@ class API
 
 		self::$httpEngine = new HttpEngine( [
 			'base_uri' => config( 'rackbeat.base_uri' ),
-			'default'  => [
-				'headers' => $headers
-			]
+			'headers'  => $headers
 		] );
 
 		return new self;
@@ -69,10 +67,8 @@ class API
 	public function setApiToken( $apiToken = null )
 	{
 		$this->httpEngine->mergeConfig( [
-			'default' => [
-				'headers' => [
-					'Authorization' => 'Bearer ' . $apiToken
-				]
+			'headers' => [
+				'Authorization' => 'Bearer ' . $apiToken
 			]
 		] );
 	}
