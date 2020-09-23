@@ -36,11 +36,13 @@ class Model
 	 *
 	 * @throws DataFormatInvalidException
 	 */
-	public function __construct( $data = [] ) {
+	public function __construct( $data = [] )
+	{
 		$this->setData( $data );
 	}
 
-	public static function mock( $data = [], $casts = [] ) {
+	public static function mock( $data = [], $casts = [] )
+	{
 		$model = new static( [] );
 
 		$model->setCasts( $casts );
@@ -49,15 +51,28 @@ class Model
 		return $model;
 	}
 
-	protected function setCasts( $casts = [] ) {
+	protected function setCasts( $casts = [] )
+	{
 		$this->casts = $casts;
 	}
 
-	public function __get( $name ) {
+	public function __toString(): string
+	{
+		return $this->toJSON();
+	}
+
+	public function toJSON(): string
+	{
+		return json_encode( $this->data, JSON_THROW_ON_ERROR );
+	}
+
+	public function __get( $name )
+	{
 		return $this->castToValue( $name, $this->data[ $name ] ?? null );
 	}
 
-	public function __set( $name, $value ) {
+	public function __set( $name, $value )
+	{
 		if ( \in_array( $name, [ 'data' ] ) ) {
 			$this->setData( $value );
 
@@ -71,7 +86,8 @@ class Model
 		$this->setAttribute( $name, $value );
 	}
 
-	protected function setAttribute( $key, $value, $overrideOriginal = false ): void {
+	protected function setAttribute( $key, $value, $overrideOriginal = false ): void
+	{
 		// todo allow override like Laravel! (setXXAttribute)
 
 		$value = $this->castFromValue( $key, $value );
@@ -83,23 +99,28 @@ class Model
 		}
 	}
 
-	public function __isset( $name ) {
+	public function __isset( $name )
+	{
 		return isset( $this->data[ $name ] );
 	}
 
-	public function toArray(): array {
+	public function toArray(): array
+	{
 		return $this->castArrayOfAttributes( $this->data );
 	}
 
-	public function toJson(): string {
+	public function toJson(): string
+	{
 		return json_encode( $this->castBackArrayOfAttributes( $this->data ) );
 	}
 
-	public function toObject(): \stdClass {
+	public function toObject(): \stdClass
+	{
 		return json_decode( $this->toJson() );
 	}
 
-	public function getData(): array {
+	public function getData(): array
+	{
 		return $this->data;
 	}
 
@@ -108,7 +129,8 @@ class Model
 	 *
 	 * @throws DataFormatInvalidException
 	 */
-	protected function setData( $data = [] ): void {
+	protected function setData( $data = [] ): void
+	{
 		if ( ! \is_object( $data ) && ! \is_array( $data ) && ! $data = json_decode( $data ) ) {
 			throw new DataFormatInvalidException( 'Data must be either a object, array or a JSON-formatted string.' );
 		}
@@ -118,12 +140,14 @@ class Model
 		}
 	}
 
-	public function getOriginal(): array {
+	public function getOriginal(): array
+	{
 		// consider casting?
 		return $this->original;
 	}
 
-	public function getDirty(): array {
+	public function getDirty(): array
+	{
 		// consider casting?
 		return array_filter( $this->data, function ( $value, $key ) {
 			return $this->original[ $key ] !== $value;
@@ -133,7 +157,8 @@ class Model
 	/**
 	 * Undo dirty changes and revert to original values.
 	 */
-	public function cleanup(): void {
+	public function cleanup(): void
+	{
 		$this->data = $this->original;
 	}
 }
