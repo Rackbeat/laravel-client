@@ -2,7 +2,8 @@
 
 namespace RackbeatSDK\Http\Responses;
 
-use Illuminate\Pagination\Paginator;
+use Illuminate\Container\Container;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class PaginatedIndexResponse extends IndexResponse implements \ArrayAccess
 {
@@ -24,9 +25,15 @@ class PaginatedIndexResponse extends IndexResponse implements \ArrayAccess
 		$this->total       = $total;
 	}
 
-	public function getPaginator( $options = [] ): Paginator
+	public function getPaginator( $options = [] ): LengthAwarePaginator
 	{
-		return new Paginator( $this->total, $this->perPage, $this->currentPage, $options );
+		return Container::getInstance()->makeWith( LengthAwarePaginator::class, [
+			'items'       => $this->items,
+			'total'       => $this->total,
+			'perPage'     => $this->perPage,
+			'currentPage' => $this->currentPage,
+			'options'     => $options
+		] );
 	}
 
 	public function offsetSet( $offset, $value ): void
