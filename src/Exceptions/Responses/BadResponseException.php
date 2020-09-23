@@ -2,6 +2,7 @@
 
 namespace RackbeatSDK\Exceptions\Responses;
 
+use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Psr7\Response;
 use RackbeatSDK\Http\Traits\HandlesResponseData;
 use Throwable;
@@ -12,11 +13,13 @@ class BadResponseException extends \Exception
 
 	public $body;
 
-	public function __construct( Response $response, $code = 0, Throwable $previous = null )
+	public function __construct( \GuzzleHttp\Exception\BadResponseException $guzzleException, $code = 0, Throwable $previous = null )
 	{
-		parent::__construct( $content = $response->getBody()->getContents(), $code, $previous );
+		$content = $guzzleException->getResponse()->getBody()->getContents();
 
-		$this->body = $this->parseResponse( $response, $content );
+		parent::__construct( $guzzleException->getRequest()->getMethod() . ' ' . $guzzleException->getRequest()->getUri() . ' resulted in ' . $guzzleException->getResponse()->getStatusCode() . ' ' . $content , $code, $previous );
+
+		$this->body = $this->parseResponse( $guzzleException->getResponse(), $content );
 	}
 
 	public function getHttpCode(): int

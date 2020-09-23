@@ -20,13 +20,13 @@ trait HandlesErrorResponses
 		// 4XX codes
 		switch ( $exception->getResponse()->getStatusCode() ) {
 			case 401:
-				throw new UnauthorizedException( $exception->getResponse(), 401, $exception );
+				throw new UnauthorizedException( $exception, 401, $exception );
 			case 404:
-				throw new NotFoundException( $exception->getResponse(), 404, $exception );
+				throw new NotFoundException( $exception, 404, $exception );
 			case 422:
-				throw new ValidationErrorException( $exception->getResponse(), 422, $exception );
+				throw new ValidationErrorException( $exception, 422, $exception );
 			case 429:
-				throw new ThrottledException( $exception->getResponse(), 429, $exception );
+				throw new ThrottledException( $exception, 429, $exception );
 			default:
 				throw $exception;
 		}
