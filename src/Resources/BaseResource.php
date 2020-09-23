@@ -36,7 +36,7 @@ class BaseResource
 
 	public static function getIndexUrl(): string
 	{
-		return trim(static::ENDPOINT_BASE, '/');
+		return trim( static::ENDPOINT_BASE, '/' );
 	}
 
 	protected static function index( $query = [] )
