@@ -58,6 +58,7 @@ class BaseResource
 				$items,
 				$responseData['pages'],
 				$responseData['page'],
+				$responseData['limit'],
 				$responseData['total'],
 			);
 		}

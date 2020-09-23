@@ -2,6 +2,8 @@
 
 namespace RackbeatSDK\Http\Responses;
 
+use Illuminate\Pagination\Paginator;
+
 class PaginatedIndexResponse extends IndexResponse implements \ArrayAccess
 {
 	public int $pages;
@@ -10,13 +12,21 @@ class PaginatedIndexResponse extends IndexResponse implements \ArrayAccess
 
 	public int $currentPage;
 
-	public function __construct( array $items, int $pages, int $currentPage, int $total )
+	public int $perPage;
+
+	public function __construct( array $items, int $pages, int $currentPage, int $perPage, int $total )
 	{
-		parent::__construct($items);
+		parent::__construct( $items );
 
 		$this->pages       = $pages;
 		$this->currentPage = $currentPage;
+		$this->perPage     = $perPage;
 		$this->total       = $total;
+	}
+
+	public function getPaginator( $options = [] ): Paginator
+	{
+		return new Paginator( $this->total, $this->perPage, $this->currentPage, $options );
 	}
 
 	public function offsetSet( $offset, $value ): void
