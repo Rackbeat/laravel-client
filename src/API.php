@@ -2,6 +2,7 @@
 
 namespace RackbeatSDK;
 
+use Illuminate\Support\Str;
 use RackbeatSDK\Concerns\Mocking;
 use RackbeatSDK\Exceptions\Client\UserAgentRequiredException;
 use RackbeatSDK\Http\HttpEngine;
@@ -40,7 +41,7 @@ class API
 		}
 
 		self::$httpEngine = new HttpEngine( [
-			'base_uri' => config( 'rackbeat.base_uri' ),
+			'base_uri' => Str::finish(config( 'rackbeat.base_uri' ), '/'),
 			'headers'  => $headers
 		] );
 

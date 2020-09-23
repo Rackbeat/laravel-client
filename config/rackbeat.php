@@ -7,7 +7,7 @@ return [
 	|
 	| Useful for switching out the base in case you use a mock server or similar.
 	*/
-	'base_uri' => 'https://app.rackbeat.com/api',
+	'base_uri' => 'https://app.rackbeat.com/api/',
 
 	/*
 	|--------------------------------------------------------------------------
