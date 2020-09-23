@@ -28,7 +28,7 @@ class BaseResource
 	public function __call( $name, $arguments )
 	{
 		if ( method_exists( $this, $name ) ) {
-			return static::$name( $arguments );
+			return static::$name( ...$arguments );
 		}
 
 		throw new \BadMethodCallException( sprintf( 'Method "%s" does not exist in class %s', $name, static::class ) );
@@ -39,7 +39,7 @@ class BaseResource
 		return trim( static::ENDPOINT_BASE, '/' );
 	}
 
-	protected static function index( $perPage = 20, $page = 1, $query = [] )
+	protected static function index( $page = 1, $perPage = 20, $query = [] )
 	{
 		$responseData = API::http()->get( static::getIndexUrl(), array_merge( [ 'page' => $page, 'limit' => $perPage ], $query ) );
 

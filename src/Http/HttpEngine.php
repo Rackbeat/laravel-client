@@ -30,27 +30,27 @@ class HttpEngine
 
 	public function post( $uri, $data )
 	{
-		return $this->call( Method::POST, $uri, $data );
+		return $this->call( Method::POST, $uri, [ 'json' => $data ] );
 	}
 
-	public function get( $uri, $data )
+	public function get( $uri, $query )
 	{
-		return $this->call( Method::GET, $uri, $data );
+		return $this->call( Method::GET, $uri, [ 'query' => $query ] );
 	}
 
 	public function put( $uri, $data )
 	{
-		return $this->call( Method::PUT, $uri, $data );
+		return $this->call( Method::PUT, $uri, [ 'json' => $data ] );
 	}
 
-	public function delete( $uri, $data )
+	public function delete( $uri, $options )
 	{
-		return $this->call( Method::DELETE, $uri, $data );
+		return $this->call( Method::DELETE, $uri, $options );
 	}
 
-	public function head( $uri, $data )
+	public function head( $uri, $options )
 	{
-		return $this->call( Method::HEAD, $uri, $data );
+		return $this->call( Method::HEAD, $uri, $options );
 	}
 
 	public function call( $method, $uri, $options = [] )
