@@ -7,6 +7,7 @@ use RackbeatSDK\Exceptions\Client\UserAgentRequiredException;
 use RackbeatSDK\Http\HttpEngine;
 use RackbeatSDK\Http\MockHttpEngine;
 use RackbeatSDK\Resources\LotResource;
+use RackbeatSDK\Resources\ProductResource;
 
 class API
 {
@@ -74,6 +75,11 @@ class API
 
 	public function lots()
 	{
-		return new LotResource( static::$httpEngine );
+		return new LotResource();
+	}
+
+	public function products()
+	{
+		return new ProductResource();
 	}
 }

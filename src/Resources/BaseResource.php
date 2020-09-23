@@ -4,7 +4,6 @@ namespace RackbeatSDK\Resources;
 
 use Illuminate\Support\Str;
 use RackbeatSDK\API;
-use RackbeatSDK\Http\HttpEngine;
 use RackbeatSDK\Http\Responses\IndexResponse;
 use RackbeatSDK\Http\Responses\PaginatedIndexResponse;
 
@@ -22,12 +21,8 @@ class BaseResource
 	/** @var null|string */
 	protected const RESOURCE_KEY_PLURAL = null;
 
-	/** @var HttpEngine */
-	protected HttpEngine $engine;
-
-	public function __construct( HttpEngine $engine )
+	public function __construct()
 	{
-		$this->engine = $engine;
 	}
 
 	public function __call( $name, $arguments )
