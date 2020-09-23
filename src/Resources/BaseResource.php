@@ -30,6 +30,8 @@ class BaseResource
 		if ( method_exists( $this, $name ) ) {
 			return self::$name( $arguments );
 		}
+
+		throw new \BadMethodCallException( sprintf( 'Method "%s" does not exist in class %s', $name, self::class ) );
 	}
 
 	public static function getIndexUrl(): string
