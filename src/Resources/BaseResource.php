@@ -39,9 +39,9 @@ class BaseResource
 		return trim( static::ENDPOINT_BASE, '/' );
 	}
 
-	protected static function index( $query = [] )
+	protected static function index( $perPage = 20, $page = 1, $query = [] )
 	{
-		$responseData = API::http()->get( static::getIndexUrl(), $query );
+		$responseData = API::http()->get( static::getIndexUrl(), array_merge( [ 'page' => $page, 'limit' => $perPage ], $query ) );
 
 		if ( method_exists( static::class, 'formatIndexResponse' ) ) {
 			return static::formatIndexResponse( $responseData );
