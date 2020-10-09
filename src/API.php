@@ -7,6 +7,7 @@ use RackbeatSDK\Concerns\Mocking;
 use RackbeatSDK\Exceptions\Client\UserAgentRequiredException;
 use RackbeatSDK\Http\HttpEngine;
 use RackbeatSDK\Http\MockHttpEngine;
+use RackbeatSDK\Resources\ItemResource;
 use RackbeatSDK\Resources\LotResource;
 use RackbeatSDK\Resources\ProductResource;
 
@@ -72,6 +73,16 @@ class API
 				'Authorization' => 'Bearer ' . $apiToken
 			]
 		] );
+	}
+
+	public function users()
+	{
+		return new ItemResource();
+	}
+
+	public function items()
+	{
+		return new ItemResource();
 	}
 
 	public function lots()
