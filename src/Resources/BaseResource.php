@@ -73,6 +73,24 @@ class BaseResource
 		return new IndexResponse( $items );
 	}
 
+	protected function all( $query = [] ): IndexResponse
+	{
+		$response = $this->get( 1, 200, $query );
+
+		if ( $response instanceof PaginatedIndexResponse ) {
+			$items = [ $response->items ];
+
+			while ( $response->pages > $response->currentPage ) {
+				$response = $this->get( $response->currentPage + 1, 200, $query );
+				$items[]  = $response->items;
+			}
+
+			return new IndexResponse( array_merge( [], ...$items ) );
+		}
+
+		return $response;
+	}
+
 	protected static function delete( $key ) { }
 
 	protected static function find( $key ) { }

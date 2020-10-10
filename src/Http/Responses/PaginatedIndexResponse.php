@@ -5,7 +5,7 @@ namespace RackbeatSDK\Http\Responses;
 use Illuminate\Container\Container;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class PaginatedIndexResponse extends IndexResponse implements \ArrayAccess, \Iterator
+class PaginatedIndexResponse extends IndexResponse
 {
 	public int $pages;
 
@@ -14,8 +14,6 @@ class PaginatedIndexResponse extends IndexResponse implements \ArrayAccess, \Ite
 	public int $currentPage;
 
 	public int $perPage;
-
-	private int $position = 0;
 
 	public function __construct( array $items, int $pages, int $currentPage, int $perPage, int $total )
 	{
@@ -36,69 +34,5 @@ class PaginatedIndexResponse extends IndexResponse implements \ArrayAccess, \Ite
 			'currentPage' => $this->currentPage,
 			'options'     => $options
 		] );
-	}
-
-	public function offsetSet( $offset, $value ): void
-	{
-		if ( $offset === null ) {
-			$this->items[] = $value;
-		} else {
-			$this->items[ $offset ] = $value;
-		}
-	}
-
-	public function offsetExists( $offset ): bool
-	{
-		return isset( $this->items[ $offset ] );
-	}
-
-	public function offsetUnset( $offset ): void
-	{
-		unset( $this->items[ $offset ] );
-	}
-
-	public function offsetGet( $offset )
-	{
-		return $this->items[ $offset ] ?? null;
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public function current()
-	{
-		return $this->items[ $this->position ];
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public function next()
-	{
-		$this->position++;
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public function key()
-	{
-		return $this->position;
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public function valid()
-	{
-		return isset( $this->items[ $this->position ] );
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public function rewind()
-	{
-		$this->position = 0;
 	}
 }
