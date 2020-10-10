@@ -90,7 +90,7 @@ class BaseResource
 
 	public function when( $booleanCondition, callable $callback )
 	{
-		if ( $booleanCondition ) {
+		if ( ! empty( $booleanCondition ) ) {
 			$callback( $this );
 		}
 
