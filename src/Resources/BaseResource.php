@@ -9,6 +9,13 @@ use RackbeatSDK\Http\Responses\PaginatedIndexResponse;
 
 class BaseResource
 {
+	/**
+	 * Array of filters
+	 *
+	 * @var array
+	 */
+	protected array $wheres = [];
+
 	/** @var string */
 	protected const ENDPOINT_BASE = '/';
 
@@ -28,7 +35,7 @@ class BaseResource
 	public function __call( $name, $arguments )
 	{
 		if ( method_exists( $this, $name ) ) {
-			return static::$name( ...$arguments );
+			return $this->$name( ...$arguments );
 		}
 
 		throw new \BadMethodCallException( sprintf( 'Method "%s" does not exist in class %s', $name, static::class ) );
@@ -39,12 +46,12 @@ class BaseResource
 		return trim( static::ENDPOINT_BASE, '/' );
 	}
 
-	protected static function index( $page = 1, $perPage = 20, $query = [] )
+	protected function get( $page = 1, $perPage = 20, $query = [] )
 	{
-		$responseData = API::http()->get( static::getIndexUrl(), array_merge( [ 'page' => $page, 'limit' => $perPage ], $query ) );
+		$responseData = API::http()->get( static::getIndexUrl(), array_merge( [ 'page' => $page, 'limit' => $perPage ], $query, $this->wheres ) );
 
-		if ( method_exists( static::class, 'formatIndexResponse' ) ) {
-			return static::formatIndexResponse( $responseData );
+		if ( method_exists( $this, 'formatIndexResponse' ) ) {
+			return $this->formatIndexResponse( $responseData );
 		}
 
 		$items = $responseData[ static::getPluralisedKey() ];
@@ -73,6 +80,13 @@ class BaseResource
 	protected static function update( $model ) { }
 
 	protected static function create( $data = [] ) { }
+
+	public function where( $key, $value )
+	{
+		$this->wheres[ $key ] = $value;
+
+		return $this;
+	}
 
 	/**
 	 * Get the resource key, singular.

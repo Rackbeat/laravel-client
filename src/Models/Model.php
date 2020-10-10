@@ -126,7 +126,7 @@ class Model
 	 */
 	protected function setData( $data = [] ): void
 	{
-		if ( ! \is_object( $data ) && ! \is_array( $data ) && ! $data = json_decode( $data, true, 512, JSON_THROW_ON_ERROR ) ) {
+		if ( ! \is_object( $data ) && ! \is_array( $data ) && ! $data = json_decode( $data, true, 512 ) ) {
 			throw new DataFormatInvalidException( 'Data must be either a object, array or a JSON-formatted string.' );
 		}
 
