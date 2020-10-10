@@ -106,6 +106,17 @@ class BaseResource
 		return $this;
 	}
 
+	public function whereCustomField( $id, $value )
+	{
+		if ( ! isset( $this->wheres['field_eq'] ) ) {
+			$this->wheres['field_eq'] = [];
+		}
+
+		$this->wheres['field_eq'][ $id ] = $value;
+
+		return $this;
+	}
+
 	public function when( $booleanCondition, callable $callback )
 	{
 		if ( ! empty( $booleanCondition ) ) {
