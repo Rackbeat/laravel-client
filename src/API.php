@@ -94,4 +94,9 @@ class API
 	{
 		return new ProductResource();
 	}
+
+	public function fields()
+	{
+		return new ProductResource();
+	}
 }

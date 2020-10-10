@@ -3,10 +3,10 @@
 namespace RackbeatSDK\Models;
 
 /**
- * @property string         number
- * @property string         name
- * @property-read \DateTime created_at
- * @property-read \DateTime updated_at
+ * @property string         $number
+ * @property string         $name
+ * @property-read \DateTime $created_at
+ * @property-read \DateTime $updated_at
  */
 class Lot extends Model
 {
