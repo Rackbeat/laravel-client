@@ -88,6 +88,15 @@ class BaseResource
 		return $this;
 	}
 
+	public function when( $booleanCondition, callable $callback )
+	{
+		if ( $booleanCondition ) {
+			$callback( $this );
+		}
+
+		return $this;
+	}
+
 	/**
 	 * Get the resource key, singular.
 	 *
