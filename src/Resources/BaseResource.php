@@ -49,7 +49,7 @@ class BaseResource
 
 	protected function get( $page = 1, $perPage = 20, $query = [] )
 	{
-		$responseData = API::http()->get( static::getIndexUrl(), QueryString::make(array_merge( [ 'page' => $page, 'limit' => $perPage ], $query, $this->wheres ))->build() );
+		$responseData = API::http()->get( static::getIndexUrl(), array_merge( [ 'page' => $page, 'limit' => $perPage ], $query, $this->wheres ) );
 
 		if ( method_exists( $this, 'formatIndexResponse' ) ) {
 			return $this->formatIndexResponse( $responseData );
