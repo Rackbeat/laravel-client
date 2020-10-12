@@ -7,9 +7,11 @@ use RackbeatSDK\Concerns\Mocking;
 use RackbeatSDK\Exceptions\Client\UserAgentRequiredException;
 use RackbeatSDK\Http\HttpEngine;
 use RackbeatSDK\Http\MockHttpEngine;
+use RackbeatSDK\Resources\CustomerInvoiceResource;
 use RackbeatSDK\Resources\FieldResource;
 use RackbeatSDK\Resources\ItemResource;
 use RackbeatSDK\Resources\LotResource;
+use RackbeatSDK\Resources\OrderResource;
 use RackbeatSDK\Resources\ProductResource;
 
 class API
@@ -99,5 +101,15 @@ class API
 	public function fields()
 	{
 		return new FieldResource();
+	}
+
+	public function orders()
+	{
+		return new OrderResource();
+	}
+
+	public function customerInvoices()
+	{
+		return new CustomerInvoiceResource();
 	}
 }

@@ -3,7 +3,7 @@
 namespace RackbeatSDK\Models;
 
 /**
- * @property string         $id
+ * @property-read int       $id
  * @property string         $slug
  * @property string         $name
  * @property string         $type
@@ -18,7 +18,7 @@ namespace RackbeatSDK\Models;
 class Field extends Model
 {
 	protected array $casts = [
-		'id'             => 'string',
+		'id'             => 'int',
 		'slug'           => 'string',
 		'name'           => 'string',
 		'type'           => 'string',
