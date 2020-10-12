@@ -32,17 +32,19 @@ class QueryString
 
 	protected function untanglePart( $parts, $queryString, $parentKey = null, $equals = '=' )
 	{
+		$result = [];
+
 		foreach ( $parts as $key => $part ) {
 			if ( is_array( $part ) ) {
 				foreach ( $this->untanglePart( $part, $queryString, $key, $equals ) as $subPart ) {
-					$queryString[] = $subPart;
+					$result[] = $subPart;
 				}
 			} else {
-				$queryString[] = ( $parentKey ? urlencode( $parentKey ) . '[' . urlencode( $key ) . ']' : $key ) . $equals . urlencode( $part );
+				$result[] = ( $parentKey ? urlencode( $parentKey ) . '[' . urlencode( $key ) . ']' : $key ) . $equals . urlencode( $part );
 			}
 		}
 
-		return $queryString;
+		return $result;
 	}
 
 	public static function make( $array = [] )
