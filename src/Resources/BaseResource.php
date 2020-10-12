@@ -47,6 +47,11 @@ class BaseResource
 		return trim( static::ENDPOINT_BASE, '/' );
 	}
 
+	public static function getShowUrl( $key ): string
+	{
+		return trim( static::ENDPOINT_BASE, '/' ) . '/' . $key;
+	}
+
 	protected function get( $page = 1, $perPage = 20, $query = [] )
 	{
 		$responseData = API::http()->get( static::getIndexUrl(), array_merge( [ 'page' => $page, 'limit' => $perPage ], $query, $this->wheres ) );
@@ -92,13 +97,24 @@ class BaseResource
 		return $response;
 	}
 
-	protected static function delete( $key ) { }
+	protected function delete( $key ) { }
 
-	protected static function find( $key ) { }
+	protected function find( $key )
+	{
+		$responseData = API::http()->get( static::getShowUrl( $key ), array_merge( $this->wheres ) );
 
-	protected static function update( $model ) { }
+		$item = $responseData[ static::getSingularKey() ];
 
-	protected static function create( $data = [] ) { }
+		if ( $model = static::MODEL ) {
+			return new $model( $item );
+		}
+
+		return $item;
+	}
+
+	protected function update( $model ) { }
+
+	protected function create( $data = [] ) { }
 
 	public function where( $key, $value )
 	{
