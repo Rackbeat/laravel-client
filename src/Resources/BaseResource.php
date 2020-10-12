@@ -4,6 +4,7 @@ namespace RackbeatSDK\Resources;
 
 use Illuminate\Support\Str;
 use RackbeatSDK\API;
+use RackbeatSDK\Http\QueryString;
 use RackbeatSDK\Http\Responses\IndexResponse;
 use RackbeatSDK\Http\Responses\PaginatedIndexResponse;
 
@@ -48,7 +49,7 @@ class BaseResource
 
 	protected function get( $page = 1, $perPage = 20, $query = [] )
 	{
-		$responseData = API::http()->get( static::getIndexUrl(), array_merge( [ 'page' => $page, 'limit' => $perPage ], $query, $this->wheres ) );
+		$responseData = API::http()->get( static::getIndexUrl(), QueryString::make(array_merge( [ 'page' => $page, 'limit' => $perPage ], $query, $this->wheres ))->build() );
 
 		if ( method_exists( $this, 'formatIndexResponse' ) ) {
 			return $this->formatIndexResponse( $responseData );
