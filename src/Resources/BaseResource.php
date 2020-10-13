@@ -14,7 +14,8 @@ class BaseResource
 
 	protected array $expands = [];
 
-	protected array $select = [];
+	/** @var null|array */
+	protected $select = null;
 
 	/** @var string */
 	protected const ENDPOINT_BASE = '/';
@@ -59,7 +60,7 @@ class BaseResource
 			$query = array_merge( $query, [ 'expand' => implode( ',', $this->expands ) ] );
 		}
 
-		if ( ! empty( $this->select ) ) {
+		if ( is_array( $this->select ) ) {
 			$query = array_merge( $query, [ 'fields' => implode( ',', $this->select ) ] );
 		}
 
@@ -119,7 +120,7 @@ class BaseResource
 			$query = array_merge( $query, [ 'expand' => implode( ',', $this->expands ) ] );
 		}
 
-		if ( ! empty( $this->select ) ) {
+		if ( is_array( $this->select ) ) {
 			$query = array_merge( $query, [ 'fields' => implode( ',', $this->select ) ] );
 		}
 
