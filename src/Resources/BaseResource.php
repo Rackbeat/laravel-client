@@ -117,7 +117,13 @@ class BaseResource
 
 	protected function find( $key )
 	{
-		$responseData = API::http()->get( static::getShowUrl( $key ), array_merge( $this->wheres ) );
+		$query = array_merge( $this->wheres );
+
+		if ( ! empty( $this->expands ) ) {
+			$query = array_merge( $query, [ 'expand' => $this->expands ] );
+		}
+
+		$responseData = API::http()->get( static::getShowUrl( $key ), $query );
 
 		$item = $responseData[ static::getSingularKey() ];
 
