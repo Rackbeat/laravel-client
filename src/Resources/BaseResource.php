@@ -42,7 +42,7 @@ class BaseResource
 		throw new \BadMethodCallException( sprintf( 'Method "%s" does not exist in class %s', $name, static::class ) );
 	}
 
-	public static function getIndexUrl(): string
+	public function getIndexUrl(): string
 	{
 		return trim( static::ENDPOINT_BASE, '/' );
 	}
@@ -54,7 +54,7 @@ class BaseResource
 
 	protected function get( $page = 1, $perPage = 20, $query = [] )
 	{
-		$responseData = API::http()->get( static::getIndexUrl(), array_merge( [ 'page' => $page, 'limit' => $perPage ], $query, $this->wheres ) );
+		$responseData = API::http()->get( $this->getIndexUrl(), array_merge( [ 'page' => $page, 'limit' => $perPage ], $query, $this->wheres ) );
 
 		if ( method_exists( $this, 'formatIndexResponse' ) ) {
 			return $this->formatIndexResponse( $responseData );

@@ -2,8 +2,11 @@
 
 namespace RackbeatSDK\Models;
 
+use RackbeatSDK\Resources\ItemLocationAvailableStockResource;
+
 /**
  * @property string         $number
+ * @property string         $urlfriendly_number
  * @property string         $name
  * @property-read \DateTime $created_at
  * @property-read \DateTime $updated_at
@@ -19,4 +22,9 @@ class Product extends Model
 		'created_at'         => 'datetime',
 		'updated_at'         => 'datetime',
 	];
+
+	public function locationStockReport()
+	{
+		return new ItemLocationAvailableStockResource( $this->urlfriendly_number );
+	}
 }

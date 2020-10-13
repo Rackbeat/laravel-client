@@ -3,8 +3,6 @@
 namespace RackbeatSDK\Resources;
 
 use RackbeatSDK\Models\CustomerInvoice;
-use RackbeatSDK\Models\Field;
-use RackbeatSDK\Models\Order;
 
 class CustomerInvoiceResource extends CrudResource
 {
