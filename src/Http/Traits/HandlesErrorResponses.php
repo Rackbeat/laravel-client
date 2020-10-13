@@ -14,7 +14,7 @@ trait HandlesErrorResponses
 	{
 		// 5XX codes
 		if ( $exception instanceof \GuzzleHttp\Exception\ServerException ) {
-			throw new ServerException( $exception->getResponse(), $exception->getResponse()->getStatusCode(), $exception );
+			throw new ServerException( $exception, $exception->getResponse()->getStatusCode(), $exception );
 		}
 
 		// 4XX codes
