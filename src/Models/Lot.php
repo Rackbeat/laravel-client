@@ -22,7 +22,7 @@ class Lot extends Model
 		'updated_at'         => 'datetime',
 	];
 
-	public function locationStockReport()
+	public function availableLocationStockReport()
 	{
 		return new ItemLocationAvailableStockResource( $this->urlfriendly_number );
 	}
