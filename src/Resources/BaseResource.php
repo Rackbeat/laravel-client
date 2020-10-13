@@ -10,19 +10,11 @@ use RackbeatSDK\Http\Responses\PaginatedIndexResponse;
 
 class BaseResource
 {
-	/**
-	 * Array of filters
-	 *
-	 * @var array
-	 */
 	protected array $wheres = [];
 
-	/**
-	 * Array of expands
-	 *
-	 * @var array
-	 */
 	protected array $expands = [];
+
+	protected array $select = [];
 
 	/** @var string */
 	protected const ENDPOINT_BASE = '/';
@@ -65,6 +57,10 @@ class BaseResource
 
 		if ( ! empty( $this->expands ) ) {
 			$query = array_merge( $query, [ 'expand' => implode( ',', $this->expands ) ] );
+		}
+
+		if ( ! empty( $this->select ) ) {
+			$query = array_merge( $query, [ 'fields' => implode( ',', $this->select ) ] );
 		}
 
 		$responseData = API::http()->get(
@@ -123,6 +119,10 @@ class BaseResource
 			$query = array_merge( $query, [ 'expand' => implode( ',', $this->expands ) ] );
 		}
 
+		if ( ! empty( $this->select ) ) {
+			$query = array_merge( $query, [ 'fields' => implode( ',', $this->select ) ] );
+		}
+
 		$responseData = API::http()->get( static::getShowUrl( $key ), $query );
 
 		$item = $responseData[ static::getSingularKey() ];
@@ -156,6 +156,13 @@ class BaseResource
 		} else if ( ! in_array( $key, $this->expands, true ) ) {
 			$this->expands[] = $key;
 		}
+
+		return $this;
+	}
+
+	public function select( $fields = [] )
+	{
+		$this->select = $fields;
 
 		return $this;
 	}
