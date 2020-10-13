@@ -64,7 +64,7 @@ class BaseResource
 		$query = array_merge( [ 'page' => $page, 'limit' => $perPage ], $query, $this->wheres );
 
 		if ( ! empty( $this->expands ) ) {
-			$query = array_merge( $query, [ 'expand' => $this->expands ] );
+			$query = array_merge( $query, [ 'expand' => implode( ',', $this->expands ) ] );
 		}
 
 		$responseData = API::http()->get(
@@ -120,7 +120,7 @@ class BaseResource
 		$query = array_merge( $this->wheres );
 
 		if ( ! empty( $this->expands ) ) {
-			$query = array_merge( $query, [ 'expand' => $this->expands ] );
+			$query = array_merge( $query, [ 'expand' => implode( ',', $this->expands ) ] );
 		}
 
 		$responseData = API::http()->get( static::getShowUrl( $key ), $query );
@@ -153,10 +153,8 @@ class BaseResource
 					$this->expands[] = $item;
 				}
 			}
-		} else {
-			if ( ! in_array( $key, $this->expands, true ) ) {
-				$this->expands[] = $key;
-			}
+		} else if ( ! in_array( $key, $this->expands, true ) ) {
+			$this->expands[] = $key;
 		}
 
 		return $this;
