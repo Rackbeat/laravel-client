@@ -17,6 +17,13 @@ class BaseResource
 	 */
 	protected array $wheres = [];
 
+	/**
+	 * Array of expands
+	 *
+	 * @var array
+	 */
+	protected array $expands = [];
+
 	/** @var string */
 	protected const ENDPOINT_BASE = '/';
 
@@ -54,7 +61,16 @@ class BaseResource
 
 	protected function get( $page = 1, $perPage = 20, $query = [] )
 	{
-		$responseData = API::http()->get( $this->getIndexUrl(), array_merge( [ 'page' => $page, 'limit' => $perPage ], $query, $this->wheres ) );
+		$query = array_merge( [ 'page' => $page, 'limit' => $perPage ], $query, $this->wheres );
+
+		if ( ! empty( $this->expands ) ) {
+			$query = array_merge( $query, [ 'expand' => $this->expands ] );
+		}
+
+		$responseData = API::http()->get(
+			$this->getIndexUrl(),
+			$query
+		);
 
 		if ( method_exists( $this, 'formatIndexResponse' ) ) {
 			return $this->formatIndexResponse( $responseData );
@@ -119,6 +135,23 @@ class BaseResource
 	public function where( $key, $value )
 	{
 		$this->wheres[ $key ] = $value;
+
+		return $this;
+	}
+
+	public function expand( $key )
+	{
+		if ( is_array( $key ) ) {
+			foreach ( $key as $item ) {
+				if ( ! in_array( $item, $this->expands, true ) ) {
+					$this->expands[] = $item;
+				}
+			}
+		} else {
+			if ( ! in_array( $key, $this->expands, true ) ) {
+				$this->expands[] = $key;
+			}
+		}
 
 		return $this;
 	}
