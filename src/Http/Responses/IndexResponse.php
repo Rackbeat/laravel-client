@@ -2,7 +2,7 @@
 
 namespace RackbeatSDK\Http\Responses;
 
-class IndexResponse implements \ArrayAccess, \Iterator
+class IndexResponse implements \ArrayAccess, \Iterator, \Countable
 {
 	public array $items;
 
@@ -75,5 +75,13 @@ class IndexResponse implements \ArrayAccess, \Iterator
 	public function rewind()
 	{
 		$this->position = 0;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function count()
+	{
+		return count( $this->items );
 	}
 }
