@@ -11,9 +11,5 @@ namespace RackbeatSDK\Models;
 class CustomerInvoice extends Model
 {
 	protected array $casts = [
-		'id'         => 'int',
-		'created_at' => 'datetime',
-		'updated_at' => 'datetime',
-		'self'       => 'string',
 	];
 }

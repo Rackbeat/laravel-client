@@ -11,7 +11,6 @@ namespace RackbeatSDK\Models;
 class User extends Model
 {
 	protected array $casts = [
-		'id'           => 'int',
 		'name'         => 'string',
 		'billing_type' => 'string',
 		'initials'     => 'string',
@@ -21,10 +20,7 @@ class User extends Model
 		'is_you'       => 'boolean',
 		'employee_id'  => 'int',
 //		'employee'     => Employee::class,
-		'permissions'  => 'array',
-		'settings'     => 'array',
-		'created_at'   => 'datetime',
-		'updated_at'   => 'datetime',
-		'self'         => 'string',
+		'permissions'  => 'object',
+		'settings'     => 'object',
 	];
 }

@@ -20,8 +20,7 @@ class Item extends Model
 		'type'               => 'string',
 		'number'             => 'string',
 		'urlfriendly_number' => 'string',
-		'created_at'         => 'datetime',
-		'updated_at'         => 'datetime',
+		'metadata'           => 'object',
 	];
 
 	public function availableLocationStockReport()

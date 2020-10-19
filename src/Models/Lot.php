@@ -19,8 +19,6 @@ class Lot extends Model
 		'number'             => 'string',
 		'urlfriendly_number' => 'string',
 		'metadata'           => 'object',
-		'created_at'         => 'datetime',
-		'updated_at'         => 'datetime',
 	];
 
 	public function availableLocationStockReport()

@@ -18,7 +18,6 @@ namespace RackbeatSDK\Models;
 class Field extends Model
 {
 	protected array $casts = [
-		'id'             => 'int',
 		'slug'           => 'string',
 		'name'           => 'string',
 		'type'           => 'string',
@@ -26,8 +25,5 @@ class Field extends Model
 		'use_in_layouts' => 'boolean',
 		'default_value'  => 'string',
 		'options'        => 'array',
-		'created_at'     => 'datetime',
-		'updated_at'     => 'datetime',
-		'self'           => 'string',
 	];
 }
