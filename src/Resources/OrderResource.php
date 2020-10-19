@@ -10,6 +10,13 @@ class OrderResource extends CrudResource
 	protected const RESOURCE_KEY  = 'order';
 	protected const ENDPOINT_BASE = 'orders';
 
+	public function createDraft( $data = [] )
+	{
+		$this->setStoreUrl( $this->getStoreUrl() . '/drafts' );
+
+		return $this->create( $data );
+	}
+
 	public function drafts(): OrderResource
 	{
 		$this->where( 'is_booked', false );

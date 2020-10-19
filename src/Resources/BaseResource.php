@@ -14,6 +14,12 @@ class BaseResource
 
 	protected array $expands = [];
 
+	/**
+	 * Used to override urls such as Store, Index etc.
+	 * @var array
+	 */
+	protected array $urlOverrides = [];
+
 	/** @var null|array */
 	protected $select = null;
 
@@ -44,27 +50,34 @@ class BaseResource
 
 	public function getIndexUrl(): string
 	{
-		return trim( static::ENDPOINT_BASE, '/' );
+		return $this->urlOverrides['index'] ?? trim( static::ENDPOINT_BASE, '/' );
 	}
 
 	public function getShowUrl( $key ): string
 	{
-		return trim( static::ENDPOINT_BASE, '/' ) . '/' . $key;
+		return $this->urlOverrides['show'] ?? ( trim( static::ENDPOINT_BASE, '/' ) . '/' . $key );
 	}
 
 	public function getUpdateUrl( $key ): string
 	{
-		return $this->getShowUrl( $key );
+		return $this->urlOverrides['update'] ?? $this->getShowUrl( $key );
 	}
 
 	public function getDeleteUrl( $key ): string
 	{
-		return $this->getShowUrl( $key );
+		return $this->urlOverrides['delete'] ?? $this->getShowUrl( $key );
 	}
 
 	public function getStoreUrl(): string
 	{
-		return $this->getIndexUrl();
+		return $this->urlOverrides['store'] ?? $this->getIndexUrl();
+	}
+
+	public function setStoreUrl( string $url ): string
+	{
+		$this->urlOverrides['store'] = $url;
+
+		return $this;
 	}
 
 	protected function get( $page = 1, $perPage = 20, $query = [] )
@@ -186,7 +199,8 @@ class BaseResource
 
 	protected function update( $model ) { }
 
-	protected function create( $data = [] ) {
+	protected function create( $data = [] )
+	{
 		$responseData = API::http()->post(
 			$this->getStoreUrl(),
 			$data
