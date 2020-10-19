@@ -135,6 +135,40 @@ class BaseResource
 		return $item;
 	}
 
+	protected function first( $query = [], $fallback = null )
+	{
+		$query = array_merge( [ 'page' => 1, 'limit' => 1 ], $query, $this->wheres );
+
+		if ( ! empty( $this->expands ) ) {
+			$query = array_merge( $query, [ 'expand' => implode( ',', $this->expands ) ] );
+		}
+
+		if ( is_array( $this->select ) ) {
+			$query = array_merge( $query, [ 'fields' => implode( ',', $this->select ) ] );
+		}
+
+		$responseData = API::http()->get(
+			$this->getIndexUrl(),
+			$query
+		);
+
+		if ( method_exists( $this, 'formatIndexResponse' ) ) {
+			return $this->formatIndexResponse( $responseData );
+		}
+
+		$items = $responseData[ static::getPluralisedKey() ];
+
+		if ( \count( $items ) === 0 ) {
+			return $fallback;
+		}
+
+		if ( $model = static::MODEL ) {
+			return new $model( $items[0] );
+		}
+
+		return $items[0];
+	}
+
 	protected function update( $model ) { }
 
 	protected function create( $data = [] ) { }
