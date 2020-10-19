@@ -2,6 +2,8 @@
 
 namespace RackbeatSDK\Models;
 
+use RackbeatSDK\Resources\OrderLineResource;
+
 /**
  * @property int            $number
  * @property-read \DateTime $created_at
@@ -12,4 +14,9 @@ class Order extends Model
 {
 	protected array $casts = [
 	];
+
+	public function lines(): OrderLineResource
+	{
+		return new OrderLineResource( $this->number );
+	}
 }
