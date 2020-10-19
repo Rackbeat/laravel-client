@@ -2,6 +2,7 @@
 
 namespace RackbeatSDK\Models;
 
+use Illuminate\Support\Str;
 use RackbeatSDK\Exceptions\Models\DataFormatInvalidException;
 use RackbeatSDK\Exceptions\Models\ImmutableOriginalDataException;
 use RackbeatSDK\Models\Concerns\CastsAttributes;
@@ -63,6 +64,10 @@ class Model
 
 	public function __get( $name )
 	{
+		if ( method_exists( $this, $method = 'get' . Str::ucfirst( Str::camel( $name ) ) . 'Attribute' ) ) {
+			return $this->{$method}( $this->data[ $name ] ?? null );
+		}
+
 		return $this->castToValue( $name, $this->data[ $name ] ?? null );
 	}
 
@@ -83,9 +88,11 @@ class Model
 
 	protected function setAttribute( $key, $value, $overrideOriginal = false ): void
 	{
-		// todo allow override like Laravel! (setXXAttribute)
-
-		$value = $this->castFromValue( $key, $value );
+		if ( method_exists( $this, $method = 'set' . Str::ucfirst( Str::camel( $key ) ) . 'Attribute' ) ) {
+			$value = $this->{$method}( $value );
+		} else {
+			$value = $this->castFromValue( $key, $value );
+		}
 
 		$this->data[ $key ] = $value;
 
