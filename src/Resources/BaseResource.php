@@ -73,7 +73,7 @@ class BaseResource
 		return $this->urlOverrides['store'] ?? $this->getIndexUrl();
 	}
 
-	public function setStoreUrl( string $url ): string
+	public function setStoreUrl( string $url ): self
 	{
 		$this->urlOverrides['store'] = $url;
 
