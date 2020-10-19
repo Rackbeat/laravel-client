@@ -47,9 +47,24 @@ class BaseResource
 		return trim( static::ENDPOINT_BASE, '/' );
 	}
 
-	public static function getShowUrl( $key ): string
+	public function getShowUrl( $key ): string
 	{
 		return trim( static::ENDPOINT_BASE, '/' ) . '/' . $key;
+	}
+
+	public function getUpdateUrl( $key ): string
+	{
+		return $this->getShowUrl( $key );
+	}
+
+	public function getDeleteUrl( $key ): string
+	{
+		return $this->getShowUrl( $key );
+	}
+
+	public function getStoreUrl(): string
+	{
+		return $this->getIndexUrl();
 	}
 
 	protected function get( $page = 1, $perPage = 20, $query = [] )
@@ -124,7 +139,7 @@ class BaseResource
 			$query = array_merge( $query, [ 'fields' => implode( ',', $this->select ) ] );
 		}
 
-		$responseData = API::http()->get( static::getShowUrl( $key ), $query );
+		$responseData = API::http()->get( $this->getShowUrl( $key ), $query );
 
 		$item = $responseData[ static::getSingularKey() ];
 
