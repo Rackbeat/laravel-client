@@ -18,6 +18,7 @@ class Lot extends Model
 	protected array $casts = [
 		'number'             => 'string',
 		'urlfriendly_number' => 'string',
+		'metadata'           => 'object',
 		'created_at'         => 'datetime',
 		'updated_at'         => 'datetime',
 	];
