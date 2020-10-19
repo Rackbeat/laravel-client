@@ -186,7 +186,24 @@ class BaseResource
 
 	protected function update( $model ) { }
 
-	protected function create( $data = [] ) { }
+	protected function create( $data = [] ) {
+		$responseData = API::http()->post(
+			$this->getStoreUrl(),
+			$data
+		);
+
+		if ( method_exists( $this, 'formatCreateResponse' ) ) {
+			return $this->formatCreateResponse( $responseData );
+		}
+
+		$item = $responseData[ static::getSingularKey() ];
+
+		if ( $model = static::MODEL ) {
+			return new $model( $item );
+		}
+
+		return $item;
+	}
 
 	public function where( $key, $value )
 	{
