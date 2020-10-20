@@ -21,7 +21,7 @@ class BaseResource
 	protected array $urlOverrides = [];
 
 	/** @var null|array */
-	protected $select = null;
+	protected ?array $select = null;
 
 	/** @var string */
 	protected const ENDPOINT_BASE = '/';
@@ -35,9 +35,7 @@ class BaseResource
 	/** @var null|string */
 	protected const RESOURCE_KEY_PLURAL = null;
 
-	public function __construct()
-	{
-	}
+	public function __construct() { }
 
 	public function __call( $name, $arguments )
 	{
@@ -142,25 +140,9 @@ class BaseResource
 
 	protected function find( $key )
 	{
-		$query = array_merge( $this->wheres );
-
-		if ( ! empty( $this->expands ) ) {
-			$query = array_merge( $query, [ 'expand' => implode( ',', $this->expands ) ] );
-		}
-
-		if ( is_array( $this->select ) ) {
-			$query = array_merge( $query, [ 'fields' => implode( ',', $this->select ) ] );
-		}
-
-		$responseData = API::http()->get( $this->getShowUrl( $key ), $query );
-
-		$item = $responseData[ static::getSingularKey() ];
-
-		if ( $model = static::MODEL ) {
-			return new $model( $item );
-		}
-
-		return $item;
+		return $this->requestWithSingleItemResponse( function ( $query ) use ( $key ) {
+			return API::http()->get( $this->getShowUrl( $key ), $query );
+		} );
 	}
 
 	protected function first( $query = [], $fallback = null )
@@ -295,5 +277,28 @@ class BaseResource
 	protected static function getPluralisedKey(): string
 	{
 		return static::RESOURCE_KEY_PLURAL ?? Str::plural( static::RESOURCE_KEY );
+	}
+
+	protected function requestWithSingleItemResponse( callable $request )
+	{
+		$query = array_merge( $this->wheres );
+
+		if ( ! empty( $this->expands ) ) {
+			$query = array_merge( $query, [ 'expand' => implode( ',', $this->expands ) ] );
+		}
+
+		if ( is_array( $this->select ) ) {
+			$query = array_merge( $query, [ 'fields' => implode( ',', $this->select ) ] );
+		}
+
+		$responseData = $request( $query );
+
+		$item = $responseData[ static::getSingularKey() ];
+
+		if ( $model = static::MODEL ) {
+			return new $model( $item );
+		}
+
+		return $item;
 	}
 }

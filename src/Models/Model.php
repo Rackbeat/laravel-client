@@ -142,6 +142,15 @@ class Model
 		}
 	}
 
+	/**
+	 * @param Model $model
+	 */
+	protected function overrideDataFromModel( Model $model ): void
+	{
+		$this->original = $model->original;
+		$this->data     = $model->data;
+	}
+
 	public function getOriginal(): array
 	{
 		// consider casting?

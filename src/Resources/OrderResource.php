@@ -2,6 +2,7 @@
 
 namespace RackbeatSDK\Resources;
 
+use RackbeatSDK\API;
 use RackbeatSDK\Models\Order;
 
 class OrderResource extends CrudResource
@@ -29,5 +30,17 @@ class OrderResource extends CrudResource
 		$this->where( 'is_booked', true );
 
 		return $this;
+	}
+
+	public function getBookUrl( $number ): string
+	{
+		return $this->urlOverrides['book'] ?? ( trim( static::ENDPOINT_BASE, '/' ) . '/' . $number . '/book' );
+	}
+
+	public function bookOrder( Order $order )
+	{
+		return $this->requestWithSingleItemResponse( function ( $query ) use ( $order ) {
+			return API::http()->post( $this->getBookUrl( $order->number ), $query );
+		} );
 	}
 }
