@@ -11,5 +11,8 @@ namespace RackbeatSDK\Models;
 class OrderLine extends Model
 {
 	protected array $casts = [
+		'unit'     => 'object',
+		'location' => 'object',
+		'item'     => 'object',
 	];
 }
