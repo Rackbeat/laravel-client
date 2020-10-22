@@ -8,8 +8,18 @@ use RackbeatSDK\Resources\OrderResource;
 
 /**
  * @property int            $number
- * @property bool           $is_booked
  * @property Customer       $customer
+ * @property boolean        $is_archived
+ * @property boolean        $is_booked
+ * @property boolean        $is_cancelled
+ * @property boolean        $is_shipped
+ * @property boolean        $is_ready_for_shipping
+ * @property boolean        $is_partly_shipped
+ * @property boolean        $is_ready_for_invoicing
+ * @property boolean        $is_invoiced
+ * @property boolean        $is_partly_invoiced
+ * @property boolean        $is_ready_for_purchasing
+ * @property boolean        $is_partly_purchased
  * @property-read \DateTime $created_at
  * @property-read \DateTime $updated_at
  * @property-read string    $self
@@ -17,7 +27,18 @@ use RackbeatSDK\Resources\OrderResource;
 class Order extends Model
 {
 	protected array $casts = [
-		'customer' => Customer::class,
+		'customer'                => Customer::class,
+		'is_archived'             => 'boolean',
+		'is_booked'               => 'boolean',
+		'is_cancelled'            => 'boolean',
+		'is_shipped'              => 'boolean',
+		'is_ready_for_shipping'   => 'boolean',
+		'is_partly_shipped'       => 'boolean',
+		'is_ready_for_invoicing'  => 'boolean',
+		'is_invoiced'             => 'boolean',
+		'is_partly_invoiced'      => 'boolean',
+		'is_ready_for_purchasing' => 'boolean',
+		'is_partly_purchased'     => 'boolean',
 	];
 
 	public function lines(): OrderLineResource
