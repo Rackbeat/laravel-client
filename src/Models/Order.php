@@ -20,6 +20,7 @@ use RackbeatSDK\Resources\OrderResource;
  * @property boolean        $is_partly_invoiced
  * @property boolean        $is_ready_for_purchasing
  * @property boolean        $is_partly_purchased
+ * @property null|\DateTime $deliver_at
  * @property-read \DateTime $created_at
  * @property-read \DateTime $updated_at
  * @property-read string    $self
@@ -39,6 +40,7 @@ class Order extends Model
 		'is_partly_invoiced'      => 'boolean',
 		'is_ready_for_purchasing' => 'boolean',
 		'is_partly_purchased'     => 'boolean',
+		'deliver_at'              => 'datetime',
 	];
 
 	public function lines(): OrderLineResource
