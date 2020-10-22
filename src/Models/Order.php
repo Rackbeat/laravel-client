@@ -9,6 +9,7 @@ use RackbeatSDK\Resources\OrderResource;
 /**
  * @property int            $number
  * @property bool           $is_booked
+ * @property Customer       $customer
  * @property-read \DateTime $created_at
  * @property-read \DateTime $updated_at
  * @property-read string    $self
