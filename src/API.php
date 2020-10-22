@@ -7,8 +7,8 @@ use RackbeatSDK\Concerns\Mocking;
 use RackbeatSDK\Exceptions\Client\UserAgentRequiredException;
 use RackbeatSDK\Http\HttpEngine;
 use RackbeatSDK\Http\MockHttpEngine;
-use RackbeatSDK\Models\CustomerProduct;
 use RackbeatSDK\Resources\CustomerInvoiceResource;
+use RackbeatSDK\Resources\CustomerProductResource;
 use RackbeatSDK\Resources\CustomerResource;
 use RackbeatSDK\Resources\FieldResource;
 use RackbeatSDK\Resources\ItemResource;
@@ -118,7 +118,7 @@ class API
 
 	public function customerProducts( int $customerNumber )
 	{
-		return new CustomerProduct( $customerNumber );
+		return new CustomerProductResource( $customerNumber );
 	}
 
 	public function customerInvoices()
