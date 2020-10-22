@@ -29,6 +29,7 @@ class Order extends Model
 {
 	protected array $casts = [
 		'customer'                => Customer::class,
+		'payment_terms'           => PaymentTerm::class,
 		'is_archived'             => 'boolean',
 		'is_booked'               => 'boolean',
 		'is_cancelled'            => 'boolean',
