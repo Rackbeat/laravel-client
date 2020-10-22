@@ -16,6 +16,7 @@ use RackbeatSDK\Resources\OrderResource;
 class Order extends Model
 {
 	protected array $casts = [
+		'customer' => Customer::class,
 	];
 
 	public function lines(): OrderLineResource

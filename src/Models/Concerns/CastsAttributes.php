@@ -3,6 +3,7 @@
 namespace RackbeatSDK\Models\Concerns;
 
 use Carbon\Carbon;
+use RackbeatSDK\Models\Model;
 
 /**
  * Lots of the code has been carelessly stolen from
@@ -34,7 +35,8 @@ trait CastsAttributes
 		'cancelled_at' => 'datetime',
 	];
 
-	protected function getDateTimeFormat() {
+	protected function getDateTimeFormat()
+	{
 		$format = 'Y-m-d\TH:i:sP';
 
 		// https://bugs.php.net/bug.php?id=75577
@@ -46,17 +48,36 @@ trait CastsAttributes
 		return $format;
 	}
 
-	protected function getDateFormat() {
+	protected function getDateFormat()
+	{
 		return 'Y-m-d';
 	}
 
-	protected function castFromValue( $key, $value ) {
+	/**
+	 * Used for setting value.
+	 *
+	 * @param      $key
+	 * @param      $value
+	 * @param bool $formatModels
+	 *
+	 * @return bool|int|mixed|string
+	 */
+	protected function castFromValue( $key, $value, $formatModels = false )
+	{
 		if ( \is_null( $value ) ) {
 			return $value;
 		}
 
 		if ( ! array_key_exists( $key, $this->casts ) ) {
 			return $value;
+		}
+
+		if ( $formatModels && $value instanceof Model ) {
+			return $value->toArray();
+		}
+
+		if ( class_exists( $this->casts[ $key ] ) ) {
+			return new $this->casts[$key]( $value );
 		}
 
 		switch ( \strtolower( $this->casts[ $key ] ) ) {
@@ -81,13 +102,27 @@ trait CastsAttributes
 		}
 	}
 
-	protected function castToValue( $key, $value ) {
+	/**
+	 * Used for getting value.
+	 *
+	 * @param      $key
+	 * @param      $value
+	 * @param bool $formatModels
+	 *
+	 * @return array|bool|Carbon|false|int|mixed|object|string
+	 */
+	protected function castToValue( $key, $value, $formatModels = false )
+	{
 		if ( \is_null( $value ) ) {
 			return $value;
 		}
 
 		if ( ! array_key_exists( $key, $this->casts ) ) {
 			return $value;
+		}
+
+		if ( $formatModels && $value instanceof Model ) {
+			return $value->toArray();
 		}
 
 		switch ( \strtolower( $this->casts[ $key ] ) ) {
@@ -125,7 +160,8 @@ trait CastsAttributes
 	 *
 	 * @return mixed
 	 */
-	protected function fromFloat( $value ) {
+	protected function fromFloat( $value )
+	{
 		switch ( (string) $value ) {
 			case 'Infinity':
 				return INF;
@@ -138,13 +174,15 @@ trait CastsAttributes
 		}
 	}
 
-	protected function fromDateTime( $value ) {
+	protected function fromDateTime( $value )
+	{
 		return empty( $value ) ? $value : $this->asDateTime( $value )->format(
 			$this->getDateTimeFormat()
 		);
 	}
 
-	public function fromDate( $value ) {
+	public function fromDate( $value )
+	{
 		return empty( $value ) ? $value : $this->asDateTime( $value )->format(
 			$this->getDateFormat()
 		);
@@ -157,7 +195,8 @@ trait CastsAttributes
 	 *
 	 * @return Carbon
 	 */
-	protected function asDateTime( $value ) {
+	protected function asDateTime( $value )
+	{
 		// This prevents us having to re-instantiate a Carbon instance when we know
 		// it already is one, which wouldn't be fulfilled by the DateTime check.
 		if ( $value instanceof \Illuminate\Support\Carbon || $value instanceof \Carbon\CarbonInterface ) {
@@ -202,7 +241,8 @@ trait CastsAttributes
 	 *
 	 * @return Carbon
 	 */
-	public function asDate( $value ) {
+	public function asDate( $value )
+	{
 		return $this->asDateTime( $value )->startOfDay();
 	}
 
@@ -213,26 +253,29 @@ trait CastsAttributes
 	 *
 	 * @return bool
 	 */
-	protected function isStandardDateFormat( $value ) {
+	protected function isStandardDateFormat( $value )
+	{
 		return preg_match( '/^(\d{4})-(\d{1,2})-(\d{1,2})$/', $value );
 	}
 
-	protected function castArrayOfAttributes( $attributes = [] ) {
+	protected function castArrayOfAttributes( $attributes = [] )
+	{
 		return array_combine(
 			$arrayKeys = array_keys( $attributes ),
 
 			array_map( function ( $key ) {
-				return $this->castToValue( $key, $this->data[ $key ] ?? null );
+				return $this->castToValue( $key, $this->data[ $key ] ?? null, true );
 			}, $arrayKeys )
 		);
 	}
 
-	protected function castBackArrayOfAttributes( $attributes = [] ) {
+	protected function castBackArrayOfAttributes( $attributes = [] )
+	{
 		return array_combine(
 			$arrayKeys = array_keys( $attributes ),
 
 			array_map( function ( $key ) {
-				return $this->castFromValue( $key, $this->data[ $key ] ?? null );
+				return $this->castFromValue( $key, $this->data[ $key ] ?? null, true );
 			}, $arrayKeys )
 		);
 	}
