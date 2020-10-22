@@ -11,6 +11,7 @@ use RackbeatSDK\Resources\CustomerInvoiceResource;
 use RackbeatSDK\Resources\FieldResource;
 use RackbeatSDK\Resources\ItemResource;
 use RackbeatSDK\Resources\LotResource;
+use RackbeatSDK\Resources\OrderLineResource;
 use RackbeatSDK\Resources\OrderResource;
 use RackbeatSDK\Resources\ProductResource;
 
@@ -45,7 +46,7 @@ class API
 		}
 
 		self::$httpEngine = new HttpEngine( [
-			'base_uri' => Str::finish(config( 'rackbeat.base_uri' ), '/'),
+			'base_uri' => Str::finish( config( 'rackbeat.base_uri' ), '/' ),
 			'headers'  => $headers
 		] );
 
@@ -106,6 +107,11 @@ class API
 	public function orders()
 	{
 		return new OrderResource();
+	}
+
+	public function orderLines( int $orderNumber )
+	{
+		return new OrderLineResource( $orderNumber );
 	}
 
 	public function customerInvoices()

@@ -136,7 +136,10 @@ class BaseResource
 		return $response;
 	}
 
-	protected function delete( $key ) { }
+	protected function delete( $key, $options = [] )
+	{
+		return API::http()->delete( $this->getDeleteUrl( $key ), $options );
+	}
 
 	protected function find( $key )
 	{
