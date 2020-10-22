@@ -48,27 +48,27 @@ class BaseResource
 
 	public function getIndexUrl(): string
 	{
-		return $this->urlOverrides['index'] ?? trim( static::ENDPOINT_BASE, '/' );
+		return $this->replaceInUrl( $this->urlOverrides['index'] ?? trim( static::ENDPOINT_BASE, '/' ) );
 	}
 
 	public function getShowUrl( $key ): string
 	{
-		return $this->urlOverrides['show'] ?? ( trim( static::ENDPOINT_BASE, '/' ) . '/' . $key );
+		return $this->replaceInUrl( $this->urlOverrides['show'] ?? ( trim( static::ENDPOINT_BASE, '/' ) . '/' . $key ) );
 	}
 
 	public function getUpdateUrl( $key ): string
 	{
-		return $this->urlOverrides['update'] ?? $this->getShowUrl( $key );
+		return $this->replaceInUrl( $this->urlOverrides['update'] ?? $this->getShowUrl( $key ) );
 	}
 
 	public function getDeleteUrl( $key ): string
 	{
-		return $this->urlOverrides['delete'] ?? $this->getShowUrl( $key );
+		return $this->replaceInUrl( $this->urlOverrides['delete'] ?? $this->getShowUrl( $key ) );
 	}
 
 	public function getStoreUrl(): string
 	{
-		return $this->urlOverrides['store'] ?? $this->getIndexUrl();
+		return $this->replaceInUrl( $this->urlOverrides['store'] ?? $this->getIndexUrl() );
 	}
 
 	public function setStoreUrl( string $url ): self
@@ -303,5 +303,19 @@ class BaseResource
 		}
 
 		return $item;
+	}
+
+	protected function getUrlReplacements(): array
+	{
+		return [];
+	}
+
+	protected function replaceInUrl( $url ): string
+	{
+		foreach ( $this->getUrlReplacements() as $key => $value ) {
+			$url = str_replace( '{' . $key . '}', $value, $url );
+		}
+
+		return $url;
 	}
 }

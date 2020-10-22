@@ -10,7 +10,7 @@ class OrderLineResource extends CrudResource
 
 	protected const MODEL         = OrderLine::class;
 	protected const RESOURCE_KEY  = 'order_line';
-	protected const ENDPOINT_BASE = 'order_lines';
+	protected const ENDPOINT_BASE = 'orders/{order}/lines';
 
 	public function __construct( int $orderNumber )
 	{
@@ -19,13 +19,10 @@ class OrderLineResource extends CrudResource
 		$this->orderNumber = $orderNumber;
 	}
 
-	public function getIndexUrl(): string
+	public function getUrlReplacements(): array
 	{
-		return 'orders/' . $this->orderNumber . '/lines';
-	}
-
-	public function getShowUrl( $id ): string
-	{
-		return 'orders/' . $this->orderNumber . '/lines/' . $id;
+		return [
+			'order' => $this->orderNumber,
+		];
 	}
 }
