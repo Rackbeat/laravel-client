@@ -14,6 +14,10 @@ class BaseResource
 
 	protected array $expands = [];
 
+	protected string $orderBy;
+
+	protected string $orderDirection = 'DESC';
+
 	/**
 	 * Used to override urls such as Store, Index etc.
 	 * @var array
@@ -90,6 +94,11 @@ class BaseResource
 			$query = array_merge( $query, [ 'fields' => implode( ',', $this->select ) ] );
 		}
 
+		if ( ! empty( $this->orderBy ) ) {
+			$query['order_by']        = $this->orderBy;
+			$query['order_direction'] = $this->orderDirection;
+		}
+
 		$responseData = API::http()->get(
 			$this->getIndexUrl(),
 			$query
@@ -160,6 +169,11 @@ class BaseResource
 			$query = array_merge( $query, [ 'fields' => implode( ',', $this->select ) ] );
 		}
 
+		if ( ! empty( $this->orderBy ) ) {
+			$query['order_by']        = $this->orderBy;
+			$query['order_direction'] = $this->orderDirection;
+		}
+
 		$responseData = API::http()->get(
 			$this->getIndexUrl(),
 			$query
@@ -182,7 +196,10 @@ class BaseResource
 		return $items[0];
 	}
 
-	protected function update( $model ) { }
+	protected function update( $model )
+	{
+		// todo
+	}
 
 	protected function create( $data = [] )
 	{
@@ -249,6 +266,24 @@ class BaseResource
 		if ( ! empty( $booleanCondition ) ) {
 			$callback( $this );
 		}
+
+		return $this;
+	}
+
+	public function orderBy( string $field, ?string $direction = null )
+	{
+		$this->orderBy = $field;
+
+		if ( $direction !== null ) {
+			$this->orderDirection = $direction;
+		}
+
+		return $this;
+	}
+
+	public function orderDirection( $direction )
+	{
+		$this->orderDirection = $direction;
 
 		return $this;
 	}
