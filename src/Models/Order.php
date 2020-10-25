@@ -3,6 +3,7 @@
 namespace RackbeatSDK\Models;
 
 use RackbeatSDK\Exceptions\Models\Orders\OrderAlreadyBookedException;
+use RackbeatSDK\Models\Objects\AddressObject;
 use RackbeatSDK\Resources\OrderLineResource;
 use RackbeatSDK\Resources\OrderResource;
 
@@ -42,6 +43,8 @@ class Order extends Model
 		'is_ready_for_purchasing' => 'boolean',
 		'is_partly_purchased'     => 'boolean',
 		'deliver_at'              => 'datetime',
+		'billing_address'         => AddressObject::class,
+		'delivery_address'        => AddressObject::class,
 	];
 
 	public function lines(): OrderLineResource
