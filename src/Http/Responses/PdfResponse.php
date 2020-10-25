@@ -30,6 +30,6 @@ class PdfResponse implements \Stringable, Responsable
 	 */
 	public function toResponse( $request )
 	{
-		return new Response( $this->content, 200, [ 'Content-Type' => 'application/json' ] );
+		return new Response( $this->content, 200, [ 'Content-Type' => 'application/pdf' ] );
 	}
 }
