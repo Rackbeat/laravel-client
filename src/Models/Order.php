@@ -21,6 +21,8 @@ use RackbeatSDK\Resources\OrderResource;
  * @property boolean        $is_partly_invoiced
  * @property boolean        $is_ready_for_purchasing
  * @property boolean        $is_partly_purchased
+ * @property AddressObject  $billing_address
+ * @property AddressObject  $delivery_address
  * @property null|\DateTime $deliver_at
  * @property-read \DateTime $created_at
  * @property-read \DateTime $updated_at
