@@ -11,7 +11,8 @@ class CustomerInvoiceResource extends CrudResource
 	protected const RESOURCE_KEY  = 'customer_invoice';
 	protected const ENDPOINT_BASE = 'customer-invoices';
 
-	public function getPdf(int $invoiceNumber) {
-		return API::http()->get(self::ENDPOINT_BASE . '/' . $invoiceNumber . '.pdf');
+	public function getPdf( int $invoiceNumber )
+	{
+		return API::http()->get( self::ENDPOINT_BASE . '/' . $invoiceNumber . '.pdf', [] );
 	}
 }
