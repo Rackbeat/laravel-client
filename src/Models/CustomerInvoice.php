@@ -2,6 +2,8 @@
 
 namespace RackbeatSDK\Models;
 
+use RackbeatSDK\Resources\CustomerInvoiceResource;
+
 /**
  * @property int             $number
  * @property-read null|Order $order
@@ -14,4 +16,9 @@ class CustomerInvoice extends Model
 	protected array $casts = [
 		'order' => Order::class,
 	];
+
+	public function pdf()
+	{
+		return ( new CustomerInvoiceResource )->getPdf( $this->number );
+	}
 }
