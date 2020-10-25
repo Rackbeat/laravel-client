@@ -72,6 +72,7 @@ trait CastsAttributes
 			return $value;
 		}
 
+		// todo allow casting to array of model (maybe like: 'field' => [Model::class])
 		if ( $formatModels && $value instanceof Model ) {
 			return $value->toArray();
 		}
@@ -121,6 +122,7 @@ trait CastsAttributes
 			return $value;
 		}
 
+		// todo allow casting to array of model (maybe like: 'field' => [Model::class])
 		if ( $formatModels && $value instanceof Model ) {
 			return $value->toArray();
 		}
