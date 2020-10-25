@@ -3,6 +3,7 @@
 namespace RackbeatSDK\Http\Traits;
 
 use GuzzleHttp\Psr7\Response;
+use RackbeatSDK\Http\Responses\PdfResponse;
 
 trait HandlesResponseData
 {
@@ -15,6 +16,8 @@ trait HandlesResponseData
 		switch ( $this->getContentType( $response ) ) {
 			case 'application/json':
 				return json_decode( $content, true, 512, JSON_THROW_ON_ERROR );
+			case 'application/pdf':
+				return new PdfResponse( $content );
 			default:
 				return $content;
 		}
