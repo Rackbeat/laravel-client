@@ -8,25 +8,26 @@ use RackbeatSDK\Resources\OrderLineResource;
 use RackbeatSDK\Resources\OrderResource;
 
 /**
- * @property int            $number
- * @property Customer       $customer
- * @property boolean        $is_archived
- * @property boolean        $is_booked
- * @property boolean        $is_cancelled
- * @property boolean        $is_shipped
- * @property boolean        $is_ready_for_shipping
- * @property boolean        $is_partly_shipped
- * @property boolean        $is_ready_for_invoicing
- * @property boolean        $is_invoiced
- * @property boolean        $is_partly_invoiced
- * @property boolean        $is_ready_for_purchasing
- * @property boolean        $is_partly_purchased
- * @property AddressObject  $billing_address
- * @property AddressObject  $delivery_address
- * @property null|\DateTime $deliver_at
- * @property-read \DateTime $created_at
- * @property-read \DateTime $updated_at
- * @property-read string    $self
+ * @property int                $number
+ * @property Customer           $customer
+ * @property boolean            $is_archived
+ * @property boolean            $is_booked
+ * @property boolean            $is_cancelled
+ * @property boolean            $is_shipped
+ * @property boolean            $is_ready_for_shipping
+ * @property boolean            $is_partly_shipped
+ * @property boolean            $is_ready_for_invoicing
+ * @property boolean            $is_invoiced
+ * @property boolean            $is_partly_invoiced
+ * @property boolean            $is_ready_for_purchasing
+ * @property boolean            $is_partly_purchased
+ * @property-read null|Employee $our_reference
+ * @property AddressObject      $billing_address
+ * @property AddressObject      $delivery_address
+ * @property null|\DateTime     $deliver_at
+ * @property-read \DateTime     $created_at
+ * @property-read \DateTime     $updated_at
+ * @property-read string        $self
  */
 class Order extends Model
 {
@@ -45,6 +46,7 @@ class Order extends Model
 		'is_ready_for_purchasing' => 'boolean',
 		'is_partly_purchased'     => 'boolean',
 		'deliver_at'              => 'datetime',
+		'our_reference'           => Employee::class,
 		'billing_address'         => AddressObject::class,
 		'delivery_address'        => AddressObject::class,
 	];
