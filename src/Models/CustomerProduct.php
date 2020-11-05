@@ -37,5 +37,4 @@ class CustomerProduct extends Model
 			return (object) $metaObject;
 		}, $value );
 	}
-
 }

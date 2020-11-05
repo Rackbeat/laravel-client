@@ -3,12 +3,13 @@
 namespace RackbeatSDK\Resources;
 
 use RackbeatSDK\Models\CustomerProduct;
+use RackbeatSDK\Resources\Filters\ItemFilters;
 use RackbeatSDK\Resources\Traits\CanFind;
 use RackbeatSDK\Resources\Traits\CanIndex;
 
 class CustomerProductResource extends BaseResource
 {
-	use CanIndex, CanFind;
+	use CanIndex, CanFind, ItemFilters;
 
 	protected int $customerNumber;
 
