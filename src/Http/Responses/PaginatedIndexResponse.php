@@ -35,4 +35,11 @@ class PaginatedIndexResponse extends IndexResponse
 			'options'     => $options
 		] );
 	}
+
+	public function filter( callable $filter ): PaginatedIndexResponse
+	{
+		$items = array_filter( $this->items, $filter );
+
+		return new PaginatedIndexResponse( $items );
+	}
 }
