@@ -2,6 +2,8 @@
 
 namespace RackbeatSDK\Models;
 
+use RackbeatSDK\Resources\ItemLocationAvailableStockResource;
+
 /**
  * @property string            $name
  * @property string            $type
@@ -36,5 +38,10 @@ class CustomerProduct extends Model
 		return array_map( function ( $metaObject ) {
 			return (object) $metaObject;
 		}, $value );
+	}
+
+	public function availableLocationStockReport()
+	{
+		return new ItemLocationAvailableStockResource( $this->urlfriendly_number );
 	}
 }
