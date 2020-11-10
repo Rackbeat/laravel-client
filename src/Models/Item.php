@@ -6,13 +6,14 @@ use RackbeatSDK\Models\Objects\PhysicalObject;
 use RackbeatSDK\Resources\ItemLocationAvailableStockResource;
 
 /**
- * @property string            $type
- * @property string            $number
- * @property string            $urlfriendly_number
- * @property string            $name
- * @property null|ProductGroup $group
- * @property-read \DateTime    $created_at
- * @property-read \DateTime    $updated_at
+ * @property string              $type
+ * @property string              $number
+ * @property string              $urlfriendly_number
+ * @property string              $name
+ * @property null|ProductGroup   $group
+ * @property null|PhysicalObject $physical
+ * @property-read \DateTime      $created_at
+ * @property-read \DateTime      $updated_at
  */
 class Item extends Model
 {
