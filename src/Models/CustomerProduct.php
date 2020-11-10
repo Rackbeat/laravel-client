@@ -2,6 +2,7 @@
 
 namespace RackbeatSDK\Models;
 
+use RackbeatSDK\Models\Objects\PhysicalObject;
 use RackbeatSDK\Resources\ItemLocationAvailableStockResource;
 
 /**
@@ -30,7 +31,9 @@ class CustomerProduct extends Model
 		'discount_percentage'   => 'double',
 		'price_source'          => 'string',
 
-		'group' => ProductGroup::class,
+		// Extra attributes optionally returned
+		'group'                 => ProductGroup::class,
+		'physical'              => PhysicalObject::class,
 	];
 
 	public function getMetadataAttribute( array $value )
