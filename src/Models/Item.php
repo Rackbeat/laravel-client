@@ -2,6 +2,7 @@
 
 namespace RackbeatSDK\Models;
 
+use RackbeatSDK\Models\Objects\PhysicalObject;
 use RackbeatSDK\Resources\ItemLocationAvailableStockResource;
 
 /**
@@ -23,6 +24,7 @@ class Item extends Model
 		'number'             => 'string',
 		'urlfriendly_number' => 'string',
 		'group'              => ProductGroup::class,
+		'physical'           => PhysicalObject::class,
 	];
 
 	public function getMetadataAttribute( array $value )
