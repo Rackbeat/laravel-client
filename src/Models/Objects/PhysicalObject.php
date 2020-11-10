@@ -2,7 +2,6 @@
 
 namespace RackbeatSDK\Models\Objects;
 
-use RackbeatSDK\Models\Concerns\CastsAttributes;
 use RackbeatSDK\Models\Model;
 
 /**
@@ -19,8 +18,6 @@ use RackbeatSDK\Models\Model;
  */
 class PhysicalObject extends Model
 {
-	use CastsAttributes;
-
 	protected array $casts = [
 		'weight_unit' => 'string',
 		'size_unit'   => 'string',

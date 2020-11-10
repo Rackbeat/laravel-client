@@ -2,7 +2,6 @@
 
 namespace RackbeatSDK\Models\Objects;
 
-use RackbeatSDK\Models\Concerns\CastsAttributes;
 use RackbeatSDK\Models\Model;
 
 /**
@@ -21,5 +20,4 @@ use RackbeatSDK\Models\Model;
  */
 class AddressObject extends Model
 {
-	use CastsAttributes;
 }
