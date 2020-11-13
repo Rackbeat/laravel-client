@@ -12,21 +12,37 @@ class FieldResource extends CrudResource
 
 	public function forCustomers(): FieldResource
 	{
-		$this->where( 'available_for', 'customer' );
+		$this->where( 'for', 'customer' );
 
 		return $this;
 	}
 
 	public function forSuppliers(): FieldResource
 	{
-		$this->where( 'available_for', 'supplier' );
+		$this->where( 'for', 'supplier' );
 
 		return $this;
 	}
 
 	public function forItems(): FieldResource
 	{
-		$this->where( 'available_for', 'item' );
+		$this->where( 'for', 'item' );
+
+		return $this;
+	}
+
+	public function availableInLayouts(): FieldResource
+	{
+
+		$this->where( 'use_in_layouts', true );
+
+		return $this;
+	}
+
+	public function notAvailableInLayouts(): FieldResource
+	{
+
+		$this->where( 'use_in_layouts', false );
 
 		return $this;
 	}
