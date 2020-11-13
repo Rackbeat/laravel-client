@@ -196,9 +196,24 @@ class BaseResource
 		return $items[0];
 	}
 
-	protected function update( $model )
+	protected function update( $key, $data = [] )
 	{
-		// todo
+		$responseData = API::http()->put(
+			$this->getUpdateUrl($key),
+			$data
+		);
+
+		if ( method_exists( $this, 'formatUpdateResponse' ) ) {
+			return $this->formatUpdateResponse( $responseData );
+		}
+
+		$item = $responseData[ static::getSingularKey() ];
+
+		if ( $model = static::MODEL ) {
+			return new $model( $item );
+		}
+
+		return $item;
 	}
 
 	protected function create( $data = [] )
