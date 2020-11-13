@@ -85,6 +85,11 @@ class IndexResponse implements \ArrayAccess, \Iterator, \Countable
 		return count( $this->items );
 	}
 
+	public function toArray(): array
+	{
+		return $this->items;
+	}
+
 	public function filter( callable $filter ): IndexResponse
 	{
 		$items = array_filter( $this->items, $filter );
