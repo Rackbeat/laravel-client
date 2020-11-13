@@ -30,4 +30,11 @@ class FieldResource extends CrudResource
 
 		return $this;
 	}
+
+	public function dropdowns(): FieldResource
+	{
+		$this->where( 'type', 'dropdown' );
+
+		return $this;
+	}
 }
