@@ -96,4 +96,11 @@ class IndexResponse implements \ArrayAccess, \Iterator, \Countable
 
 		return new IndexResponse( $items );
 	}
+
+	public function map( callable $map ): IndexResponse
+	{
+		$items = array_map( $map, $this->items );
+
+		return new IndexResponse( $items );
+	}
 }
