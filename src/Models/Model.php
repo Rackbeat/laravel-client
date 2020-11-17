@@ -165,6 +165,18 @@ class Model
 		return ( new static::$RESOURCE )->delete( $this->getPrimaryKey() );
 	}
 
+	// todo move to a trait as not everything can be updated?
+	public function update( array $data = [] )
+	{
+		return ( new static::$RESOURCE )->update( $this->getPrimaryKey(), $data );
+	}
+
+	// todo move to a trait as not everything can be updated?
+	public function save()
+	{
+		return $this->update( $this->getDirty() ); // todo test
+	}
+
 	public function getPrimaryKey()
 	{
 		return $this->{$this->primaryKey};
