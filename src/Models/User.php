@@ -30,5 +30,6 @@ class User extends Model
 		//		'employee'     => Employee::class,
 		'permissions'  => 'object', // todo use model-objects?
 		'settings'     => 'object', // todo use model-objects?
+		'api_token'    => 'object', // todo use model-objects?
 	];
 }
