@@ -2,6 +2,8 @@
 
 namespace RackbeatSDK\Models;
 
+use RackbeatSDK\Resources\UserResource;
+
 /**
  * @property-read int       $id
  * @property string         $name
@@ -17,6 +19,8 @@ namespace RackbeatSDK\Models;
  */
 class User extends Model
 {
+	protected static string $RESOURCE = UserResource::class;
+
 	protected array $casts = [
 		'name'         => 'string',
 		'billing_type' => 'string',

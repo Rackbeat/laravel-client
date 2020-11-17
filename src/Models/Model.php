@@ -20,6 +20,8 @@ class Model
 	/** @var string */
 	protected string $primaryKey = 'id';
 
+	protected static string $RESOURCE;
+
 	/**
 	 * integer og string
 	 *
@@ -155,6 +157,17 @@ class Model
 	{
 		// consider casting?
 		return $this->original;
+	}
+
+	// todo move to a trait as not everything can be deleted?
+	public function delete()
+	{
+		return ( new static::$RESOURCE )->delete( $this->getPrimaryKey() );
+	}
+
+	public function getPrimaryKey()
+	{
+		return $this->{$this->primaryKey};
 	}
 
 	public function getDirty(): array
