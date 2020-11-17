@@ -16,6 +16,7 @@ use RackbeatSDK\Resources\LotResource;
 use RackbeatSDK\Resources\OrderLineResource;
 use RackbeatSDK\Resources\OrderResource;
 use RackbeatSDK\Resources\ProductResource;
+use RackbeatSDK\Resources\UserResource;
 
 class API
 {
@@ -83,7 +84,7 @@ class API
 
 	public function users()
 	{
-		return new ItemResource();
+		return new UserResource();
 	}
 
 	public function items()
