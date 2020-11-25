@@ -19,6 +19,8 @@ namespace RackbeatSDK\Models;
  */
 class Employee extends Model
 {
+	protected string $primaryKey = 'number';
+
 	protected array $casts = [
 		'number'              => 'int',
 		'name'                => 'string',

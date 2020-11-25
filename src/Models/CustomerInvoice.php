@@ -16,6 +16,8 @@ class CustomerInvoice extends Model
 {
 	protected static string $RESOURCE = CustomerInvoiceResource::class;
 
+	protected string $primaryKey = 'number';
+
 	protected array $casts = [
 		'order'    => Order::class,
 		'customer' => Customer::class,

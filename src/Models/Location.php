@@ -12,6 +12,8 @@ namespace RackbeatSDK\Models;
  */
 class Location extends Model
 {
+	protected string $primaryKey = 'number';
+
 	protected array $casts = [
 		'number'    => 'int',
 		'name'      => 'string',

@@ -15,6 +15,8 @@ class Customer extends Model
 {
 	protected static string $RESOURCE = CustomerResource::class;
 
+	protected string $primaryKey = 'number';
+
 	protected array $casts = [
 	];
 }

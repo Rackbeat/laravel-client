@@ -15,6 +15,8 @@ namespace RackbeatSDK\Models;
  */
 class PaymentTerm extends Model
 {
+	protected string $primaryKey = 'number';
+
 	protected array $casts = [
 	];
 }
