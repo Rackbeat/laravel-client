@@ -2,6 +2,8 @@
 
 namespace RackbeatSDK\Models;
 
+use RackbeatSDK\Resources\CustomerResource;
+
 /**
  * @property int            $number
  * @property float|double   $general_discount_percentage
@@ -11,6 +13,8 @@ namespace RackbeatSDK\Models;
  */
 class Customer extends Model
 {
+	protected static string $RESOURCE = CustomerResource::class;
+
 	protected array $casts = [
 	];
 }

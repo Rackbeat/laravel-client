@@ -14,6 +14,8 @@ use RackbeatSDK\Resources\CustomerInvoiceResource;
  */
 class CustomerInvoice extends Model
 {
+	protected static string $RESOURCE = CustomerInvoiceResource::class;
+
 	protected array $casts = [
 		'order'    => Order::class,
 		'customer' => Customer::class,

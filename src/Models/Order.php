@@ -31,6 +31,8 @@ use RackbeatSDK\Resources\OrderResource;
  */
 class Order extends Model
 {
+	protected static string $RESOURCE = OrderResource::class;
+
 	protected array $casts = [
 		'customer'                => Customer::class,
 		'payment_terms'           => PaymentTerm::class,

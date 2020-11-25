@@ -3,6 +3,7 @@
 namespace RackbeatSDK\Models;
 
 use RackbeatSDK\Models\Objects\PhysicalObject;
+use RackbeatSDK\Resources\CustomerProductResource;
 use RackbeatSDK\Resources\ItemLocationAvailableStockResource;
 
 /**
@@ -20,6 +21,8 @@ use RackbeatSDK\Resources\ItemLocationAvailableStockResource;
  */
 class CustomerProduct extends Model
 {
+	protected static string $RESOURCE = CustomerProductResource::class;
+
 	protected array $casts = [
 		'name'                  => 'string',
 		'type'                  => 'string',

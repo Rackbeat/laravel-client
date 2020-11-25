@@ -4,6 +4,7 @@ namespace RackbeatSDK\Models;
 
 use RackbeatSDK\Models\Objects\PhysicalObject;
 use RackbeatSDK\Resources\ItemLocationAvailableStockResource;
+use RackbeatSDK\Resources\ItemResource;
 
 /**
  * @property string              $type
@@ -17,8 +18,11 @@ use RackbeatSDK\Resources\ItemLocationAvailableStockResource;
  */
 class Item extends Model
 {
+	protected static string $RESOURCE = ItemResource::class;
+
 	protected string $primaryKey = 'number';
-	protected string $keyType    = 'string';
+
+	protected string $keyType = 'string';
 
 	protected array $casts = [
 		'type'               => 'string',

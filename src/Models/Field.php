@@ -2,6 +2,8 @@
 
 namespace RackbeatSDK\Models;
 
+use RackbeatSDK\Resources\FieldResource;
+
 /**
  * @property-read int       $id
  * @property string         $slug
@@ -17,6 +19,8 @@ namespace RackbeatSDK\Models;
  */
 class Field extends Model
 {
+	protected static string $RESOURCE = FieldResource::class;
+
 	protected array $casts = [
 		'slug'           => 'string',
 		'name'           => 'string',
