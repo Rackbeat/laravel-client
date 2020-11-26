@@ -15,6 +15,7 @@ use RackbeatSDK\Resources\ItemResource;
 use RackbeatSDK\Resources\LotResource;
 use RackbeatSDK\Resources\OrderLineResource;
 use RackbeatSDK\Resources\OrderResource;
+use RackbeatSDK\Resources\ProductGroupResource;
 use RackbeatSDK\Resources\ProductResource;
 use RackbeatSDK\Resources\UserResource;
 
@@ -100,6 +101,22 @@ class API
 	public function products()
 	{
 		return new ProductResource();
+	}
+
+	public function productGroups()
+	{
+		return new ProductGroupResource();
+	}
+
+	/**
+	 * Properly named helper since product group can
+	 * be used on Products as well as Lots.
+	 *
+	 * @return ProductGroupResource
+	 */
+	public function itemGroups()
+	{
+		return $this->productGroups();
 	}
 
 	public function fields()
