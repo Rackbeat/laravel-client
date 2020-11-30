@@ -196,10 +196,26 @@ class BaseResource
 		return $items[0];
 	}
 
+	protected function exists(): bool
+	{
+		$query = array_merge( [ 'page' => 1, 'limit' => 1, 'fields' => 'id' ], $this->wheres );
+
+		$responseData = API::http()->get(
+			$this->getIndexUrl(),
+			$query
+		);
+
+		if ( method_exists( $this, 'formatIndexResponse' ) ) {
+			return $this->formatIndexResponse( $responseData );
+		}
+
+		return $responseData['total'] > 0;
+	}
+
 	protected function update( $key, $data = [] )
 	{
 		$responseData = API::http()->put(
-			$this->getUpdateUrl($key),
+			$this->getUpdateUrl( $key ),
 			$data
 		);
 
