@@ -103,4 +103,13 @@ class IndexResponse implements \ArrayAccess, \Iterator, \Countable
 
 		return new IndexResponse( $items );
 	}
+
+	public function when( $condition, callable $callback ): IndexResponse
+	{
+		if ( $condition ) {
+			$callback( $this );
+		}
+
+		return $this;
+	}
 }
