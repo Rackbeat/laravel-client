@@ -33,14 +33,13 @@ class API
 		}
 
 		$headers = [
-			'User-Agent'         => config( 'rackbeat.consumer.name' ) . '(' . config( 'rackbeat.consumer.email' ) . ')',
-			'API-Version'        => config( 'rackbeat.version' ),
-			'X-Consumer-Name'    => config( 'rackbeat.consumer.name' ),
-			'X-Consumer-Contact' => config( 'rackbeat.consumer.email' ),
-			'Content-Type'       => 'application/json; charset=utf8',
-			'Accept'             => 'application/json; charset=utf8',
-			'connect_timeout'    => 5,
-			'timeout'            => 90
+			'API-Version'      => config( 'rackbeat.version' ),
+			'Consumer-Name'    => config( 'rackbeat.consumer.name' ),
+			'Consumer-Contact' => config( 'rackbeat.consumer.email' ),
+			'Content-Type'     => 'application/json; charset=utf8',
+			'Accept'           => 'application/json; charset=utf8',
+			'connect_timeout'  => 5,
+			'timeout'          => 90
 		];
 
 		if ( ! empty( $apiToken ) ) {
