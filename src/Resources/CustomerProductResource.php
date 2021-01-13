@@ -24,10 +24,15 @@ class CustomerProductResource extends BaseResource
 		$this->customerNumber = $customerNumber;
 	}
 
-	public function getUrlReplacements(): array
+	protected function getUrlReplacements(): array
 	{
 		return [
 			'customer' => $this->customerNumber
 		];
+	}
+
+	protected function formatKeyForRequest( $key ): string
+	{
+		return rawurlencode( rawurlencode( $key ) );
 	}
 }

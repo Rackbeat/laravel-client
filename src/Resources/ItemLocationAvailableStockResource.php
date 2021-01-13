@@ -22,8 +22,8 @@ class ItemLocationAvailableStockResource extends BaseResource
 		$this->itemNumber = $itemNumber;
 	}
 
-	public function getIndexUrl(): string
+	protected function getUrlReplacements(): array
 	{
-		return 'items/' . $this->itemNumber . '/locations/available';
+		return ['item' => rawurlencode( rawurlencode( $this->itemNumber ) )];
 	}
 }

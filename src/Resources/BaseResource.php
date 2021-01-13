@@ -57,16 +57,28 @@ class BaseResource
 
 	public function getShowUrl( $key ): string
 	{
+		if ( method_exists( $this, 'formatKeyForRequest' ) ) {
+			$key = $this->formatKeyForRequest( $key );
+		}
+
 		return $this->replaceInUrl( $this->urlOverrides['show'] ?? ( trim( static::ENDPOINT_BASE, '/' ) . '/' . $key ) );
 	}
 
 	public function getUpdateUrl( $key ): string
 	{
+		if ( method_exists( $this, 'formatKeyForRequest' ) ) {
+			$key = $this->formatKeyForRequest( $key );
+		}
+
 		return $this->replaceInUrl( $this->urlOverrides['update'] ?? $this->getShowUrl( $key ) );
 	}
 
 	public function getDeleteUrl( $key ): string
 	{
+		if ( method_exists( $this, 'formatKeyForRequest' ) ) {
+			$key = $this->formatKeyForRequest( $key );
+		}
+
 		return $this->replaceInUrl( $this->urlOverrides['delete'] ?? $this->getShowUrl( $key ) );
 	}
 
