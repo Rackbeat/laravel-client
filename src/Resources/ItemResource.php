@@ -14,9 +14,4 @@ class ItemResource extends BaseResource
 	protected const MODEL         = Item::class;
 	protected const RESOURCE_KEY  = 'item';
 	protected const ENDPOINT_BASE = 'items';
-
-	protected function formatKeyForRequest( $key ): string
-	{
-		return rawurlencode( rawurlencode( $key ) );
-	}
 }

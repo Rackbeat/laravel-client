@@ -30,9 +30,4 @@ class CustomerProductResource extends BaseResource
 			'customer' => $this->customerNumber
 		];
 	}
-
-	protected function formatKeyForRequest( $key ): string
-	{
-		return rawurlencode( rawurlencode( $key ) );
-	}
 }

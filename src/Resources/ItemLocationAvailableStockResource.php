@@ -24,6 +24,6 @@ class ItemLocationAvailableStockResource extends BaseResource
 
 	protected function getUrlReplacements(): array
 	{
-		return ['item' => rawurlencode( rawurlencode( $this->itemNumber ) )];
+		return [ 'item' => $this->itemNumber ];
 	}
 }
