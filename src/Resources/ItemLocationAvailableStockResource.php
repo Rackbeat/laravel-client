@@ -15,6 +15,9 @@ class ItemLocationAvailableStockResource extends BaseResource
 	protected const RESOURCE_KEY  = 'location';
 	protected const ENDPOINT_BASE = 'items/{item}/locations/available';
 
+	/**
+	 * @param string $itemNumber (urlfriendly_number)
+	 */
 	public function __construct( string $itemNumber )
 	{
 		parent::__construct();
@@ -24,6 +27,6 @@ class ItemLocationAvailableStockResource extends BaseResource
 
 	protected function getUrlReplacements(): array
 	{
-		return ['item' => rawurlencode( rawurlencode( $this->itemNumber ) )];
+		return ['item' => rawurlencode( $this->itemNumber )];
 	}
 }

@@ -28,24 +28,24 @@ class ResourceUrlTest extends TestCase
 	public function it_can_format_keys_differently()
 	{
 		// Product, lot and item resources format
-		$this->assertEquals( 'products/ABC%252F123', ( new ProductResource )->getShowUrl( 'ABC/123' ) );
-		$this->assertEquals( 'products/%2523123', ( new ProductResource )->getShowUrl( '#123' ) );
+		$this->assertEquals( 'products/ABC%2F123', ( new ProductResource )->getShowUrl( 'ABC/123' ) );
+		$this->assertEquals( 'products/%23123', ( new ProductResource )->getShowUrl( '#123' ) );
 		$this->assertEquals( 'products/AbC', ( new ProductResource )->getShowUrl( 'AbC' ) );
 
-		$this->assertEquals( 'lots/ABC%252F123', ( new LotResource )->getShowUrl( 'ABC/123' ) );
-		$this->assertEquals( 'lots/%2523123', ( new LotResource )->getShowUrl( '#123' ) );
+		$this->assertEquals( 'lots/ABC%2F123', ( new LotResource )->getShowUrl( 'ABC/123' ) );
+		$this->assertEquals( 'lots/%23123', ( new LotResource )->getShowUrl( '#123' ) );
 		$this->assertEquals( 'lots/AbC', ( new LotResource )->getShowUrl( 'AbC' ) );
 
-		$this->assertEquals( 'items/ABC%252F123', ( new ItemResource )->getShowUrl( 'ABC/123' ) );
-		$this->assertEquals( 'items/%2523123', ( new ItemResource )->getShowUrl( '#123' ) );
+		$this->assertEquals( 'items/ABC%2F123', ( new ItemResource )->getShowUrl( 'ABC/123' ) );
+		$this->assertEquals( 'items/%23123', ( new ItemResource )->getShowUrl( '#123' ) );
 		$this->assertEquals( 'items/AbC', ( new ItemResource )->getShowUrl( 'AbC' ) );
 
-		$this->assertEquals( 'items/ABC%252F123/locations/available/1', ( new ItemLocationAvailableStockResource( 'ABC/123' ) )->getShowUrl( 1 ) );
-		$this->assertEquals( 'items/%2523123/locations/available/1', ( new ItemLocationAvailableStockResource( '#123' ) )->getShowUrl( 1 ) );
+		$this->assertEquals( 'items/ABC%2F123/locations/available/1', ( new ItemLocationAvailableStockResource( 'ABC/123' ) )->getShowUrl( 1 ) );
+		$this->assertEquals( 'items/%23123/locations/available/1', ( new ItemLocationAvailableStockResource( '#123' ) )->getShowUrl( 1 ) );
 		$this->assertEquals( 'items/AbC/locations/available/1', ( new ItemLocationAvailableStockResource( 'AbC' ) )->getShowUrl( 1 ) );
 
-		$this->assertEquals( 'customers/1/lineables/ABC%252F123', ( new CustomerProductResource( 1 ) )->getShowUrl( 'ABC/123' ) );
-		$this->assertEquals( 'customers/1/lineables/%2523123', ( new CustomerProductResource( 1 ) )->getShowUrl( '#123' ) );
+		$this->assertEquals( 'customers/1/lineables/ABC%2F123', ( new CustomerProductResource( 1 ) )->getShowUrl( 'ABC/123' ) );
+		$this->assertEquals( 'customers/1/lineables/%23123', ( new CustomerProductResource( 1 ) )->getShowUrl( '#123' ) );
 		$this->assertEquals( 'customers/1/lineables/AbC', ( new CustomerProductResource( 1 ) )->getShowUrl( 'AbC' ) );
 	}
 }

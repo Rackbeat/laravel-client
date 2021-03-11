@@ -17,6 +17,6 @@ class ItemResource extends BaseResource
 
 	protected function formatKeyForRequest( $key ): string
 	{
-		return rawurlencode( rawurlencode( $key ) );
+		return rawurlencode( $key );
 	}
 }

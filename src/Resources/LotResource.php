@@ -15,6 +15,6 @@ class LotResource extends CrudResource
 
 	protected function formatKeyForRequest( $key ): string
 	{
-		return rawurlencode( rawurlencode( $key ) );
+		return rawurlencode( $key );
 	}
 }
