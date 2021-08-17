@@ -14,6 +14,9 @@ class HttpEngine
 
 	protected GuzzleHttp $client;
 
+	/** @var array */
+	protected static array $beforeHooks = [];
+
 	protected array $config;
 
 	public function __construct( $config = [] )
@@ -57,6 +60,10 @@ class HttpEngine
 	public function call( $method, $uri, $options = [] )
 	{
 		try {
+			foreach ( self::$beforeHooks as $hook ) {
+				$hook( $method, $uri, $options );
+			}
+
 			return $this->parseResponse(
 				$this->client->request( $method, $uri, $options )
 			);

@@ -26,6 +26,9 @@ class API
 	/** @var HttpEngine|MockHttpEngine */
 	protected static $httpEngine;
 
+	/** @var array */
+	protected static array $beforeHooks = [];
+
 	public static function make( $apiToken = null ): API
 	{
 		if ( empty( config( 'rackbeat.consumer.name' ) ) || empty( config( 'rackbeat.consumer.email' ) ) ) {
@@ -54,14 +57,29 @@ class API
 			'headers'  => $headers
 		] );
 
+		self::updateBeforeHooksForClient();
+
 		return new self;
 	}
 
 	public static function mock(): API
 	{
 		self::$httpEngine = new MockHttpEngine();
+		self::updateBeforeHooksForClient();
 
 		return new self;
+	}
+
+	public static function addBeforeHook( callable $callback )
+	{
+		self::$beforeHooks[] = $callback;
+		self::updateBeforeHooksForClient();
+	}
+
+	public static function clearBeforeHooks()
+	{
+		self::$beforeHooks = [];
+		self::updateBeforeHooksForClient();
 	}
 
 	public static function mockResponse( $method, $uri, $response, $statusCode = 200 )
@@ -72,6 +90,13 @@ class API
 	public static function http(): HttpEngine
 	{
 		return self::$httpEngine;
+	}
+
+	protected static function updateBeforeHooksForClient()
+	{
+		if ( self::$beforeHooks ) {
+			self::$httpEngine->beforeHooks = self::$beforeHooks;
+		}
 	}
 
 	public function setApiToken( $apiToken = null )
