@@ -61,7 +61,7 @@ class HttpEngine
 	{
 		try {
 			foreach ( self::$beforeHooks as $hook ) {
-				$hook( $method, $uri, $options );
+				$hook( $method, $uri, $options, $this->config );
 			}
 
 			return $this->parseResponse(
