@@ -94,7 +94,7 @@ class API
 
 	protected static function updateBeforeHooksForClient()
 	{
-		if ( self::$beforeHooks instanceof HttpEngine) {
+		if ( self::$httpEngine instanceof HttpEngine ) {
 			self::$httpEngine::setBeforeHooks( self::$beforeHooks );
 		}
 	}
