@@ -76,4 +76,9 @@ class HttpEngine
 	{
 		$this->setupClient( array_merge( $this->config, $config ) );
 	}
+
+	public static function setBeforeHooks( array $hooks = [] )
+	{
+		self::$beforeHooks = $hooks;
+	}
 }

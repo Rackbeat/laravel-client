@@ -95,7 +95,7 @@ class API
 	protected static function updateBeforeHooksForClient()
 	{
 		if ( self::$beforeHooks ) {
-			self::$httpEngine->beforeHooks = self::$beforeHooks;
+			self::$httpEngine::setBeforeHooks( self::$beforeHooks );
 		}
 	}
 
