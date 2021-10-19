@@ -60,14 +60,14 @@ class Order extends Model
 		return new OrderLineResource( $this->number );
 	}
 
-	public function book()
+	public function book($sendMail = false)
 	{
 		if ( $this->is_booked ) {
 			throw new OrderAlreadyBookedException( 'The order ' . $this->number . ' is already booked.' );
 		}
 
 		$this->overrideDataFromModel(
-			( new OrderResource )->bookOrder( $this )
+			( new OrderResource )->bookOrder( $this, $sendMail )
 		);
 
 		return $this;
