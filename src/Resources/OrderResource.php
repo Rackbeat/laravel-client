@@ -43,6 +43,7 @@ class OrderResource extends CrudResource
 			$query['mail'] = [
 				'send' => $sendMail
 			];
+
 			return API::http()->post( $this->getBookUrl( $order->number ), $query );
 		} );
 	}

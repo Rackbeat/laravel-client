@@ -2,6 +2,8 @@
 
 namespace RackbeatSDK\Resources;
 
+use RackbeatSDK\API;
+use RackbeatSDK\Http\Responses\IndexResponse;
 use RackbeatSDK\Models\OrderLine;
 
 class OrderLineResource extends CrudResource
@@ -17,6 +19,16 @@ class OrderLineResource extends CrudResource
 		parent::__construct();
 
 		$this->orderNumber = $orderNumber;
+	}
+
+	public function addCollection( string $collectionNumber, float $quantity = 1.0 ): IndexResponse
+	{
+		return $this->requestWithCollectionResponse( function () use ( $collectionNumber, $quantity ) {
+			return API::http()->post( $this->getIndexUrl() . '/add-collection', [
+				'collection' => $collectionNumber,
+				'quantity'   => $quantity
+			] );
+		} );
 	}
 
 	public function getUrlReplacements(): array

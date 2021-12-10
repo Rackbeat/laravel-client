@@ -383,6 +383,39 @@ class BaseResource
 		return $item;
 	}
 
+	protected function requestWithCollectionResponse( callable $request )
+	{
+		$query = array_merge( $this->wheres );
+
+		if ( ! empty( $this->expands ) ) {
+			$query = array_merge( $query, [ 'expand' => implode( ',', $this->expands ) ] );
+		}
+
+		if ( is_array( $this->select ) ) {
+			$query = array_merge( $query, [ 'fields' => implode( ',', $this->select ) ] );
+		}
+
+		$responseData = $request( $query );
+
+		$items = $responseData[ static::getPluralisedKey() ];
+
+		if ( $model = static::MODEL ) {
+			$items = array_map( function ( $item ) use ( $model ) { return new $model( $item ); }, $items );
+		}
+
+		if ( isset( $responseData['pages'] ) ) {
+			return new PaginatedIndexResponse(
+				$items,
+				$responseData['pages'],
+				$responseData['page'],
+				$responseData['limit'],
+				$responseData['total'],
+			);
+		}
+
+		return new IndexResponse( $items );
+	}
+
 	protected function getUrlReplacements(): array
 	{
 		return [];
