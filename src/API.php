@@ -7,6 +7,7 @@ use RackbeatSDK\Concerns\Mocking;
 use RackbeatSDK\Exceptions\Client\UserAgentRequiredException;
 use RackbeatSDK\Http\HttpEngine;
 use RackbeatSDK\Http\MockHttpEngine;
+use RackbeatSDK\Resources\CollectionResource;
 use RackbeatSDK\Resources\CustomerInvoiceResource;
 use RackbeatSDK\Resources\CustomerProductResource;
 use RackbeatSDK\Resources\CustomerResource;
@@ -172,5 +173,10 @@ class API
 	public function customers()
 	{
 		return new CustomerResource();
+	}
+
+	public function collections()
+	{
+		return new CollectionResource();
 	}
 }
