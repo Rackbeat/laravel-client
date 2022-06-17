@@ -54,9 +54,10 @@ class API
 		}
 
 		self::$httpEngine = new HttpEngine( [
-			'base_uri' => Str::finish( config( 'rackbeat.base_uri' ), '/' ),
-			'headers'  => $headers,
-			'verify'   => !config('app.debug'),
+			'base_uri' 	  => Str::finish( config( 'rackbeat.base_uri' ), '/' ),
+			'headers'  	  => $headers,
+			'verify'   	  => !config('app.debug'),
+			'allow_redirects' => ['strict' => true],
 		] );
 
 		self::updateBeforeHooksForClient();
