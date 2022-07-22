@@ -55,8 +55,7 @@ class OrderResource extends CrudResource
 
     public function createShipmentForOrder( Order $order )
     {
-        return $this->requestWithSingleItemResponse( function ( $query ) use ( $order ) {
-            return API::http()->post( $this->getCreateShipmentUrl( $order->number ), $query );
-        } );
+        $exp = API::http()->post( $this->getCreateShipmentUrl( $order->number ), []);
+        return $exp;
     }
 }
