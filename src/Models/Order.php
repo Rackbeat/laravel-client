@@ -3,6 +3,8 @@
 namespace RackbeatSDK\Models;
 
 use RackbeatSDK\Exceptions\Models\Orders\OrderAlreadyBookedException;
+use RackbeatSDK\Exceptions\Models\Orders\OrderAlreadyShippedException;
+use RackbeatSDK\Exceptions\Models\Orders\OrderNotBookedException;
 use RackbeatSDK\Models\Objects\AddressObject;
 use RackbeatSDK\Resources\OrderLineResource;
 use RackbeatSDK\Resources\OrderResource;
@@ -72,4 +74,21 @@ class Order extends Model
 
 		return $this;
 	}
+
+    public function createShipment()
+    {
+        if ( !$this->is_booked ) {
+            throw new OrderNotBookedException( 'The order ' . $this->number . ' is not booked.' );
+        }
+
+        if ( $this->is_shipped ) {
+            throw new OrderAlreadyShippedException( 'The order ' . $this->number . ' has already been shipped' );
+        }
+
+        $this->overrideDataFromModel(
+            ( new OrderResource )->createShipmentForOrder( $this )
+        );
+
+        return $this;
+    }
 }
