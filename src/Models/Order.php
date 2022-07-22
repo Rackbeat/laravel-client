@@ -85,9 +85,7 @@ class Order extends Model
             throw new OrderAlreadyShippedException( 'The order ' . $this->number . ' has already been shipped' );
         }
 
-        $this->overrideDataFromModel(
-            ( new OrderResource )->createShipmentForOrder( $this )
-        );
+        $test = ( new OrderResource )->createShipmentForOrder( $this );
 
         return $this;
     }
