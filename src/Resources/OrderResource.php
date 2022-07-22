@@ -37,16 +37,26 @@ class OrderResource extends CrudResource
 		return $this->urlOverrides['book'] ?? ( trim( static::ENDPOINT_BASE, '/' ) . '/' . $number . '/book' );
 	}
 
-	public function bookOrder( Order $order, $sendMail, $createShipment )
+	public function bookOrder( Order $order, $sendMail )
 	{
-		return $this->requestWithSingleItemResponse( function ( $query ) use ( $order, $sendMail, $createShipment) {
+		return $this->requestWithSingleItemResponse( function ( $query ) use ( $order, $sendMail ) {
 			$query['mail'] = [
 				'send' => $sendMail
 			];
 
-            $query['create_shipment'] = $createShipment;
-
 			return API::http()->post( $this->getBookUrl( $order->number ), $query );
 		} );
 	}
+
+    public function getCreateShipmentUrl( $number ): string
+    {
+        return $this->urlOverrides['create_shipment'] ?? ( trim( static::ENDPOINT_BASE, '/' ) . '/' . $number . '/create-shipment' );
+    }
+
+    public function createShipmentForOrder( Order $order )
+    {
+        return $this->requestWithSingleItemResponse( function ( $query ) use ( $order ) {
+            return API::http()->post( $this->getCreateShipmentUrl( $order->number ), $query );
+        } );
+    }
 }
