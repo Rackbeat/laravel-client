@@ -62,33 +62,17 @@ class Order extends Model
 		return new OrderLineResource( $this->number );
 	}
 
-	public function book( $sendMail = false )
+	public function book( $sendMail = false, $createShipment = false )
 	{
 		if ( $this->is_booked ) {
 			throw new OrderAlreadyBookedException( 'The order ' . $this->number . ' is already booked.' );
 		}
 
 		$this->overrideDataFromModel(
-			( new OrderResource )->bookOrder( $this, $sendMail )
+			( new OrderResource )->bookOrder( $this, $sendMail, $createShipment )
 		);
 
 		return $this;
 	}
 
-    public function createShipment()
-    {
-        if ( !$this->is_booked ) {
-            throw new OrderNotBookedException( 'The order ' . $this->number . ' is not booked.' );
-        }
-
-        if ( $this->is_shipped ) {
-            throw new OrderAlreadyShippedException( 'The order ' . $this->number . ' has already been shipped' );
-        }
-
-        $this->overrideDataFromModel(
-            ( new OrderResource )->createShipmentForOrder( $this )
-        );
-
-        return $this;
-    }
 }
