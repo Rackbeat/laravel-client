@@ -47,4 +47,14 @@ class OrderResource extends CrudResource
 			return API::http()->post( $this->getBookUrl( $order->number ), $query );
 		} );
 	}
+
+    public function getCreateShipmentUrl( $number ): string
+    {
+        return $this->urlOverrides['create_shipment'] ?? ( trim( static::ENDPOINT_BASE, '/' ) . '/' . $number . '/create-shipment' );
+    }
+
+    public function createShipmentForOrder( Order $order )
+    {
+        return API::http()->post( $this->getCreateShipmentUrl( $order->number ), []);
+    }
 }
