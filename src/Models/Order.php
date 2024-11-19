@@ -95,4 +95,9 @@ class Order extends Model
 
         return $this;
     }
+
+    public function updateFieldValue(int $fieldId, $value)
+	{
+		return ( new OrderResource )->updateFieldValue( $this, $fieldId, $value );
+	}
 }

@@ -48,6 +48,20 @@ class OrderResource extends CrudResource
 		} );
 	}
 
+	public function updateFieldValue( Order $order, int $fieldId, $value )
+	{
+		return $this->requestWithCollectionResponse( function () use ( $order, $fieldId, $value ) {
+			return API::http()->put( 'orders/' . $order->number . '/fields', [
+				'custom_fields' => [
+					[
+						'id'    => $fieldId,
+						'value' => $value
+					]
+				],
+			] );
+		} );
+	}
+
     public function getCreateShipmentUrl( $number ): string
     {
         return $this->urlOverrides['create_shipment'] ?? ( trim( static::ENDPOINT_BASE, '/' ) . '/' . $number . '/create-shipment' );
