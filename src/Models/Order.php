@@ -8,6 +8,7 @@ use RackbeatSDK\Exceptions\Models\Orders\OrderNotBookedException;
 use RackbeatSDK\Models\Objects\AddressObject;
 use RackbeatSDK\Resources\OrderLineResource;
 use RackbeatSDK\Resources\OrderResource;
+use RackbeatSDK\Resources\OrderShipmentForOrderResource;
 
 /**
  * @property int                $number
@@ -60,6 +61,11 @@ class Order extends Model
 	public function lines(): OrderLineResource
 	{
 		return new OrderLineResource( $this->number );
+	}
+
+	public function shipments(): OrderShipmentForOrderResource
+	{
+		return new OrderShipmentForOrderResource( $this->number );
 	}
 
 	public function book( $sendMail = false )

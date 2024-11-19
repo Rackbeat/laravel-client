@@ -1,5 +1,3 @@
-**~~~~~~ BY NO MEANS READY YET! ~~~~~~**
-
 # API Laravel SDK
 
 <p align="center"> 
