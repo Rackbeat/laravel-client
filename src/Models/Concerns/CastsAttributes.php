@@ -68,7 +68,7 @@ trait CastsAttributes
 			return $value;
 		}
 
-		if ( ! array_key_exists( $key, $this->casts ) ) {
+		if ( ! array_key_exists( $key, $this->getCasts() ) ) {
 			return $value;
 		}
 
@@ -77,11 +77,12 @@ trait CastsAttributes
 			return $value->toArray();
 		}
 
-		if ( class_exists( $this->casts[ $key ] ) ) {
-			return new $this->casts[$key]( $value );
+		if ( class_exists( $this->getCast($key) ) ) {
+			$castClass = $this->getCast($key);
+			return new $castClass( $value );
 		}
 
-		switch ( \strtolower( $this->casts[ $key ] ) ) {
+		switch ( \strtolower( $this->getCast($key) ) ) {
 			case 'str':
 			case 'string':
 				return (string) $value;
@@ -118,7 +119,7 @@ trait CastsAttributes
 			return $value;
 		}
 
-		if ( ! array_key_exists( $key, $this->casts ) ) {
+		if ( ! array_key_exists( $key, $this->getCasts() ) ) {
 			return $value;
 		}
 
@@ -127,7 +128,7 @@ trait CastsAttributes
 			return $value->toArray();
 		}
 
-		switch ( \strtolower( $this->casts[ $key ] ) ) {
+		switch ( \strtolower( $this->getCast($key) ) ) {
 			case 'str':
 			case 'string':
 				return (string) $value;
@@ -280,5 +281,15 @@ trait CastsAttributes
 				return $this->castFromValue( $key, $this->data[ $key ] ?? null, true );
 			}, $arrayKeys )
 		);
+	}
+
+	protected function getCasts():array
+	{
+		return array_merge( static::$defaultCasts, $this->casts );
+	}
+
+	protected function getCast(string $cast)
+	{
+		return $this->getCasts()[ $cast ];
 	}
 }
