@@ -32,6 +32,20 @@ class OrderResource extends CrudResource
 		return $this;
 	}
 
+	public function notShipped(): OrderResource
+	{
+		$this->where( 'is_shipped', false );
+
+		return $this;
+	}
+
+	public function shipped(): OrderResource
+	{
+		$this->where( 'is_shipped', true );
+
+		return $this;
+	}
+
 	public function getBookUrl( $number ): string
 	{
 		return $this->urlOverrides['book'] ?? ( trim( static::ENDPOINT_BASE, '/' ) . '/' . $number . '/book' );
