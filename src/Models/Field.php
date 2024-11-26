@@ -21,6 +21,8 @@ class Field extends Model
 {
 	protected static string $RESOURCE = FieldResource::class;
 
+	protected string $primaryKey = 'slug';
+
 	protected array $casts = [
 		'slug'           => 'string',
 		'name'           => 'string',
