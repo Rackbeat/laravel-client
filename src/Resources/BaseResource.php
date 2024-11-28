@@ -383,6 +383,21 @@ class BaseResource
 		return $item;
 	}
 
+	protected function requestWithoutTransformer( callable $request )
+	{
+		$query = array_merge( $this->wheres );
+
+		if ( ! empty( $this->expands ) ) {
+			$query = array_merge( $query, [ 'expand' => implode( ',', $this->expands ) ] );
+		}
+
+		if ( is_array( $this->select ) ) {
+			$query = array_merge( $query, [ 'fields' => implode( ',', $this->select ) ] );
+		}
+
+		return $request( $query );
+	}
+
 	protected function requestWithCollectionResponse( callable $request )
 	{
 		$query = array_merge( $this->wheres );
