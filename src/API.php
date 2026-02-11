@@ -30,6 +30,12 @@ class API
 	/** @var array */
 	protected static array $beforeHooks = [];
 
+	/** @var HttpEngine|MockHttpEngine|null Instance-level engine for multi-tenant isolation */
+	protected $instanceHttpEngine;
+
+	/** @var array Instance-level before hooks */
+	protected array $instanceBeforeHooks = [];
+
 	public static function make( $apiToken = null ): API
 	{
 		if ( empty( config( 'rackbeat.consumer.name' ) ) || empty( config( 'rackbeat.consumer.email' ) ) ) {
@@ -53,36 +59,49 @@ class API
 			$headers['Authorization'] = 'Bearer ' . config( 'rackbeat.api_token' );
 		}
 
-		self::$httpEngine = new HttpEngine( [
+		$engine = new HttpEngine( [
 			'base_uri' 	  => Str::finish( config( 'rackbeat.base_uri' ), '/' ),
 			'headers'  	  => $headers,
 			'verify'   	  => !config('app.debug'),
 			'allow_redirects' => ['strict' => true],
 		] );
 
-		self::updateBeforeHooksForClient();
+		// Set static engine for backwards compatibility
+		self::$httpEngine = $engine;
 
-		return new self;
+		$instance = new self;
+		$instance->instanceHttpEngine = $engine;
+		$instance->instanceBeforeHooks = self::$beforeHooks;
+
+		// Apply current hooks to the engine instance
+		$engine->setBeforeHooks( self::$beforeHooks );
+
+		return $instance;
 	}
 
 	public static function mock(): API
 	{
-		self::$httpEngine = new MockHttpEngine();
-		self::updateBeforeHooksForClient();
+		$engine = new MockHttpEngine();
 
-		return new self;
+		// Set static engine for backwards compatibility
+		self::$httpEngine = $engine;
+
+		$instance = new self;
+		$instance->instanceHttpEngine = $engine;
+
+		return $instance;
 	}
 
 	public static function addBeforeHook( callable $callback )
 	{
 		self::$beforeHooks[] = $callback;
-		self::updateBeforeHooksForClient();
+		self::syncBeforeHooksToStaticEngine();
 	}
 
 	public static function clearBeforeHooks()
 	{
 		self::$beforeHooks = [];
-		self::updateBeforeHooksForClient();
+		self::syncBeforeHooksToStaticEngine();
 	}
 
 	public static function mockResponse( $method, $uri, $response, $statusCode = 200 )
@@ -95,45 +114,87 @@ class API
 		return self::$httpEngine;
 	}
 
-	protected static function updateBeforeHooksForClient()
+	/**
+	 * Sync the static before hooks to the static engine (for backwards compatibility).
+	 */
+	protected static function syncBeforeHooksToStaticEngine()
 	{
 		if ( self::$httpEngine instanceof HttpEngine ) {
-			self::$httpEngine::setBeforeHooks( self::$beforeHooks );
+			self::$httpEngine->setBeforeHooks( self::$beforeHooks );
 		}
+	}
+
+	/**
+	 * Add a before hook to this specific API instance.
+	 */
+	public function addInstanceBeforeHook( callable $callback ): self
+	{
+		$this->instanceBeforeHooks[] = $callback;
+
+		if ( $this->instanceHttpEngine !== null ) {
+			$this->instanceHttpEngine->setBeforeHooks( $this->instanceBeforeHooks );
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Clear before hooks on this specific API instance.
+	 */
+	public function clearInstanceBeforeHooks(): self
+	{
+		$this->instanceBeforeHooks = [];
+
+		if ( $this->instanceHttpEngine !== null ) {
+			$this->instanceHttpEngine->setBeforeHooks( [] );
+		}
+
+		return $this;
 	}
 
 	public function setApiToken( $apiToken = null )
 	{
-		$this->httpEngine->mergeConfig( [
+		$this->getHttpEngine()->mergeConfig( [
 			'headers' => [
 				'Authorization' => 'Bearer ' . $apiToken
 			]
 		] );
 	}
 
+	/**
+	 * Get the HTTP engine for this instance.
+	 * Falls back to the static engine for backwards compatibility.
+	 *
+	 * @return HttpEngine|MockHttpEngine
+	 */
+	public function getHttpEngine()
+	{
+		return $this->instanceHttpEngine ?? self::$httpEngine;
+	}
+
 	public function users()
 	{
-		return new UserResource();
+		return new UserResource( $this->getHttpEngine() );
 	}
 
 	public function items()
 	{
-		return new ItemResource();
+		return new ItemResource( $this->getHttpEngine() );
 	}
 
 	public function lots()
 	{
-		return new LotResource();
+		return new LotResource( $this->getHttpEngine() );
 	}
 
 	public function products()
 	{
-		return new ProductResource();
+		return new ProductResource( $this->getHttpEngine() );
 	}
 
 	public function productGroups()
 	{
-		return new ProductGroupResource();
+		return new ProductGroupResource( $this->getHttpEngine() );
 	}
 
 	/**
@@ -149,36 +210,36 @@ class API
 
 	public function fields()
 	{
-		return new FieldResource();
+		return new FieldResource( $this->getHttpEngine() );
 	}
 
 	public function orders()
 	{
-		return new OrderResource();
+		return new OrderResource( $this->getHttpEngine() );
 	}
 
 	public function orderLines( int $orderNumber )
 	{
-		return new OrderLineResource( $orderNumber );
+		return new OrderLineResource( $orderNumber, $this->getHttpEngine() );
 	}
 
 	public function customerProducts( int $customerNumber )
 	{
-		return new CustomerProductResource( $customerNumber );
+		return new CustomerProductResource( $customerNumber, $this->getHttpEngine() );
 	}
 
 	public function customerInvoices()
 	{
-		return new CustomerInvoiceResource();
+		return new CustomerInvoiceResource( $this->getHttpEngine() );
 	}
 
 	public function customers()
 	{
-		return new CustomerResource();
+		return new CustomerResource( $this->getHttpEngine() );
 	}
 
 	public function collections()
 	{
-		return new CollectionResource();
+		return new CollectionResource( $this->getHttpEngine() );
 	}
 }

@@ -4,6 +4,7 @@ namespace RackbeatSDK\Resources;
 
 use Illuminate\Support\Str;
 use RackbeatSDK\API;
+use RackbeatSDK\Http\HttpEngine;
 use RackbeatSDK\Http\QueryString;
 use RackbeatSDK\Http\Responses\IndexResponse;
 use RackbeatSDK\Http\Responses\PaginatedIndexResponse;
@@ -39,7 +40,22 @@ class BaseResource
 	/** @var null|string */
 	protected const RESOURCE_KEY_PLURAL = null;
 
-	public function __construct() { }
+	/** @var HttpEngine|null */
+	protected ?HttpEngine $httpEngine = null;
+
+	public function __construct( ?HttpEngine $httpEngine = null )
+	{
+		$this->httpEngine = $httpEngine;
+	}
+
+	/**
+	 * Resolve the HTTP engine to use for requests.
+	 * Falls back to the static API::http() for backwards compatibility.
+	 */
+	protected function resolveHttpEngine(): HttpEngine
+	{
+		return $this->httpEngine ?? API::http();
+	}
 
 	public function __call( $name, $arguments )
 	{
@@ -111,7 +127,7 @@ class BaseResource
 			$query['order_direction'] = $this->orderDirection;
 		}
 
-		$responseData = API::http()->get(
+		$responseData = $this->resolveHttpEngine()->get(
 			$this->getIndexUrl(),
 			$query
 		);
@@ -159,13 +175,13 @@ class BaseResource
 
 	protected function delete( $key, $options = [] )
 	{
-		return API::http()->delete( $this->getDeleteUrl( $key ), $options );
+		return $this->resolveHttpEngine()->delete( $this->getDeleteUrl( $key ), $options );
 	}
 
 	protected function find( $key )
 	{
 		return $this->requestWithSingleItemResponse( function ( $query ) use ( $key ) {
-			return API::http()->get( $this->getShowUrl( $key ), $query );
+			return $this->resolveHttpEngine()->get( $this->getShowUrl( $key ), $query );
 		} );
 	}
 
@@ -186,7 +202,7 @@ class BaseResource
 			$query['order_direction'] = $this->orderDirection;
 		}
 
-		$responseData = API::http()->get(
+		$responseData = $this->resolveHttpEngine()->get(
 			$this->getIndexUrl(),
 			$query
 		);
@@ -212,7 +228,7 @@ class BaseResource
 	{
 		$query = array_merge( [ 'page' => 1, 'limit' => 1, 'fields' => 'id' ], $this->wheres );
 
-		$responseData = API::http()->get(
+		$responseData = $this->resolveHttpEngine()->get(
 			$this->getIndexUrl(),
 			$query
 		);
@@ -226,7 +242,7 @@ class BaseResource
 
 	protected function update( $key, $data = [] )
 	{
-		$responseData = API::http()->put(
+		$responseData = $this->resolveHttpEngine()->put(
 			$this->getUpdateUrl( $key ),
 			$data
 		);
@@ -246,7 +262,7 @@ class BaseResource
 
 	protected function create( $data = [] )
 	{
-		$responseData = API::http()->post(
+		$responseData = $this->resolveHttpEngine()->post(
 			$this->getStoreUrl(),
 			$data
 		);

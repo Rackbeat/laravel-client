@@ -24,7 +24,7 @@ class OrderShipmentResource extends BaseResource
 
 	public function downloadDeliveryNote( OrderShipment $orderShipment ): string
 	{
-		return API::http()->post(
+		return $this->resolveHttpEngine()->post(
 			'orders/shipments/' . $orderShipment->id . '/download-delivery-note',
 			[]
 		)->getContent();
@@ -32,7 +32,7 @@ class OrderShipmentResource extends BaseResource
 
 	public function downloadPickingList( OrderShipment $orderShipment ): string
 	{
-		return API::http()->post(
+		return $this->resolveHttpEngine()->post(
 			'orders/shipments/' . $orderShipment->id . '/download',
 			[]
 		)->getContent();

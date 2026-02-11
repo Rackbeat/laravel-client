@@ -58,14 +58,14 @@ class OrderResource extends CrudResource
 				'send' => $sendMail
 			];
 
-			return API::http()->post( $this->getBookUrl( $order->number ), $query );
+			return $this->resolveHttpEngine()->post( $this->getBookUrl( $order->number ), $query );
 		} );
 	}
 
 	public function updateFieldValue( Order $order, int $fieldId, $value )
 	{
 		return $this->requestWithoutTransformer( function () use ( $order, $fieldId, $value ) {
-			return API::http()->put( 'orders/' . $order->number . '/fields', [
+			return $this->resolveHttpEngine()->put( 'orders/' . $order->number . '/fields', [
 				'custom_fields' => [
 					[
 						'id'    => $fieldId,
@@ -83,6 +83,6 @@ class OrderResource extends CrudResource
 
     public function createShipmentForOrder( Order $order )
     {
-        return API::http()->post( $this->getCreateShipmentUrl( $order->number ), []);
+        return $this->resolveHttpEngine()->post( $this->getCreateShipmentUrl( $order->number ), []);
     }
 }
