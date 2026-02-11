@@ -88,6 +88,10 @@ class API
 
 		$instance = new self;
 		$instance->instanceHttpEngine = $engine;
+		$instance->instanceBeforeHooks = self::$beforeHooks;
+
+		// Apply current hooks to the mock engine instance
+		$engine->setBeforeHooks( self::$beforeHooks );
 
 		return $instance;
 	}
@@ -166,10 +170,17 @@ class API
 	 * Falls back to the static engine for backwards compatibility.
 	 *
 	 * @return HttpEngine|MockHttpEngine
+	 * @throws \RuntimeException If no HTTP engine has been initialized.
 	 */
 	public function getHttpEngine()
 	{
-		return $this->instanceHttpEngine ?? self::$httpEngine;
+		$engine = $this->instanceHttpEngine ?? self::$httpEngine;
+
+		if ( $engine === null ) {
+			throw new \RuntimeException( 'No HTTP engine available. Call API::make() or API::mock() before using the API.' );
+		}
+
+		return $engine;
 	}
 
 	public function users()
