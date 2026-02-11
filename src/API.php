@@ -19,6 +19,7 @@ use RackbeatSDK\Resources\OrderResource;
 use RackbeatSDK\Resources\ProductGroupResource;
 use RackbeatSDK\Resources\ProductResource;
 use RackbeatSDK\Resources\UserResource;
+use RackbeatSDK\Resources\WebhookResource;
 
 class API
 {
@@ -252,5 +253,10 @@ class API
 	public function collections()
 	{
 		return new CollectionResource( $this->getHttpEngine() );
+	}
+
+	public function webhooks()
+	{
+		return new WebhookResource( $this->getHttpEngine() );
 	}
 }
