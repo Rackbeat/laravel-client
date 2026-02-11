@@ -14,6 +14,6 @@ class CustomerInvoiceResource extends CrudResource
 
 	public function getPdf( int $invoiceNumber ): PdfResponse
 	{
-		return API::http()->get( self::ENDPOINT_BASE . '/' . $invoiceNumber . '.pdf', [] );
+		return $this->resolveHttpEngine()->get( self::ENDPOINT_BASE . '/' . $invoiceNumber . '.pdf', [] );
 	}
 }

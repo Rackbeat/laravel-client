@@ -2,6 +2,7 @@
 
 namespace RackbeatSDK\Resources;
 
+use RackbeatSDK\Http\HttpEngine;
 use RackbeatSDK\Models\ItemLocationStock;
 use RackbeatSDK\Resources\Traits\CanIndex;
 
@@ -18,9 +19,9 @@ class ItemLocationAvailableStockResource extends BaseResource
 	/**
 	 * @param string $itemNumber (urlfriendly_number)
 	 */
-	public function __construct( string $itemNumber )
+	public function __construct( string $itemNumber, ?HttpEngine $httpEngine = null )
 	{
-		parent::__construct();
+		parent::__construct( $httpEngine );
 
 		$this->itemNumber = $itemNumber;
 	}

@@ -2,6 +2,7 @@
 
 namespace RackbeatSDK\Resources;
 
+use RackbeatSDK\Http\HttpEngine;
 use RackbeatSDK\Models\CustomerProduct;
 use RackbeatSDK\Resources\Filters\ItemFilters;
 use RackbeatSDK\Resources\Traits\CanFind;
@@ -17,9 +18,9 @@ class CustomerProductResource extends BaseResource
 	protected const RESOURCE_KEY  = 'item';
 	protected const ENDPOINT_BASE = 'customers/{customer}/lineables';
 
-	public function __construct( int $customerNumber )
+	public function __construct( int $customerNumber, ?HttpEngine $httpEngine = null )
 	{
-		parent::__construct();
+		parent::__construct( $httpEngine );
 
 		$this->customerNumber = $customerNumber;
 	}

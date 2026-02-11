@@ -15,7 +15,7 @@ class HttpEngine
 	protected GuzzleHttp $client;
 
 	/** @var array */
-	protected static array $beforeHooks = [];
+	protected array $beforeHooks = [];
 
 	protected array $config;
 
@@ -60,7 +60,7 @@ class HttpEngine
 	public function call( $method, $uri, $options = [] )
 	{
 		try {
-			foreach ( self::$beforeHooks as $hook ) {
+			foreach ( $this->beforeHooks as $hook ) {
 				$hook( $method, $uri, $options, $this->config );
 			}
 
@@ -77,8 +77,8 @@ class HttpEngine
 		$this->setupClient( array_merge( $this->config, $config ) );
 	}
 
-	public static function setBeforeHooks( array $hooks = [] )
+	public function setBeforeHooks( array $hooks = [] )
 	{
-		self::$beforeHooks = $hooks;
+		$this->beforeHooks = $hooks;
 	}
 }
